@@ -85,7 +85,8 @@ class Requester:
             raise Exception("Invalid method")
 
         kwargs["timeout"] = self.timeout
-        response = getattr(self.session, method.lower())(self.url, **kwargs)
+
+        response = self.session.request(method, self.url, **kwargs)
 
         if response.status_code not in (200, 202):
             raise Exception(
