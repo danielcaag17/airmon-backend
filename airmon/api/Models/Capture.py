@@ -12,5 +12,5 @@ class Capture (models.Model):
     attemps = models.PositiveSmallIntegerField()
 
     # Clau primaria User+Data o User+Airmon
-    class PK:
+    class Meta:
         unique_together = (('username', 'airmonName'), ('username', 'date'))

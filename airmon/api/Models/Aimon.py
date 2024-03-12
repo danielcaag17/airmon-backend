@@ -11,5 +11,5 @@ class Airmon (models.Model):
     type = models.CharField(max_length=32, choices=[(tag, tag.value) for tag in AirmonType])
     image = models.ImageField()
 
-    class PK:
+    class Meta:
         unique_together = ('nom', 'rarity', 'type')

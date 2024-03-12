@@ -10,5 +10,5 @@ class ItemPlayer (models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
 
-    class PK:
+    class Meta:
         unique_together = ('itemName', 'username')

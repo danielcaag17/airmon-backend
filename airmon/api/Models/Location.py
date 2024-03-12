@@ -18,5 +18,5 @@ class Location (models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, validators=[validate_longitude])
     latitude = models.DecimalField(max_digits=9, decimal_places=6, validators=[validate_latitude])
 
-    class PK:
+    class Meta:
         unique_together = ('latitude', 'longitude')
