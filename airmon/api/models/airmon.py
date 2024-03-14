@@ -1,7 +1,7 @@
 from django.db import models
 
-from airmon.api.Models.AirmonType import AirmonType
-from airmon.api.Models.RarityType import RarityType
+from airmon.api.models.airmon_type import AirmonType
+from airmon.api.models.rarity_type import RarityType
 
 
 class Airmon (models.Model):

@@ -1,7 +1,7 @@
 from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 
-from airmon.api.Models.Language import Language
+from airmon.api.models.language import Language
 
 
 class User (models.Model):
@@ -10,9 +10,9 @@ class User (models.Model):
     password = models.CharField(max_length=16)
     language = models.CharField(max_length=16, choices=[(tag, tag.value) for tag in Language])
     # Amb auto_now_add es registrara la data i hora en el mateix moment que es crei el registre
-    registerDate = models.DateTimeField(auto_now_add=True)
+    register_date = models.DateTimeField(auto_now_add=True)
     # Amb auto_now es registrara la data i hora quan es faci una modificacio en el registre
-    lastAccess = models.DateTimeField(auto_now=True)
+    last_access = models.DateTimeField(auto_now=True)
 
     def set_password(self, password):
         # Guarda la contrasenya de forma segura amb bcrypt

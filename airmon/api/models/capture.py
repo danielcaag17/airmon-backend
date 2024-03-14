@@ -1,13 +1,13 @@
 from django.db import models
 
-from airmon.api.Models.Aimon import Airmon
-from airmon.api.Models.User import User
+from airmon.api.models.airmon import Airmon
+from airmon.api.models.user import User
 
 
 class Capture (models.Model):
     # En cas que s'elimini l'Airmon o l'Usuari s'elimen totes les captures que es relacionen
     username = models.ForeignKey(User, on_delete=models.CASCADE)
-    airmonName = models.ForeignKey(Airmon, on_delete=models.CASCADE, to_field='airmonName')
+    airmon_name = models.ForeignKey(Airmon, on_delete=models.CASCADE, to_field='airmonName')
     rarity = models.ForeignKey(Airmon, on_delete=models.CASCADE, to_field='rarity')
     type = models.ForeignKey(Airmon, on_delete=models.CASCADE, to_field='type')
     date = models.DateTimeField()
@@ -15,4 +15,4 @@ class Capture (models.Model):
 
     # Clau primaria User+Data o User+Airmon
     class Meta:
-        unique_together = (('username', 'airmonName', 'rarity', 'type'), ('username', 'date'))
+        unique_together = (('username', 'airmon_name', 'rarity', 'type'), ('username', 'date'))

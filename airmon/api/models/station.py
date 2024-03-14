@@ -1,6 +1,6 @@
 from django.db import models
 
-from airmon.api.Models.Location import Location
+from airmon.api.models.location import Location
 
 
 class Station (models.Model):
