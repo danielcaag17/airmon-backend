@@ -1,7 +1,7 @@
 from django.db import models
 
-from airmon.api.models.location import Location
-from airmon.api.models.user import User
+from .location import Location
+from .user import User
 
 
 class Player (User):
@@ -11,5 +11,5 @@ class Player (User):
     xp_points = models.PositiveSmallIntegerField()
     coins = models.PositiveSmallIntegerField()
     # En cas que la ubicacio associada s'elimini, l'atribut actualLocation es posa a NULL
-    actual_location = models.ForeignKey(Location, on_delete=models.SET_NULL)
+    actual_location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
 

@@ -1,6 +1,6 @@
 from django.db import models
 
-from airmon.api.models.rarity_type import RarityType
+from .rarity_type import RarityType
 
 
 class Item (models.Model):

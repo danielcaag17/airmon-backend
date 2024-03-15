@@ -1,7 +1,7 @@
 from django.db import models
 
-from airmon.api.models.airmon_type import AirmonType
-from airmon.api.models.rarity_type import RarityType
+from .airmon_type import AirmonType
+from .rarity_type import RarityType
 
 
 class Airmon (models.Model):
@@ -12,4 +12,7 @@ class Airmon (models.Model):
     image = models.ImageField()
 
     class Meta:
-        unique_together = ('nom', 'rarity', 'type')
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'rarity', 'type'], name='airmon_unique')
+        ]
+        # unique_together = ('name', 'rarity', 'type')
