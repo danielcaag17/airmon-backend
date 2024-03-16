@@ -1,7 +1,7 @@
 from django.db import models
 
-from airmon.api.models.item import Item
-from airmon.api.models.user import User
+from .item import Item
+from .user import User
 
 
 class PlayerItem (models.Model):

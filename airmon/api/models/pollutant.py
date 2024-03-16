@@ -1,6 +1,6 @@
 from django.db import models
 
-from airmon.api.models.unit_type import UnitType
+from .unit_type import UnitType
 
 
 class Pollutant (models.Model):

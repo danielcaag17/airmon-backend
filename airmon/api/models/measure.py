@@ -1,6 +1,6 @@
 from django.db import models
 
-from airmon.api.models.station import Station
+from .station import Station
 
 
 class Measure (models.Model):
@@ -10,4 +10,7 @@ class Measure (models.Model):
     hour = models.TimeField()
 
     class Meta:
-        unique_together = ('station_code', 'date', 'hour')
+        constraints = [
+            models.UniqueConstraint(fields=['station_code', 'date', 'hour'], name='measure_unique')
+        ]
+        # unique_together = ('station_code', 'date', 'hour')
