@@ -12,3 +12,14 @@ class CaptureViewSet(viewsets.ModelViewSet):
     queryset = Capture.objects.all()
     serializer_class = CaptureSerializer
 
+
+class PlayerCaptureViewSet(viewsets.ModelViewSet):
+    """
+    Endpoint: /api/capture/player/:username/captures
+    """
+    serializer_class = CaptureSerializer
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        return Capture.objects.filter(airmon__capture__username=username)
+
