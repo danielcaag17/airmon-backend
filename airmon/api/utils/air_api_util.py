@@ -16,6 +16,5 @@ def request_air_data():
     data = date - timedelta(days=1)
     date = date.replace(hour=0, minute=0, second=0, microsecond=0)
     date = date.isoformat()
-    data = pandas.DataFrame.from_records(client.get(limit=1000, where=f"data='{date}'"))
 
-    return data.to_dict(orient="records")
+    return client.get(limit=1000, where=f"data='{date}'")
