@@ -49,8 +49,6 @@ def update_air_data():
             defaults={'pollutant_name': pollutant, 'measure': measure, 'quantity': info["h04"]}
         )
 
-    print("Air data updated")
-
 
 def _parse_pollutant_measure(measure):
     if measure == "mg/m3":
