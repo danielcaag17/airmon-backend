@@ -15,7 +15,7 @@ class CaptureViewSet(viewsets.ModelViewSet):
 
 class PlayerCaptureViewSet(viewsets.ModelViewSet):
     """
-    Endpoint: /api/capture/player/:username/captures
+    Endpoint: /api/player/:username/captures
     """
     serializer_class = CaptureSerializer
 
