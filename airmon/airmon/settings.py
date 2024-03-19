@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "api",
     "rest_framework",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -76,13 +77,13 @@ WSGI_APPLICATION = "airmon.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'AirmonDB',
-        'USER': 'admindb',
-        'PASSWORD': 'admin123',
-        'HOST': 'airmondbinstance.czsyqsqokuz8.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "AirmonDB",
+        "USER": "admindb",
+        "PASSWORD": "admin123",
+        "HOST": "airmondbinstance.czsyqsqokuz8.eu-north-1.rds.amazonaws.com",
+        "PORT": "5432",
     }
 }
 
@@ -127,3 +128,18 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Celery Beat Configuration
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_IMPORTS = (
+    'api.tasks.mock_task',
+    # Add other task modules here
+)
+
+CELERY_BEAT_SCHEDULE = {
+    'execute-every-10-minutes': {
+        'task': 'api.tasks.mock_task.mock_task',
+        'schedule': 10,  # 10 minutes in seconds
+    },
+}
