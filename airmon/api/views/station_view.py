@@ -1,11 +1,24 @@
-from rest_framework.response import Response
 from rest_framework import viewsets
+
+from ..serializers import StationSerializer
 from ..models import Measure
 from ..models import PollutantMeasure
 from ..models import Station
 
 
 class StationViewSet(viewsets.ModelViewSet):
+    """
+    Endpoint: /api/station/:code
+    """
+    serializer_class = StationSerializer
+    def afegir(self):
+        nueva_instancia = Station(
+            code="2",
+            name="name1",
+            location_id=1
+        )
+        nueva_instancia.save()
+
     def get_pollutants(self, measure_id):
         pollutant_measure = PollutantMeasure.objects.filter(measure_id=measure_id)
         pollutant_measure_serializer = []
@@ -38,6 +51,8 @@ class StationViewSet(viewsets.ModelViewSet):
         return measure_serializer
 
     def get_queryset(self):
+        # self.afegir()
+        '''
         station_code = self.kwargs['code']
         station_obj = Station.objects.get(code=station_code)
         station_serializer = []
@@ -52,4 +67,6 @@ class StationViewSet(viewsets.ModelViewSet):
         stations_data = {
             'station': station_serializer,
         }
-        return stations_data
+        # return stations_data
+        '''
+        return self.kwargs['code']
