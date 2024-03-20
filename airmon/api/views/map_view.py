@@ -21,7 +21,7 @@ class MapViewSet(viewsets.ViewSet):
         nueva_instancia.save()
     '''
 
-    def _get_pollutants(self, measure_id):
+    def get_pollutants(self, measure_id):
         pollutant_measure = PollutantMeasure.objects.filter(measure_id=measure_id)
         pollutant_measure_serializer = []
         for objPM in pollutant_measure:
@@ -37,7 +37,7 @@ class MapViewSet(viewsets.ViewSet):
             pollutant_measure_serializer.append(pollutant_measure_combined_data)
         return pollutant_measure_serializer
 
-    def _get_measures(self, code):
+    def get_measures(self, code):
         measure = Measure.objects.filter(station_code=code)
         measure_serializer = []
         for objM in measure:
