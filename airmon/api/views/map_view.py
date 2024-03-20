@@ -24,6 +24,8 @@ class MapViewSet(viewsets.ViewSet):
 
     def list(self, request):
         # self.afegir()
+
+        '''
         measure = Measure.objects.all()
         pollutant_measure = PollutantMeasure.objects.all()
         pollutant = Pollutant.objects.all()
@@ -57,22 +59,57 @@ class MapViewSet(viewsets.ViewSet):
                 'recommended_limit': obj.recommended_limit,
             }
             pollutant_serializer.append(obj_serialized)
-
+        '''
+        final_result = []
         station_serializer = []
-        for obj in station:
-            obj_serialized = {
-                'code': obj.code,
-                'name': obj.name,
-                'longitude': obj.location.longitude,
-                'latitude': obj.location.latitude
-            }
-            station_serializer.append(obj_serialized)
+        station = Station.objects.all()
+        station_combined_data = {}
+        for objS in station:
 
-        combined_data = {
-            'measure': measure_serializer,
-            'pollutant_measure': pollutant_measure_serializer,
-            'pollutant': pollutant_serializer,
-            'station': station_serializer,
-        }
-        return Response(combined_data)
+            measure = Measure.objects.filter(station_code=objS.code)
+            measure_combined_data = {}
+            measure_serializer = []
+            for objM in measure:
+
+                pollutant_measure = PollutantMeasure.objects.filter(measure_id=objM.id)
+                pollutant_measure_combined_data = {}
+                pollutant_measure_serializer = []
+                for objPM in pollutant_measure:
+                    obj_pm_serialized = {
+                        'pollutant_name': objPM.pollutant_name.name,
+                        'measure_unit': objPM.pollutant_name.measure_unit,
+                        'quantity': objPM.quantity,
+                        'recommended_limit': objPM.pollutant_name.recommended_limit,
+                    }
+                    pollutant_measure_combined_data = {
+                        'pollutant': obj_pm_serialized
+                    }
+                    pollutant_measure_serializer.append(pollutant_measure_combined_data)
+
+                obj_m_serialized = {
+                    'date': objM.date.strftime('%Y-%m-%d'),
+                    'hour': objM.date.strftime('%H:%M:%S'),
+                    'allPollutants': pollutant_measure_serializer,
+                }
+                measure_combined_data = {
+                    'measure': obj_m_serialized
+                }
+                measure_serializer.append(measure_combined_data)
+
+            obj_s_serialized = {
+                'code_station': objS.code,
+                'name': objS.name,
+                'longitude': objS.location.longitude,
+                'latitude': objS.location.latitude,
+                'measures': measure_serializer,
+            }
+            station_serializer.append(obj_s_serialized)
+            # station_serializer.append(measure_serializer)
+            station_combined_data = {
+                'station': station_serializer,
+                # 'measure': measure_serializer,
+                # 'pollutant': pollutant_serializer,
+            }
+        final_result.append(station_combined_data)
+        return Response(final_result)
 
