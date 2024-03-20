@@ -1,45 +1,78 @@
+# from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework import viewsets
-from ..serializers import PollutantSerializer, PollutantMeasureSerializer, StationSerializer, MeasureSerializer
 from ..models import Measure
 from ..models import PollutantMeasure
 from ..models import Pollutant
 from ..models import Station
-from django.core import serializers
 
 
 class MapViewSet(viewsets.ViewSet):
     """
     Endpoint: /api/map/
     """
-    def list(self, request):
-        '''
-        combined_data = {
-            # 'measure': serializers.serialize('json', Measure.objects.all()),
-            'pollutant_measure': serializers.serialize('json', PollutantMeasure.objects.filter(id=1)),
-            'pollutant': serializers.serialize('json', Pollutant.objects.filter(name="CO2")),
-            'station': serializers.serialize('json', Station.objects.filter(code=1)),
-        }
-        # serializer_class = MapSerializer(combined_data)
-        # return Response(serializer_class.data)
-        '''
+
+    '''
+    def afegir(self):
+        nueva_instancia = Measure(
+            station_code=Station.objects.get(code=1),
+            date=timezone.now().date(),
+            hour=timezone.now().time()
+        )
+        nueva_instancia.save()
+    '''
 
     def list(self, request):
-        # measure = Measure.objects.filter(id=1)
+        # self.afegir()
+        measure = Measure.objects.all()
         pollutant_measure = PollutantMeasure.objects.all()
         pollutant = Pollutant.objects.all()
         station = Station.objects.all()
 
-        # measure_serializer = MeasureSerializer(measure)
-        pollutant_measure_serializer = PollutantMeasureSerializer(pollutant_measure)
-        pollutant_serializer = PollutantSerializer(pollutant)
-        station_serializer = StationSerializer(station)
+        measure_serializer = []
+        # i = measure.first().station_code.code
+        for obj in measure:
+            obj_serialized = {
+                'station_code': obj.station_code.code,
+                'date': obj.date.strftime('%Y-%m-%d'),
+                'hour': obj.date.strftime('%H:%M:%S'),
+            }
+            measure_serializer.append(obj_serialized)
+
+        pollutant_measure_serializer = []
+        for obj in pollutant_measure:
+            obj_serialized = {
+                'pollutant_name': obj.pollutant_name.name,
+                # 'measure': obj.measure.station_code.code,
+                'measure': obj.measure.id,
+                'quantity': obj.quantity,
+            }
+            pollutant_measure_serializer.append(obj_serialized)
+
+        pollutant_serializer = []
+        for obj in pollutant:
+            obj_serialized = {
+                'name': obj.name,
+                'measure_unit': obj.measure_unit,
+                'recommended_limit': obj.recommended_limit,
+            }
+            pollutant_serializer.append(obj_serialized)
+
+        station_serializer = []
+        for obj in station:
+            obj_serialized = {
+                'code': obj.code,
+                'name': obj.name,
+                'longitude': obj.location.longitude,
+                'latitude': obj.location.latitude
+            }
+            station_serializer.append(obj_serialized)
 
         combined_data = {
-            # 'measure': measure_serializer.data,
-            'pollutant_measure': pollutant_measure_serializer.data,
-            'pollutant': pollutant_serializer.data,
-            'station': station_serializer.data,
+            'measure': measure_serializer,
+            'pollutant_measure': pollutant_measure_serializer,
+            'pollutant': pollutant_serializer,
+            'station': station_serializer,
         }
         return Response(combined_data)
 
