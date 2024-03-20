@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'captures', views.CaptureViewSet)
 router.register(r'player/(?P<username>\w+)/captures', views.PlayerCaptureViewSet, basename="player-captures")
+router.register(r'airmons', views.AirmonsViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
