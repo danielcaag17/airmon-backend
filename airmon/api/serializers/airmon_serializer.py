@@ -8,4 +8,4 @@ class AirmonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Airmon
-        fields = ['id', 'name', 'description', 'rarity', 'type', 'image']
+        fields = ['name', 'description', 'rarity', 'type', 'image']
