@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-34zw8jk0^8f6b5cus)l!j*xd6vhy!lb#exan*9uqqw4fe&si3w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["51.21.149.211",]
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "api",
     "rest_framework",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -77,8 +78,12 @@ WSGI_APPLICATION = "airmon.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "AirmonDB",
+        "USER": "admindb",
+        "PASSWORD": "admin123",
+        "HOST": "airmondbinstance.czsyqsqokuz8.eu-north-1.rds.amazonaws.com",
+        "PORT": "5432",
     }
 }
 
@@ -117,9 +122,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = "/home/ubuntu/airmon-backend/airmon/static/"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = "/home/ubuntu/airmon-backend/airmon/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Celery Beat Configuration
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_IMPORTS = (
+    'api.tasks.mock_task',
+    # Add other task modules here
+)
+
+CELERY_BEAT_SCHEDULE = {
+    'execute-every-10-minutes': {
+        'task': 'api.tasks.mock_task.mock_task',
+        'schedule': 10,  # 10 minutes in seconds
+    },
+}

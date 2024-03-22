@@ -10,7 +10,7 @@ class Capture (models.Model):
     # airmon conte name, rarity i type de l'airmon associat
     airmon = models.ForeignKey(Airmon, on_delete=models.CASCADE)
     date = models.DateTimeField()
-    attemps = models.PositiveSmallIntegerField()
+    attempts = models.PositiveSmallIntegerField()
 
     # Clau primaria User+Data o User+Airmon
     class Meta:
