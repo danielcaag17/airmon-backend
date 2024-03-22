@@ -7,6 +7,7 @@ router = DefaultRouter()
 router.register(r'map', views.MapViewSet, basename='map')
 router.register(r'captures', views.CaptureViewSet)
 router.register(r'player/(?P<username>\w+)/captures', views.PlayerCaptureViewSet, basename="player-captures")
+router.register(r'station/(?P<code>\w+)', views.StationViewSet, basename="station-measures")
 router.register(r'airmons', views.AirmonsViewSet)
 
 urlpatterns = [
