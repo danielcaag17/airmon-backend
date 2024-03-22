@@ -9,6 +9,7 @@ router.register(r'airmons', views.AirmonsViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("get-airmon-map/", views.AirmonOnMapView.as_view(), name="get-airmon-map"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
     # path("endpoint2/", views.Endpoint2View.as_view(), name="endpoint2"),
     # Define more URL patterns as needed
