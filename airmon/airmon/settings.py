@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = "django-insecure-34zw8jk0^8f6b5cus)l!j*xd6vhy!lb#exan*9uqqw4fe&si3w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["51.21.149.211",]
 
 
 # Application definition
@@ -122,7 +123,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = "/home/ubuntu/airmon-backend/airmon/static/"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = "/home/ubuntu/airmon-backend/airmon/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -134,6 +139,7 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_IMPORTS = (
     'api.tasks.mock_task',
+    'api.tasks.daily_air_request',
     # Add other task modules here
 )
 
@@ -141,5 +147,9 @@ CELERY_BEAT_SCHEDULE = {
     'execute-every-10-minutes': {
         'task': 'api.tasks.mock_task.mock_task',
         'schedule': 10,  # 10 minutes in seconds
+    },
+    'execute-every-day-at-7': {
+        'task': 'api.tasks.daily_air_request.daily_air_request',
+        'schedule': crontab(hour="7", minute="0"),
     },
 }
