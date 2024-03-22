@@ -11,13 +11,6 @@ class StationViewSet(viewsets.ModelViewSet):
     Endpoint: /api/station/:code
     """
     serializer_class = StationSerializer
-    def afegir(self):
-        nueva_instancia = Station(
-            code="2",
-            name="name1",
-            location_id=1
-        )
-        nueva_instancia.save()
 
     def get_pollutants(self, measure_id):
         pollutant_measure = PollutantMeasure.objects.filter(measure_id=measure_id)
@@ -51,11 +44,14 @@ class StationViewSet(viewsets.ModelViewSet):
         return measure_serializer
 
     def get_queryset(self):
-        # self.afegir()
-        '''
         station_code = self.kwargs['code']
-        station_obj = Station.objects.get(code=station_code)
+        try:
+            station_obj = Station.objects.get(code=station_code)
+        # En cas que no trobi el codi de l'estació retorna un conjunt buit
+        except Station.DoesNotExist:
+            return []
         station_serializer = []
+
         station_obj_serialized = {
             'code_station': station_obj.code,
             'name': station_obj.name,
@@ -64,9 +60,9 @@ class StationViewSet(viewsets.ModelViewSet):
             'measures': self.get_measures(station_obj.code),
         }
         station_serializer.append(station_obj_serialized)
-        stations_data = {
+
+        station_data = {
             'station': station_serializer,
         }
-        # return stations_data
-        '''
-        return self.kwargs['code']
+        result = [station_data]
+        return result

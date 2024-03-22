@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'captures', views.CaptureViewSet)
 router.register(r'player/(?P<username>\w+)/captures', views.PlayerCaptureViewSet, basename="player-captures")
-router.register(r'station/(?P<code>.*?)', views.StationViewSet, basename="station-measures")
+router.register(r'station/(?P<code>\w+)', views.StationViewSet, basename="station-measures")
 
 urlpatterns = [
     path("", include(router.urls)),
