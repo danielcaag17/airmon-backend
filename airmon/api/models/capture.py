@@ -14,4 +14,4 @@ class Capture (models.Model):
 
     # Clau primaria User+Data o User+Airmon
     class Meta:
-        unique_together = (('username', 'airmon'), ('username', 'date'))
+        unique_together = ('airmon', 'username', 'date')
