@@ -37,18 +37,14 @@ class MapViewSet(viewsets.ViewSet):
 
     def get_measures(self, code):
         measure = Measure.objects.filter(station_code=code)
-        measure_serializer = []
+        measure_obj_serialized = {}
         for objM in measure:
             measure_obj_serialized = {
                 'date': objM.date.strftime('%Y-%m-%d'),
                 'hour': objM.date.strftime('%H:%M:%S'),
                 'pollutants': self.get_pollutants(objM.id)
             }
-            measure_data = {
-                'measure': measure_obj_serialized
-            }
-            measure_serializer.append(measure_data)
-        return measure_serializer
+        return measure_obj_serialized
 
     def list(self, request):
         # self.afegir()
@@ -60,7 +56,7 @@ class MapViewSet(viewsets.ViewSet):
                 'name': objS.name,
                 'longitude': objS.location.longitude,
                 'latitude': objS.location.latitude,
-                'measures': self.get_measures(objS.code),
+                'measure': self.get_measures(objS.code),
             }
             station_serializer.append(station_obj_serialized)
         return Response(station_serializer)
