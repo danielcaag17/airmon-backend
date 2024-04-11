@@ -52,10 +52,8 @@ class MapViewSet(viewsets.ViewSet):
 
     def list(self, request):
         # self.afegir()
-        result = []
         station_serializer = []
         station = Station.objects.all()
-        stations_data = {}
         for objS in station:
             station_obj_serialized = {
                 'code_station': objS.code,
@@ -65,9 +63,5 @@ class MapViewSet(viewsets.ViewSet):
                 'measures': self.get_measures(objS.code),
             }
             station_serializer.append(station_obj_serialized)
-            stations_data = {
-                'station': station_serializer,
-            }
-        result.append(stations_data)
-        return Response(result)
+        return Response(station_serializer)
 
