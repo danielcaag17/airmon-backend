@@ -21,6 +21,7 @@ urlpatterns = [
     path("get-airmon-map/", views.AirmonOnMapView.as_view(), name="get-airmon-map"),
     path("login/", views.login, name="login"),
     path("register/", views.register, name="register"),
+    path("get-user/", views.get_current_user, name="get-user"),
     # path("test-token/", views.test_token, name="test-token"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
     # path("endpoint2/", views.Endpoint2View.as_view(), name="endpoint2"),
