@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from ..serializers.user_serializer import UserSerializer
 
 from rest_framework.decorators import authentication_classes, permission_classes
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -41,7 +41,7 @@ def register(request):
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def test_token(request):
     return Response({'detail': 'Token is valid for {}'.format(request.user.username)}, status=status.HTTP_200_OK)
