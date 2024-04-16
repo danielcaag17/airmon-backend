@@ -5,7 +5,13 @@ from ..models import Measure
 from ..models import PollutantMeasure
 from ..models import Station
 
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class StationViewSet(viewsets.ModelViewSet):
     """
     Endpoint: /api/station/:code

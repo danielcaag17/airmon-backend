@@ -2,6 +2,9 @@ from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
 
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 router = DefaultRouter()
 router.register(r'map', views.MapViewSet, basename='map')
@@ -10,9 +13,16 @@ router.register(r'player/(?P<username>\w+)/captures', views.PlayerCaptureViewSet
 router.register(r'station/(?P<code>\w+)', views.StationViewSet, basename="station-measures")
 router.register(r'airmons', views.AirmonsViewSet)
 
+router.APIRootView.authentication_classes = [TokenAuthentication]
+router.APIRootView.permission_classes = [IsAuthenticated]
+
 urlpatterns = [
     path("", include(router.urls)),
     path("get-airmon-map/", views.AirmonOnMapView.as_view(), name="get-airmon-map"),
+    path("login/", views.login, name="login"),
+    path("register/", views.register, name="register"),
+    path("get-user/", views.get_current_user, name="get-user"),
+    # path("test-token/", views.test_token, name="test-token"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
     # path("endpoint2/", views.Endpoint2View.as_view(), name="endpoint2"),
     # Define more URL patterns as needed
