@@ -12,5 +12,4 @@ from .pollutant_measure import PollutantMeasure
 from .rarity_type import RarityType
 from .station import Station
 from .unit_type import UnitType
-from .user import User
 from .airmon_on_map import AirmonOnMap
