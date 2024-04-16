@@ -1,7 +1,7 @@
 from django.db import models
 
 from .item import Item
-from .user import User
+from django.contrib.auth.models import User
 
 
 class PlayerItem (models.Model):
