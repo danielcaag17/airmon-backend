@@ -29,118 +29,121 @@ class MapViewSet(viewsets.ViewSet):
         val_max = 0
         val_color = 0
         nom_pollutant = ""
-        for pollutant in pollutants:
-            if pollutant["pollutant_name"] == "NO2":
-                if pollutant["quantity"] <= 40:
-                    val_color = 1
-                elif pollutant["quantity"] <= 90:
-                    val_color = 2
-                if pollutant["quantity"] <= 120:
-                    val_color = 3
-                if pollutant["quantity"] <= 230:
-                    val_color = 4
-                if pollutant["quantity"] <= 340:
-                    val_color = 5
-                else:
-                    val_color = 6
-            elif pollutant["pollutant_name"] == "PM10":
-                if pollutant["quantity"] <= 20:
-                    val_color = 1
-                elif pollutant["quantity"] <= 40:
-                    val_color = 2
-                if pollutant["quantity"] <= 50:
-                    val_color = 3
-                if pollutant["quantity"] <= 100:
-                    val_color = 4
-                if pollutant["quantity"] <= 150:
-                    val_color = 5
-                else:
-                    val_color = 6
-            elif pollutant["pollutant_name"] == "PM2":
-                if pollutant["quantity"] <= 10:
-                    val_color = 1
-                elif pollutant["quantity"] <= 20:
-                    val_color = 2
-                if pollutant["quantity"] <= 25:
-                    val_color = 3
-                if pollutant["quantity"] <= 50:
-                    val_color = 4
-                if pollutant["quantity"] <= 75:
-                    val_color = 5
-                else:
-                    val_color = 6
-            elif pollutant["pollutant_name"] == "O3":
-                if pollutant["quantity"] <= 50:
-                    val_color = 1
-                elif pollutant["quantity"] <= 100:
-                    val_color = 2
-                if pollutant["quantity"] <= 130:
-                    val_color = 3
-                if pollutant["quantity"] <= 240:
-                    val_color = 4
-                if pollutant["quantity"] <= 380:
-                    val_color = 5
-                else:
-                    val_color = 6
-            elif pollutant["pollutant_name"] == "SO2":
-                if pollutant["quantity"] <= 100:
-                    val_color = 1
-                elif pollutant["quantity"] <= 200:
-                    val_color = 2
-                if pollutant["quantity"] <= 350:
-                    val_color = 3
-                if pollutant["quantity"] <= 500:
-                    val_color = 4
-                if pollutant["quantity"] <= 750:
-                    val_color = 5
-                else:
-                    val_color = 6
-            elif pollutant["pollutant_name"] == "CO":
-                if pollutant["quantity"] <= 2:
-                    val_color = 1
-                elif pollutant["quantity"] <= 5:
-                    val_color = 2
-                if pollutant["quantity"] <= 10:
-                    val_color = 3
-                if pollutant["quantity"] <= 20:
-                    val_color = 4
-                if pollutant["quantity"] <= 50:
-                    val_color = 5
-                else:
-                    val_color = 6
-            elif pollutant["pollutant_name"] == "C6H6":
-                if pollutant["quantity"] <= 5:
-                    val_color = 1
-                elif pollutant["quantity"] <= 10:
-                    val_color = 2
-                if pollutant["quantity"] <= 20:
-                    val_color = 3
-                if pollutant["quantity"] <= 50:
-                    val_color = 4
-                if pollutant["quantity"] <= 100:
-                    val_color = 5
-                else:
-                    val_color = 6
-            elif pollutant["pollutant_name"] == "H2S":
-                if pollutant["quantity"] <= 25:
-                    val_color = 1
-                elif pollutant["quantity"] <= 50:
-                    val_color = 2
-                if pollutant["quantity"] <= 100:
-                    val_color = 3
-                if pollutant["quantity"] <= 200:
-                    val_color = 4
-                if pollutant["quantity"] <= 500:
-                    val_color = 5
-                else:
-                    val_color = 6
-            # Veure quins pollutants no es tenen en compte
-            else:
-                print(pollutant["pollutant_name"])
+        for pollut in pollutants:
+            pollutant = pollut["pollutant"]
+            if len(pollutant) > 0:
+                if pollutant["pollutant_name"] == "NO2":
+                    if pollutant["quantity"] <= 40:
+                        val_color = 1
+                    elif pollutant["quantity"] <= 90:
+                        val_color = 2
+                    elif pollutant["quantity"] <= 120:
+                        val_color = 3
+                    elif pollutant["quantity"] <= 230:
+                        val_color = 4
+                    elif pollutant["quantity"] <= 340:
+                        val_color = 5
+                    else:
+                        val_color = 6
+                elif pollutant["pollutant_name"] == "PM10":
+                    if pollutant["quantity"] <= 20:
+                        val_color = 1
+                    elif pollutant["quantity"] <= 40:
+                        val_color = 2
+                    elif pollutant["quantity"] <= 50:
+                        val_color = 3
+                    elif pollutant["quantity"] <= 100:
+                        val_color = 4
+                    elif pollutant["quantity"] <= 150:
+                        val_color = 5
+                    else:
+                        val_color = 6
+                elif pollutant["pollutant_name"] == "PM2":
+                    if pollutant["quantity"] <= 10:
+                        val_color = 1
+                    elif pollutant["quantity"] <= 20:
+                        val_color = 2
+                    elif pollutant["quantity"] <= 25:
+                        val_color = 3
+                    elif pollutant["quantity"] <= 50:
+                        val_color = 4
+                    elif pollutant["quantity"] <= 75:
+                        val_color = 5
+                    else:
+                        val_color = 6
+                elif pollutant["pollutant_name"] == "O3":
+                    if pollutant["quantity"] <= 50:
+                        val_color = 1
+                    elif pollutant["quantity"] <= 100:
+                        val_color = 2
+                    elif pollutant["quantity"] <= 130:
+                        val_color = 3
+                    elif pollutant["quantity"] <= 240:
+                        val_color = 4
+                    elif pollutant["quantity"] <= 380:
+                        val_color = 5
+                    else:
+                        val_color = 6
+                elif pollutant["pollutant_name"] == "SO2":
+                    if pollutant["quantity"] <= 100:
+                        val_color = 1
+                    elif pollutant["quantity"] <= 200:
+                        val_color = 2
+                    elif pollutant["quantity"] <= 350:
+                        val_color = 3
+                    elif pollutant["quantity"] <= 500:
+                        val_color = 4
+                    elif pollutant["quantity"] <= 750:
+                        val_color = 5
+                    else:
+                        val_color = 6
+                elif pollutant["pollutant_name"] == "CO":
+                    if pollutant["quantity"] <= 2:
+                        val_color = 1
+                    elif pollutant["quantity"] <= 5:
+                        val_color = 2
+                    elif pollutant["quantity"] <= 10:
+                        val_color = 3
+                    elif pollutant["quantity"] <= 20:
+                        val_color = 4
+                    elif pollutant["quantity"] <= 50:
+                        val_color = 5
+                    else:
+                        val_color = 6
+                elif pollutant["pollutant_name"] == "C6H6":
+                    if pollutant["quantity"] <= 5:
+                        val_color = 1
+                    elif pollutant["quantity"] <= 10:
+                        val_color = 2
+                    elif pollutant["quantity"] <= 20:
+                        val_color = 3
+                    elif pollutant["quantity"] <= 50:
+                        val_color = 4
+                    elif pollutant["quantity"] <= 100:
+                        val_color = 5
+                    else:
+                        val_color = 6
+                elif pollutant["pollutant_name"] == "H2S":
+                    if pollutant["quantity"] <= 25:
+                        val_color = 1
+                    elif pollutant["quantity"] <= 50:
+                        val_color = 2
+                    elif pollutant["quantity"] <= 100:
+                        val_color = 3
+                    elif pollutant["quantity"] <= 200:
+                        val_color = 4
+                    elif pollutant["quantity"] <= 500:
+                        val_color = 5
+                    else:
+                        val_color = 6
 
-            if val_max < val_color:
-                val_max = val_color
-                nom_pollutant = pollutant["pollutant_name"]
+                # Veure quins pollutants no es tenen en compte
+                else:
+                    print(pollutant["pollutant_name"])
+
+                if val_max < val_color:
+                    val_max = val_color
+                    nom_pollutant = pollutant["pollutant_name"]
 
         return val_max, nom_pollutant
 
