@@ -13,10 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterUniqueTogether(
-            name='capture',
-            unique_together=set(),
-        ),
         migrations.AlterField(
             model_name='capture',
             name='username',
@@ -31,10 +27,6 @@ class Migration(migrations.Migration):
             model_name='station',
             name='name',
             field=models.CharField(max_length=64),
-        ),
-        migrations.AlterUniqueTogether(
-            name='capture',
-            unique_together={('airmon', 'username', 'date')},
         ),
         migrations.DeleteModel(
             name='Player',
