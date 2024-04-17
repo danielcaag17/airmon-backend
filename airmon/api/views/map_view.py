@@ -58,7 +58,7 @@ class MapViewSet(viewsets.ViewSet):
                         val_color = 5
                     else:
                         val_color = 6
-                elif pollutant["pollutant_name"] == "PM2":
+                elif pollutant["pollutant_name"] == "PM2.5":
                     if pollutant["quantity"] <= 10:
                         val_color = 1
                     elif pollutant["quantity"] <= 20:
