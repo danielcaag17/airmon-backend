@@ -110,7 +110,9 @@ def get_measures(code):
 
 
 def get_station(request, code):
-    station_obj_serialized = {}
+    station_obj_serialized = {
+        'Error': f"Estation {code} does not exist"
+    }
     try:
         station_obj = Station.objects.get(code=code)
         station_obj_serialized = {
@@ -123,4 +125,4 @@ def get_station(request, code):
     # En cas que no es trobi el codi de l'estació
     except Station.DoesNotExist:
         pass
-    return JsonResponse({'station': station_obj_serialized})
+    return JsonResponse(station_obj_serialized)
