@@ -4,13 +4,13 @@ from django.db.models import CheckConstraint, Q, F
 from rest_framework.authtoken.admin import User
 
 
-class FriendShip(models.Model):
+class Friendship(models.Model):
     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1_friendship')
     user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user2_friendship')
     date = models.DateTimeField()
 
     def create(self, **kwargs):
-        new_friendship = FriendShip(**kwargs)
+        new_friendship = Friendship(**kwargs)
         new_friendship.clean()
         new_friendship.save()
         return new_friendship
