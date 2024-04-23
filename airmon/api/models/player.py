@@ -14,4 +14,12 @@ class Player(models.Model):
                                 default=Language.CATALA.value)
     xp_points = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
+    avatar = models.ImageField(null=True, upload_to='avatars/')
+    # PUBLISHED IMAGES
+
+
+class PlayerImages(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(null=True, upload_to='uploaded/')
+
 
