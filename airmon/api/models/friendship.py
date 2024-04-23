@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import CheckConstraint, Q, F
-from rest_framework.authtoken.admin import User
+from django.contrib.auth.models import User
 
 
 class Friendship(models.Model):
