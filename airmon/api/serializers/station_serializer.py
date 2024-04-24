@@ -17,12 +17,12 @@ class StationSerializer(serializers.ModelSerializer):
         return obj.code
 
     def get_longitude(self, obj):
-        return obj.location.longitude
+        return float(obj.location.longitude)
 
     def get_latitude(self, obj):
-        return obj.location.latitude
+        return float(obj.location.latitude)
 
     def get_measure(self, obj):
         measures = Measure.objects.filter(station_code=obj.code)
         serializer = MeasureSerializer(measures, many=True)
-        return serializer.data
+        return serializer.data[0]
