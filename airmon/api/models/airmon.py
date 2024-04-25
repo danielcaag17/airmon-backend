@@ -9,4 +9,4 @@ class Airmon(models.Model):
     description = models.TextField()
     rarity = models.CharField(max_length=32, choices=[(tag, tag.value) for tag in RarityType])
     type = models.CharField(max_length=32, choices=[(tag, tag.value) for tag in AirmonType])
-    image = models.ImageField()
+    image = models.ImageField(upload_to='airmons/')

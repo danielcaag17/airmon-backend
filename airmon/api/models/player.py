@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 from . import Language
-from .location import Location
 
 
 class Player(models.Model):
@@ -15,7 +14,6 @@ class Player(models.Model):
     xp_points = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
     avatar = models.ImageField(null=True, upload_to='avatars/')
-    # PUBLISHED IMAGES
 
 
 class PlayerImages(models.Model):

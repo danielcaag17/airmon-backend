@@ -1,4 +1,4 @@
-from .example_view import Endpoint1View
+from .player_view import PlayerViewSet
 from .map_view import MapViewSet
 from .captures_view import CaptureViewSet
 from .captures_view import PlayerCaptureViewSet

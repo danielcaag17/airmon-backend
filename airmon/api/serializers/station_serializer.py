@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .measure_serializer import MeasureSerializer
 from ..models import Station, Measure
+from ..models import LocationGeohash
 
 
 class StationSerializer(serializers.ModelSerializer):
@@ -17,10 +18,11 @@ class StationSerializer(serializers.ModelSerializer):
         return obj.code
 
     def get_longitude(self, obj):
-        return float(obj.location.longitude)
+        print(obj)
+        return LocationGeohash.objects.geohash_to_coords(obj.location.geohash)['latitude']
 
     def get_latitude(self, obj):
-        return float(obj.location.latitude)
+        return LocationGeohash.objects.geohash_to_coords(obj.location.geohash)['longitude']
 
     def get_measure(self, obj):
         measures = Measure.objects.filter(station_code=obj.code)
