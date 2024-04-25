@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 from . import Language
-from .location import Location
 
 
 class Player(models.Model):

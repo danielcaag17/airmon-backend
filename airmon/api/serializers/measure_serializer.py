@@ -149,10 +149,6 @@ class MeasureSerializer(serializers.ModelSerializer):
                     else:
                         val_color = 6
 
-                # Veure quins pollutants no es tenen en compte
-                else:
-                    print(name)
-
                 if val_max < val_color:
                     val_max = val_color
                     nom_pollutant = name
