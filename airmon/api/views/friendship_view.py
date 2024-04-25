@@ -27,5 +27,4 @@ class FriendshipViewSet(viewsets.ViewSet):
             serializer = FriendshipSerializer(friendship, many=True, context={'username': username})
             return Response(serializer.data)
         except User.DoesNotExist:
-            return Response({"error": f"User {username} does not have any friendship"},
-                            status=status.HTTP_404_NOT_FOUND)
+            return Response(None)
