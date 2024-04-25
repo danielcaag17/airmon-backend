@@ -15,7 +15,6 @@ class Player(models.Model):
     xp_points = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
     avatar = models.ImageField(null=True, upload_to='avatars/')
-    # PUBLISHED IMAGES
 
 
 class PlayerImages(models.Model):
