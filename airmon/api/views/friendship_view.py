@@ -13,12 +13,13 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
 class FriendshipViewSet(viewsets.ViewSet):
     def get_id(self, username):
         user = User.objects.get(username=username)
         return user.id
+
     def retrieve(self, request, username=None):
         try:
             user_id = self.get_id(username)
