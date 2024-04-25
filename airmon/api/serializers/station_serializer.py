@@ -25,4 +25,7 @@ class StationSerializer(serializers.ModelSerializer):
     def get_measure(self, obj):
         measures = Measure.objects.filter(station_code=obj.code)
         serializer = MeasureSerializer(measures, many=True)
-        return serializer.data[0]
+        if bool(serializer.data[0]):
+            return serializer.data[0]
+        else:
+            return None
