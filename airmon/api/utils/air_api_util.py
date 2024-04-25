@@ -4,7 +4,7 @@ from django.apps import apps
 from decimal import Decimal, ROUND_DOWN
 
 from .requester import Requester
-from ..models import Station, Pollutant, PollutantMeasure, Measure, Location, UnitType
+from ..models import Station, Pollutant, PollutantMeasure, LocationGeohash, Measure, UnitType
 
 url = "https://analisi.transparenciacatalunya.cat/resource/tasf-thgu.json"
 client = Requester(url)
@@ -29,8 +29,11 @@ def update_air_data():
         longitude = round_decimal(Decimal(info["longitud"]), 6)
         latitude = round_decimal(Decimal(info["latitud"]), 6)
 
-        if (loc := _check_model_exists("Location", longitude=longitude, latitude=latitude)) is None:
-            loc = Location.objects.create(longitude=longitude, latitude=latitude)
+        # Transformar coordenades a geohash
+        geohash = LocationGeohash.objects.coords_to_geohash(latitude=latitude, longitude=longitude)
+
+        if (loc := _check_model_exists("LocationGeohash", geohash=geohash)) is None:
+            loc = LocationGeohash.objects.create(geohash=geohash)
 
         station, created = Station.objects.update_or_create(
             code=info["codi_eoi"],

@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from typing import Dict
 import geohash
 
@@ -42,17 +41,17 @@ class LocationGeohashManager(models.Manager):
 
     """
 
-    @abstractmethod
+    @staticmethod
     def coords_to_geohash(
         latitude: float, longitude: float, precision: int = 12
     ) -> str:
         return geohash.encode(latitude, longitude, precision=precision)
 
-    @abstractmethod
+    @staticmethod
     def geohash_to_coords(geohash_: str) -> Dict[str, float]:
         lat, lon = geohash.decode(geohash_)
         return {"latitude": lat, "longitude": lon}
-    
+
     def create(self, **kwargs):
         new_location = LocationGeohash(**kwargs)
         new_location.full_clean()
@@ -63,7 +62,7 @@ class LocationGeohashManager(models.Manager):
         return super().filter(geohash__istartswith=geohash)
 
     def insert_by_coords(self, latitude: float, longitude: float):
-        geohash_ = geohash.encode(latitude, longitude)
+        geohash_ = self.coords_to_geohash(latitude=latitude, longitude=longitude)
         return super().create(geohash=geohash_)
 
 
