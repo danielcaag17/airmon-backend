@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import viewsets
-from ..models import Station
+from ..models import Station, Measure, PollutantMeasure
+import json
 
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
@@ -18,5 +19,5 @@ class MapViewSet(viewsets.ViewSet):
     def list(self, request):
         stations = Station.objects.all()
         serializer = StationSerializer(stations, many=True)
-        return Response(serializer.data)
-
+        format_correcte = json.loads(json.dumps(serializer.data))
+        return Response(format_correcte)

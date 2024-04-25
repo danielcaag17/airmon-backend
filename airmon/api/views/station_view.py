@@ -1,3 +1,5 @@
+import json
+
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -21,7 +23,8 @@ class StationViewSet(viewsets.ViewSet):
         try:
             station = Station.objects.get(code=code)
             serializer = StationSerializer(station)
-            return Response(serializer.data)
+            correct_format = json.loads(json.dumps(serializer.data))
+            return Response(correct_format)
         except Station.DoesNotExist:
             return Response({"error": f"Estation {code} does not exist"},
                             status=status.HTTP_404_NOT_FOUND)
