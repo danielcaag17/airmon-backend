@@ -10,7 +10,7 @@ router = DefaultRouter()
 router.register(r'captures', views.CaptureViewSet)
 router.register(r'player/(?P<username>\w+)/captures', views.PlayerCaptureViewSet, basename="player-captures")
 router.register(r'airmons', views.AirmonsViewSet)
-router.register(r'endpoint1', views.Endpoint1View, basename="endpoint1")
+router.register(r'endpoint1', views.PlayerViewSet, basename="endpoint1")
 
 router.APIRootView.authentication_classes = [TokenAuthentication]
 router.APIRootView.permission_classes = [IsAuthenticated]
