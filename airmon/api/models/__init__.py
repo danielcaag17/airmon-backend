@@ -13,4 +13,6 @@ from .rarity_type import RarityType
 from .station import Station
 from .unit_type import UnitType
 from .airmon_on_map import AirmonOnMap
+from .friendship import Friendship
+from .player import PlayerImages
 from .chat import Chat, ChatMessage
