@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.db.utils import IntegrityError
+import pytest
 from rest_framework.test import APIClient
 from django.urls import reverse
 
@@ -7,9 +9,13 @@ from ..models import LocationGeohash, Station
 
 class StationTest(TestCase):
     def setUp(self):
-        self.client = APIClient()
+        # Per quan es fan endpoints
+        # self.client = APIClient()
         LocationGeohash.objects.create(
             geohash='1'
+        )
+        LocationGeohash.objects.create(
+            geohash='2'
         )
         Station.objects.create(
             code='1',
@@ -20,6 +26,31 @@ class StationTest(TestCase):
     def test_station_creation(self):
         station = Station.objects.get(code='1')
         self.assertEqual(station.code, '1')
+
+    # Crear una estació amb un codi que ja existeix
+    def test_station_creation_invalid(self):
+        try:
+            Station.objects.create(
+                code='1',
+                name="Invalid code repeated",
+                location_id=2
+            )
+        except IntegrityError as e:
+            print("Type:", type(e))
+            print("Error:", e)
+
+    # Crear una estació amb una location que ja esta associada a un estació
+    def test_station_creation_invalid2(self):
+        try:
+            Station.objects.create(
+                code='2',
+                name="Invalid location",
+                location_id=1
+            )
+        except Exception as e:
+            print("Type:", type(e))
+            print("Error:", e)
+
 
     '''
     def test_get_station(self):
