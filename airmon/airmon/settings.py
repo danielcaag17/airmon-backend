@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "channels",
+    "daphne",
     "django.contrib.staticfiles",
     "api",
     "rest_framework",
@@ -60,6 +62,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "airmon.urls"
+
+ASGI_APPLICATION = 'airmon.asgi.application'
 
 TEMPLATES = [
     {
