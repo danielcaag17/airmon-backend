@@ -18,7 +18,6 @@ class StationSerializer(serializers.ModelSerializer):
         return obj.code
 
     def get_longitude(self, obj):
-        print(obj)
         return LocationGeohash.objects.geohash_to_coords(obj.location.geohash)['longitude']
 
     def get_latitude(self, obj):
