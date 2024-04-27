@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.db.utils import IntegrityError
-import pytest
 from rest_framework.test import APIClient
 from django.urls import reverse
 
