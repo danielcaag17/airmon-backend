@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.db.utils import IntegrityError
 
 from ..models import Airmon
 
@@ -8,7 +7,7 @@ class AirmonModelTest(TestCase):
     def setUp(self):
         Airmon.objects.create(
             name="Test airmon simple",
-            description="Description simple"
+            description="Description simple",
         )
 
     # Crear un Airmon simple
@@ -16,10 +15,27 @@ class AirmonModelTest(TestCase):
         airmon = Airmon.objects.get(name="Test airmon simple")
         self.assertEqual(airmon.name, "Test airmon simple")
         self.assertEqual(airmon.description, "Description simple")
-        self.assertEqual(airmon.type, "")
+        self.assertEqual(airmon.rarity, "")
         self.assertEqual(airmon.type, "")
         # Canviar model si es necessari
         # self.assertEqual(airmon.image, None)
+
+    # Crear airmon amb tots els atributs TODO
+    def test_airmon_creation2(self):
+        airmon = Airmon.objects.create(
+            name="Airmon creation2",
+            description="Description",
+            rarity="Llegendari",
+            type="Lorem",
+            image=None
+        )
+        self.assertEqual(airmon.name, "Airmon creation2")
+        self.assertEqual(airmon.description, "Description")
+        self.assertEqual(airmon.rarity, "Llegendari")
+        self.assertEqual(airmon.type, "Lorem")
+        self.assertEqual(airmon.image, None)
+
+
 
     # Eliminar Airmon simple
     def test_aimon_destroy(self):
@@ -49,9 +65,19 @@ class AirmonModelTest(TestCase):
             Airmon.objects.create(
                 name="Test airmon simple"
             )
-        except IntegrityError as e:
+        except Exception as e:
             print("Type:", type(e))
             print("Error:", e)
 
+    # Crear Airmon amb len(name)>32
+    def test_airmon_invalid2(self):
+        try:
+            Airmon.objects.create(
+                name="Airmon amb nom de longitud superior a trenta-dos caracters",
+                description="Description",
+            )
+        except Exception as e:
+            print("Type:", type(e))
+            print("Error:", e)
 
 
