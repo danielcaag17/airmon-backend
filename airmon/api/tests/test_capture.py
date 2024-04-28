@@ -1,6 +1,5 @@
 from django.test import TestCase
 from datetime import datetime, timedelta
-import pytz
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 
@@ -10,17 +9,16 @@ from ..models import Capture, Airmon
 
 class CaptureModelTest(TestCase):
     def setUp(self):
-        self.timezone = pytz.timezone("Europe/Madrid")
         self.capture = create_capture(create_user("User test"),
                                       create_airmon("Airmon test"),
-                                      datetime.now(self.timezone), 0)
+                                      datetime.now(get_timezone()), 0)
 
     def test_capture_creation(self):
         self.assertEqual(self.capture.username.username, 'User test')
         self.assertEqual(self.capture.airmon.name, 'Airmon test')
         self.assertEqual(self.capture.attempts, 0)
 
-        hora_actual = datetime.now(self.timezone)
+        hora_actual = datetime.now(get_timezone())
         diferencia = abs(self.capture.date - hora_actual)
         # Definir una tolerancia petita, 10 segons
         tolerancia = timedelta(seconds=10)
@@ -54,7 +52,7 @@ class CaptureModelTest(TestCase):
                 id=self.capture.id,
                 username=create_user("User invalid"),
                 airmon=create_airmon("Airmon invalid"),
-                date=datetime.now(self.timezone),
+                date=datetime.now(get_timezone()),
                 attempts=10
             )
         except IntegrityError as e:
@@ -114,7 +112,7 @@ class CaptureModelTest(TestCase):
         try:
             user = User.objects.get(username=self.capture.username.username)
             airmon = Airmon.objects.get(name=self.capture.airmon.name)
-            create_capture(user, airmon, datetime.now(self.timezone), -100)
+            create_capture(user, airmon, datetime.now(get_timezone()), -100)
         except ValidationError as e:
             self.assertIsInstance(e, ValidationError)
             self.assertIn("The number of attempts must be a positive number.", str(e))

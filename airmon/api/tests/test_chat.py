@@ -21,7 +21,7 @@ class ChatModelTest(TestCase):
     def test_chat_destroy(self):
         chats_before = Chat.objects.count()  # Nombre de Chats que hi ha
         self.chat.delete()
-        chats_after = Capture.objects.count()
+        chats_after = Chat.objects.count()
         self.assertEqual(chats_after, chats_before - 1)
 
     # Modificar un Chat
