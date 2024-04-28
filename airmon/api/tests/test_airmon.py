@@ -1,6 +1,4 @@
 from django.db import IntegrityError
-from django.db.models import ImageField
-from django.db.models.fields.files import ImageFieldFile
 from django.test import TestCase
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
