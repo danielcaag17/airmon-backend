@@ -1,24 +1,12 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 import pytz
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 
-
+from .utils import *
 from ..models import Capture, Airmon
 
-
-def create_user(username):
-    return User.objects.create_user(username=username)
-
-
-def create_airmon(name):
-    return Airmon.objects.create(name=name)
-
-
-def create_capture(user, airmon, date, attempts):
-    return Capture.objects.create(username=user, airmon=airmon, date=date, attempts=attempts)
 
 class CaptureModelTest(TestCase):
     def setUp(self):
@@ -43,8 +31,8 @@ class CaptureModelTest(TestCase):
     def test_capture_destroy(self):
         captures_before = Capture.objects.count()  # Nombre de Captures que hi ha
         self.capture.delete()
-        capturess_after = Capture.objects.count()
-        self.assertEqual(capturess_after, captures_before - 1)
+        captures_after = Capture.objects.count()
+        self.assertEqual(captures_after, captures_before - 1)
 
     # Modificar els atributs i PK de Capture simple
     def test_capture_update(self):
