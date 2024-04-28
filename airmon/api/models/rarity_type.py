@@ -1,9 +1,9 @@
-from enum import Enum
+from django.db import models
 
 
-class RarityType(Enum):
-    LLEGENDARI = "Llegendari"
+class RarityType(models.TextChoices):
+    LEGENDARY = 'Legendary'
     EPIC = "Epic"
-    CURIOS = "Curios"
-    ESPECIAL = "Especial"
-    COMU = "Comu"
+    CURIOUS = 'Curious'
+    SPECIAL = 'Special'
+    COMMON = 'Common'
