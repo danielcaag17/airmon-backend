@@ -20,8 +20,8 @@ class CaptureModelTest(TestCase):
 
         hora_actual = datetime.now(get_timezone())
         diferencia = abs(self.capture.date - hora_actual)
-        # Definir una tolerancia petita, 10 segons
-        tolerancia = timedelta(seconds=10)
+        # Definir una tolerancia petita, 1 segon
+        tolerancia = timedelta(seconds=1)
         # Validar que la diferencia entre els dos temps es menor que la tolerancia
         self.assertLessEqual(diferencia, tolerancia)
 
