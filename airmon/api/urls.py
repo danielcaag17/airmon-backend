@@ -23,6 +23,7 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("get-user/", views.get_current_user, name="get-user"),
     path("friends/<str:username>/", views.FriendshipViewSet.as_view({"get": "retrieve"}), name="get-friends"),
+    path("icqa/", views.ICQAView.as_view(), name="get-icqa"),
     path("station/<str:code>/", views.StationViewSet.as_view({'get': 'retrieve'}), name="get-station"),
     path("map/", views.MapViewSet.as_view({'get': 'list'}), name="map"),
     path("chat/", views.ChatView.as_view(), name="chat"),

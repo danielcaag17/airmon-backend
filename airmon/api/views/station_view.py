@@ -26,5 +26,5 @@ class StationViewSet(viewsets.ViewSet):
             correct_format = json.loads(json.dumps(serializer.data))
             return Response(correct_format)
         except Station.DoesNotExist:
-            return Response({"error": f"Estation {code} does not exist"},
+            return Response({"error": f"Station {code} does not exist"},
                             status=status.HTTP_404_NOT_FOUND)
