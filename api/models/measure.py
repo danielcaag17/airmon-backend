@@ -8,6 +8,8 @@ class Measure (models.Model):
     station_code = models.ForeignKey(Station, on_delete=models.CASCADE)
     date = models.DateField()
     hour = models.TimeField()
+    val_color = models.SmallIntegerField(default=0)
+    nom_pollutant = models.CharField(max_length=32, default="No pollutant")
 
     class Meta:
         constraints = [
