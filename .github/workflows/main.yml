@@ -1,8 +1,11 @@
-name: Django Test
+name: test_Django
 on: [pull_request, push] # activates the workflow when there is a push or pull request in the repo
 jobs:
   test_project:
     runs-on: ubuntu-latest # operating system your code will run on
     steps:
-    - name: Django Test CI
-      uses: UKnowWhoIm/django-test-action@v0.6.1
+      - uses: actions/checkout@v2
+      - name: Django Test CI
+        uses: UKnowWhoIm/django-test-action@v0.6.1
+        with:
+          settings-dir-path: "airmon"
