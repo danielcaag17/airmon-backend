@@ -1,10 +1,14 @@
-from django.core import serializers
-from django.http import JsonResponse
 from rest_framework import viewsets
 from ..models import Capture
 from ..serializers import CaptureSerializer
 
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class CaptureViewSet(viewsets.ModelViewSet):
     """
     Endpoint: /api/capture/
@@ -13,6 +17,8 @@ class CaptureViewSet(viewsets.ModelViewSet):
     serializer_class = CaptureSerializer
 
 
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class PlayerCaptureViewSet(viewsets.ModelViewSet):
     """
     Endpoint: /api/player/:username/captures
