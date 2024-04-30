@@ -8,7 +8,8 @@ from ..serializers import MessageSerializer
 
 class ChatView(APIView):
     def get(self, request, *args, **kwargs):
-        chat_id = request.query_params.get("id")
+        print(kwargs.get("chat_id"))
+        chat_id = kwargs.get("chat_id")
         if chat_id is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
