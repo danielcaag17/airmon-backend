@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG") == "true"
 
-ALLOWED_HOSTS = ["51.21.149.211", "127.0.0.1"]
+ALLOWED_HOSTS = ["51.21.149.211", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     "api",
+    "channels",
+    "daphne",
+    "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
     "django_celery_beat",
@@ -171,3 +173,5 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour="7", minute="0"),
     },
 }
+
+ASGI_APPLICATION = 'airmon.asgi.application'
