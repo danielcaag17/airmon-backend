@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from ..models import Player
-from ..serializers.player_serializer import PlayerSerializer
+from ..serializers import PlayerSerializer
 
 
 class PlayerViewSet(ModelViewSet):
