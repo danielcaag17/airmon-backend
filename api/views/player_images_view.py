@@ -13,8 +13,11 @@ class PlayerImageViewSet(viewsets.ModelViewSet):
 
 class PlayerImageView(viewsets.ViewSet):
     def get_id(self, username):
-        user = User.objects.get(username=username)
-        return user.id
+        try:
+            user = User.objects.get(username=username)
+            return user.id
+        except User.DoesNotExist:
+            return None
 
     def retrieve(self, request, username=None):
         """
@@ -22,6 +25,9 @@ class PlayerImageView(viewsets.ViewSet):
         """
         try:
             user_id = self.get_id(username)
+            if user_id is None:
+                return Response(data={"detail": "Not found"},  status=404)
+
             date = request.query_params.get("date", None)
 
             if date is not None:
