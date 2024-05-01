@@ -5,7 +5,8 @@ jobs:
     runs-on: ubuntu-latest # operating system your code will run on
     steps:
       - uses: actions/checkout@v2
-      - name: Django Test CI
-        uses: UKnowWhoIm/django-test-action@v0.6.1
-        with:
-          settings-dir-path: "airmon"
+      - uses: actions/setup-python@v2
+      - run: pip install flake8
+      - run: pip install -r requirements.txt # install all our dependencies for the project
+      - run: pytest . # run pytest test
+      - run: flake8 . # run flake8 test
