@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
-        print(self.scope["url_route"]["kwargs"])
         self.accept()
 
     def disconnect(self, close_code):
@@ -42,7 +41,6 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
             return
 
         user = self.scope["user"]
-        print(user)
 
         if user is None:  # No logged user
             await self.close()

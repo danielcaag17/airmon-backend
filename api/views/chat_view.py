@@ -8,12 +8,10 @@ from ..serializers import MessageSerializer
 
 class ChatView(APIView):
     def get(self, request, *args, **kwargs):
-        print(kwargs.get("chat_id"))
         chat_id = kwargs.get("chat_id")
         if chat_id is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        # Get the chat
         chat = Chat.objects.get(id=chat_id)
         if chat is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -21,8 +19,8 @@ class ChatView(APIView):
         # Check if the user is in the chat
         if chat.user1 != request.user and chat.user2 != request.user:
             return Response(status=status.HTTP_403_FORBIDDEN)
-        # Get the messages
+
         messages = ChatMessage.objects.filter(chat=chat)
-        # Serialize the messages
+
         serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
