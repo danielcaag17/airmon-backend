@@ -1,3 +1,6 @@
+from datetime import datetime
+import pytz
+
 from django.contrib.auth.models import User
 
 from rest_framework import viewsets
@@ -28,3 +31,13 @@ class FriendshipViewSet(viewsets.ViewSet):
             return Response(serializer.data)
         except User.DoesNotExist:
             return Response(None)
+
+    def create(self, request):
+        data = request.data
+        try:
+            user1 = User.objects.get(id=self.get_id(data['user1']))
+            user2 = User.objects.get(id=self.get_id(data['user2']))
+            Friendship.objects.create(user1=user1, user2=user2, date=datetime.now(pytz.timezone("Europe/Madrid")))
+            return Response({'message': 'success'}, status=status.HTTP_201_CREATED)
+        except User.DoesNotExist:
+            return Response({'message': 'user does not exist'}, status=status.HTTP_404_NOT_FOUND)
