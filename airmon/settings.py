@@ -154,6 +154,7 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_IMPORTS = (
     'api.tasks.mock_task',
     'api.tasks.daily_air_request',
+    'api.tasks.daily_airmons_spawn',
     # Add other task modules here
 )
 
@@ -165,6 +166,10 @@ CELERY_BEAT_SCHEDULE = {
     'execute-every-day-at-7': {
         'task': 'api.tasks.daily_air_request.daily_air_request',
         'schedule': crontab(hour="7", minute="0"),
+    },
+    'daily-airmons-spawn': {
+        'task': 'api.tasks.daily_airmons_spawn.daily_airmons_spawn',
+        'schedule': crontab(hour="0", minute="0"),
     },
 }
 
