@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 import pytz
 
-from ..models import Airmon, Capture, Chat
+from ..models import Airmon, Capture, Chat, Item
 
 
 def create_user(username):
@@ -19,6 +19,9 @@ def create_capture(user, airmon, date, attempts):
 def create_chat(user1, user2):
     return Chat.objects.create(user1=create_user(user1), user2=create_user(user2))
 
+
+def create_item(name, rarity, price, description):
+    return Item.objects.create(name=name, rarity=rarity, price=price, description=description)
 
 def get_timezone():
     return pytz.timezone("Europe/Madrid")
