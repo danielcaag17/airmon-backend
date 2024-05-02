@@ -53,7 +53,7 @@ def update_air_data():
         time = datetime.strptime(info["data"], "%Y-%m-%dT%H:%M:%S.%f")
 
         measure, created = Measure.objects.update_or_create(
-            station_code=station, date=time.date(), hour=time.time(), val_color=0, nom_pollutant="",
+            station_code=station, date=time.date(), hour=time.time(), icqa=0, nom_pollutant="",
             defaults={'station_code': station, 'date': time.date(), 'hour': time.time()}
         )
 
@@ -63,7 +63,7 @@ def update_air_data():
         )
 
         val, nom = calcular_icqa(pollutant_measure)
-        measure.val_color = val
+        measure.icqa = val
         measure.nom_pollutant = nom
         measure.save()
 

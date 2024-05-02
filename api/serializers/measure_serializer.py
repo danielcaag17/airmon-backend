@@ -11,7 +11,7 @@ class MeasureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Measure
-        fields = ['date', 'hour', 'val_color', 'nom_pollutant', 'pollutants']
+        fields = ['date', 'hour', 'icqa', 'nom_pollutant', 'pollutants']
 
     def get_hour(self, obj):
         if obj.hour is None:
