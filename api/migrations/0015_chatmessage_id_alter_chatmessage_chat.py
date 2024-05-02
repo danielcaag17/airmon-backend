@@ -11,15 +11,15 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='chatmessage',
-            name='id',
-            field=models.BigAutoField(auto_created=True, default=-1, primary_key=True, serialize=False, verbose_name='ID'),
-            preserve_default=False,
-        ),
         migrations.AlterField(
             model_name='chatmessage',
             name='chat',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.chat'),
+        ),
+        migrations.AddField(
+            model_name='chatmessage',
+            name='id',
+            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            preserve_default=False,
         ),
     ]

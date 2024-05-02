@@ -86,11 +86,12 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
 
         reading = receiver.id in self.users
 
-        await create_chat_message(chat, message, user, receiver, reading)
-
+        chat_message = await create_chat_message(chat, message, user, receiver, reading)
+        date = await get_message_date(chat_message)
         # Send message to room group
         await self.channel_layer.group_send(
-            self.chat_name, {"type": "chat.message", "message": message, "from_user": user.username, "read": reading}
+            self.chat_name, {"type": "chat.message", "message": message, "from_user": user.username,
+                             "read": reading, "date": chat_message.date}
         )
 
     # Receive message from room group
@@ -121,3 +122,8 @@ def get_chat_user2_id(chat):
 @database_sync_to_async  # We need to run database queries asynchronously
 def create_chat_message(chat, message, from_user, to_user, read):
     return ChatMessage.objects.create(chat=chat, message=message, from_user=from_user, to_user=to_user, read=read)
+
+
+@database_sync_to_async  # We need to run database queries asynchronously
+def get_message_date(chat_message):
+    return chat_message.date
