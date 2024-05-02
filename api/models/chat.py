@@ -32,5 +32,5 @@ class ChatMessage(models.Model):
                 name='different_users_message'
             ),
         ]
-        unique_together = ('from_user', 'to_user', 'date', 'date')
+        unique_together = ('from_user', 'to_user', 'date')
         ordering = ['date']
