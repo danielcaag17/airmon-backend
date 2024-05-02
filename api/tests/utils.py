@@ -19,5 +19,6 @@ def create_capture(user, airmon, date, attempts):
 def create_chat(user1, user2):
     return Chat.objects.create(user1=create_user(user1), user2=create_user(user2))
 
+
 def get_timezone():
     return pytz.timezone("Europe/Madrid")

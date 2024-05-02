@@ -9,11 +9,16 @@ class Player(models.Model):
     # PositiveIntegerField amb rang [0-2147483647]
     # RT10 garantida
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    language = models.CharField(max_length=16, choices=[(tag, tag.value) for tag in Language],
-                                default=Language.CATALA.value)
+    language = models.CharField(max_length=16, choices=Language.choices, default=Language.CATALA)
     xp_points = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
     avatar = models.ImageField(null=True, upload_to='avatars/')
+
+    def save(self, *args, **kwargs):
+        if self.language not in [choice[0] for choice in Language.choices]:
+            raise ValueError("Invalid language value.")
+        else:
+            super().save(*args, **kwargs)
 
 
 class PlayerImages(models.Model):

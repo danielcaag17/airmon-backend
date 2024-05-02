@@ -1,7 +1,7 @@
-from enum import Enum
+from django.db import models
 
 
-class Language(Enum):
+class Language(models.TextChoices):
     CATALA = "Catala"
     ANGLES = "Angles"
     CASTELLA = "Castella"
