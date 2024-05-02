@@ -1,7 +1,8 @@
 import json
 
+from channels.db import database_sync_to_async
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
-from .models import Chat, ChatMessage
+from api.models import Chat, ChatMessage
 from django.contrib.auth.models import User
 
 
@@ -20,6 +21,10 @@ class ChatConsumer(WebsocketConsumer):
 
 
 class AsyncChatConsumer(AsyncWebsocketConsumer):
+    """
+    Please note that this consumer is ASYNC, so we need to take into account that
+    we can't use blocking calls like calling to ORM methods, etc.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.chat_name = None
@@ -30,15 +35,22 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
         self.chat_id = self.scope["url_route"]["kwargs"]["chat_id"]
         self.chat_name = f"chat_{self.chat_id}"
 
-        chat = Chat.objects.get(id=self.chat_id)
-        if not chat.exists():
+        chat = await get_chat_by_id(self.chat_id)
+        if chat is None:
             await self.close()  # TODO ENSURE CHAT EXISTS
             return
 
         user = self.scope["user"]
 
+        if user is None:  # No logged user
+            await self.close()
+            return
+
         # Check if user is part of chat
-        if user.id != chat.user1.id and user.id != chat.user2.id:
+        user1_id = await get_chat_user1_id(chat)
+        user2_id = await get_chat_user2_id(chat)
+
+        if user.id != user1_id and user.id != user2_id:
             await self.close()
             return
 
@@ -56,7 +68,8 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         # Leave room group
         user = self.scope["user"]
-        self.users.remove(user.id)
+        if user.id in self.users:
+            self.users.remove(user.id)
         await self.channel_layer.group_discard(self.chat_name, self.channel_name)
 
     # Receive message from WebSocket
@@ -65,12 +78,15 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json["message"]
         user = self.scope["user"]
 
-        chat = Chat.objects.get(id=self.chat_id)
-        receiver = chat.user1 if user.id == chat.user2.id else chat.user2
+        chat = await get_chat_by_id(self.chat_id)
+
+        user1_id = await get_chat_user1_id(chat)
+        user2_id = await get_chat_user2_id(chat)
+        receiver = user1_id if user.id == user2_id else user2_id
 
         reading = receiver.id in self.users
 
-        ChatMessage.objects.create(chat=chat, message=message, from_user=user, to_user=receiver, read=reading)
+        await create_chat_message(chat, message, user, receiver, reading)
 
         # Send message to room group
         await self.channel_layer.group_send(
@@ -85,3 +101,23 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"message": message, "from_user": from_user, "read": read}))
+
+
+@database_sync_to_async  # We need to run database queries asynchronously
+def get_chat_by_id(chat_id):
+    return Chat.objects.get(id=chat_id)
+
+
+@database_sync_to_async  # We need to run database queries asynchronously
+def get_chat_user1_id(chat):
+    return chat.user1.id
+
+
+@database_sync_to_async  # We need to run database queries asynchronously
+def get_chat_user2_id(chat):
+    return chat.user2.id
+
+
+@database_sync_to_async  # We need to run database queries asynchronously
+def create_chat_message(chat, message, from_user, to_user, read):
+    return ChatMessage.objects.create(chat=chat, message=message, from_user=from_user, to_user=to_user, read=read)
