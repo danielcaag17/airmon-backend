@@ -59,3 +59,22 @@ class FriendshipViewSet(viewsets.ViewSet):
             return Response({'message': 'user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
         except IntegrityError:
             return Response({'message', 'the friendship already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        data = request.data
+        user = request.user
+        user1 = self.get_id(user.username)
+        user2 = self.get_id(data['user'])
+        try:
+            friendship = (Friendship.objects.filter(user1=user1, user2=user2)
+                          | Friendship.objects.filter(user1=user2, user2=user1))
+            friendship.delete()
+        except Friendship.DoesNotExist:
+            return Response({'message': 'friendship does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            chat = (Chat.objects.filter(user1=user1, user2=user2)
+                    | Chat.objects.filter(user1=user2, user2=user1))
+            chat.delete()
+        except Chat.DoesNotExist:
+            return Response({'message': 'chat does not exist'}, status=status.HTTP_400_BAD_REQUEST)
