@@ -34,12 +34,13 @@ class FriendshipModelTest(TestCase):
         self.assertEqual(friendships_after, friendships_before - 1)
 
     def test_friendship_update(self):
-        self.friend.user1=create_user("user3")
-        self.friend.user2=create_user("user4")
+        self.friend.user1 = create_user("user3")
+        self.friend.user2 = create_user("user4")
         self.friend.save()
         self.assertEqual(self.friend.user1.username, "user3")
         self.assertEqual(self.friend.user2.username, "user4")
 
+    # Crear un friendship amb PK existent
     def test_friendship_invalid1(self):
         try:
             Friendship.objects.create(
@@ -48,11 +49,12 @@ class FriendshipModelTest(TestCase):
                 user2=create_user("user4"),
                 date=datetime.now(get_timezone())
             )
-            self.fail("It should raise an exception, invalid1")
+            self.fail("It should raise an exception, friendship invalid1")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
             self.assertIn("UNIQUE constraint failed: api_friendship.id", str(e))
 
+    # Crear un friendship violant la restricció UNIQUE
     def test_friendship_invalid2(self):
         try:
             Friendship.objects.create(
@@ -60,11 +62,12 @@ class FriendshipModelTest(TestCase):
                 user2=self.friend.user2,
                 date=datetime.now(get_timezone())
             )
-            self.fail("It should raise an exception, invalid2")
+            self.fail("It should raise an exception, friendship invalid2")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
             self.assertIn("UNIQUE constraint failed: api_friendship.user1_id, api_friendship.user2_id", str(e))
 
+    # Crear un friendship amb una data futura
     def test_friendship_invalid3(self):
         try:
             Friendship.objects.create(
@@ -72,11 +75,12 @@ class FriendshipModelTest(TestCase):
                 user2=create_user("user4"),
                 date=datetime.now(get_timezone()) + timedelta(days=2)
             )
-            self.fail("It should raise an exception, invalid3")
+            self.fail("It should raise an exception, friendship invalid3")
         except ValueError as e:
             self.assertIsInstance(e, ValueError)
             self.assertIn("The date cannot be in the future.", str(e))
 
+    # Crear un friendship amb els user intercanviats
     def test_friendship_invalid4(self):
         try:
             Friendship.objects.create(
@@ -84,11 +88,12 @@ class FriendshipModelTest(TestCase):
                 user2=self.friend.user1,
                 date=datetime.now(get_timezone())
             )
-            self.fail("It should raise an exception, invalid4")
+            self.fail("It should raise an exception, friendship invalid4")
         except ValidationError as e:
             self.assertIsInstance(e, ValidationError)
             self.assertIn("The friendship already exists.", str(e))
 
+    # Crear un friendship amb el mateix user
     def test_friendship_invalid5(self):
         try:
             Friendship.objects.create(
@@ -96,11 +101,12 @@ class FriendshipModelTest(TestCase):
                 user2=self.friend.user1,
                 date=datetime.now(get_timezone())
             )
-            self.fail("It should raise an exception, invalid5")
+            self.fail("It should raise an exception, friendship invalid5")
         except ValidationError as e:
             self.assertIsInstance(e, ValidationError)
             self.assertIn("Users cannot be the same.", str(e))
 
+    # Crear una amistat amb només un usuari
     def test_friendship_invalid6(self):
         try:
             Friendship.objects.create(
@@ -108,7 +114,7 @@ class FriendshipModelTest(TestCase):
                 user2=self.friend.user2,
                 date=datetime.now(get_timezone())
             )
-            self.fail("It should raise an exception, invalid6")
+            self.fail("It should raise an exception, friendship invalid6")
         except ObjectDoesNotExist as e:
             self.assertIsInstance(e, ObjectDoesNotExist)
             self.assertIn("Friendship has no user1.", str(e))
