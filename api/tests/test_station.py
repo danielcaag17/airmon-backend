@@ -6,7 +6,7 @@ from django.urls import reverse
 from ..models import LocationGeohash, Station
 
 
-class StationTest(TestCase):
+class StationModelTest(TestCase):
     def setUp(self):
         # Per quan es fan endpoints
         # self.client = APIClient()

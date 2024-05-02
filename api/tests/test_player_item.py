@@ -13,19 +13,20 @@ class PlayerItemModelTest(TestCase):
             quantity=100,
         )
 
-    def test_item_creation(self):
+    def test_player_item_creation(self):
         self.assertEqual(self.player_item.item_name.name, "item")
         self.assertEqual(self.player_item.username.username, "user1")
         self.assertEqual(self.player_item.quantity, 100)
 
-    def test_item_destroy(self):
-        player_items_before = PlayerItem.objects.count()  # Nombre de Items que hi ha
+    def test_player_item_destroy(self):
+        player_items_before = PlayerItem.objects.count()  # Nombre de PlayerItems que hi ha
         self.player_item.delete()
         player_items_after = PlayerItem.objects.count()
         self.assertEqual(player_items_after, player_items_before - 1)
 
-    def test_item_update(self):
-        self.player_item.item_name = create_item("item updated", "Llegendari", 10.50, "description")
+    def test_player_item_update(self):
+        self.player_item.item_name = create_item("item updated", "Llegendari",
+                                                 10.50, "description")
         self.player_item.username = create_user("user2")
         self.player_item.quantity = 2
         self.player_item.save()
@@ -34,7 +35,7 @@ class PlayerItemModelTest(TestCase):
         self.assertEqual(self.player_item.quantity, 2)
 
     # Crear PlayerItem que violi la PK
-    def test_item_invalid1(self):
+    def test_player_item_invalid1(self):
         try:
             PlayerItem.objects.create(
                 id=self.player_item.id,
@@ -48,7 +49,7 @@ class PlayerItemModelTest(TestCase):
             self.assertIn("UNIQUE constraint failed: api_playeritem.id", str(e))
 
     # Crear PlayerItem que violi la restriccio UNIQUE
-    def test_item_invalid2(self):
+    def test_player_item_invalid2(self):
         try:
             PlayerItem.objects.create(
                 item_name=self.player_item.item_name,
@@ -62,7 +63,7 @@ class PlayerItemModelTest(TestCase):
                           str(e))
 
     # Crear PlayerItem amb quantity negativa
-    def test_item_invalid3(self):
+    def test_player_item_invalid3(self):
         try:
             PlayerItem.objects.create(
                 item_name=create_item("item2", "Epic", 10.5, "Description"),
@@ -75,7 +76,7 @@ class PlayerItemModelTest(TestCase):
             self.assertIn("CHECK constraint failed: quantity", str(e))
 
     # Crear PlayerItem sense User
-    def test_item_invalid4(self):
+    def test_player_item_invalid4(self):
         try:
             PlayerItem.objects.create(
                 item_name=create_item("item2", "Epic", 10.5, "Description"),
