@@ -23,8 +23,8 @@ from api.utils import TokenAuthMiddleware
 application = ProtocolTypeRouter(
     {
         "http": django_asgi_app,
-        "websocket": AllowedHostsOriginValidator(
+        "websocket":
             TokenAuthMiddleware(URLRouter(websocket_urlpatterns))
-        ),
+        ,
     }
 )
