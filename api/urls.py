@@ -20,6 +20,7 @@ router.APIRootView.permission_classes = [IsAuthenticated]
 urlpatterns = [
     path("", include(router.urls)),
     path("get-airmon-map/", views.AirmonOnMapView.as_view(), name="get-airmon-map"),
+    path("spawned_airmons/", views.SpawnedAirmonsView.as_view(), name="spawned_airmons"),
     path("login/", views.login, name="login"),
     path("register/", views.register, name="register"),
     path("get-user/", views.get_current_user, name="get-user"),
