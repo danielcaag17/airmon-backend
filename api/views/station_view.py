@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from ..serializers import StationSerializer
-from ..models import Station
+from ..models import Station, Measure
 
 from rest_framework import status
 
@@ -16,9 +16,28 @@ from rest_framework.permissions import IsAuthenticated
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 class StationViewSet(viewsets.ViewSet):
-    """
-    Endpoint: /api/station/:code
-    """
+
+    def get_icqa(self, code):
+        measures = Measure.objects.get(station_code=code)
+        icqa = 1
+        for measure in measures:
+            if measure.icqa > icqa:
+                icqa = measure.icqa
+
+        return icqa
+
+    def list(self, request):
+        stations = Station.objects.filter(measure__isnull=False)
+        result = []
+        for station in stations:
+            station_obj_serialized = {
+                'code': station.code,
+                'name': station.name,
+                'icqa': self.get_icqa(station.code)
+            }
+            result.append(station_obj_serialized)
+        return Response(result)
+
     def retrieve(self, request, code=None):
         try:
             station = Station.objects.get(code=code)

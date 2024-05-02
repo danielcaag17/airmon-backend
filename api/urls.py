@@ -27,6 +27,7 @@ urlpatterns = [
     path("station/<str:code>/", views.StationViewSet.as_view({'get': 'retrieve'}), name="get-station"),
     path("map/", views.MapViewSet.as_view({'get': 'list'}), name="map"),
     path("chat/", views.ChatView.as_view(), name="chat"),
+    path('stations/', views.StationViewSet.as_view({'get': 'list'}), name="stations")
     # path("test-token/", views.test_token, name="test-token"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
     # path("endpoint2/", views.Endpoint2View.as_view(), name="endpoint2"),
