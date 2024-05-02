@@ -76,7 +76,7 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json["message"]
+        message = text_data_json["content"]
         user = self.scope["user"]
 
         chat = await get_chat_by_id(self.chat_id)
