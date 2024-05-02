@@ -10,4 +10,5 @@ from .auth_view import login, register, test_token
 from .user_view import get_current_user, FindUserViewSet
 from .friendship_view import FriendshipViewSet
 from .chat_view import ChatView
+from .icqa_view import ICQAView
 from .player_images_view import PlayerImageViewSet, PlayerImageView
