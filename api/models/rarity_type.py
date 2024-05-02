@@ -2,8 +2,8 @@ from django.db import models
 
 
 class RarityType(models.TextChoices):
-    LEGENDARY = 'Legendary'
+    LLEGENDARI = 'Llegendari'
     EPIC = "Epic"
-    CURIOUS = 'Curious'
-    SPECIAL = 'Special'
-    COMMON = 'Common'
+    CURIOS = 'Curios'
+    ESPECIAL = 'Especial'
+    COMU = 'Comu'
