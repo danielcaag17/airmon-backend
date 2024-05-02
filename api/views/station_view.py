@@ -13,18 +13,13 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
 class StationViewSet(viewsets.ViewSet):
 
     def get_icqa(self, code):
-        measures = Measure.objects.get(station_code=code)
-        icqa = 1
-        for measure in measures:
-            if measure.icqa > icqa:
-                icqa = measure.icqa
-
-        return icqa
+        measure = Measure.objects.get(station_code=code)
+        return measure.icqa
 
     def list(self, request):
         stations = Station.objects.filter(measure__isnull=False)
