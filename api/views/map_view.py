@@ -17,7 +17,7 @@ class MapViewSet(viewsets.ViewSet):
     Endpoint: /api/map/
     """
     def list(self, request):
-        stations = Station.objects.all()
+        stations = Station.objects.filter(measure__isnull=False)
         serializer = StationSerializer(stations, many=True)
         format_correcte = json.loads(json.dumps(serializer.data))
         return Response(format_correcte)
