@@ -5,7 +5,7 @@ from decimal import Decimal
 from ..models import LocationGeohash, Location
 
 
-class LocationTest(TestCase):
+class LocationModelTest(TestCase):
     def setUp(self):
         # self.client = APIClient()
         LocationGeohash.objects.create(
