@@ -24,7 +24,7 @@ def get_current_user(request):
 class FindUserViewSet(viewsets.ViewSet):
     def list(self, request, key=None):
         username = request.user.username
-        users = User.objects.filter(username__contains=key)
+        users = User.objects.filter(username__istartswith=key)
         limit = 10
         # NO es fa a partir del serializer perque només es retorna el field username
         # serializer = UserSerializer(users, many=True)
