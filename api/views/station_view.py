@@ -36,9 +36,6 @@ class StationViewSet(viewsets.ViewSet):
     def retrieve(self, request, code=None):
         try:
             station = Station.objects.get(code=code)
-            if station.measure is None:
-                return Response({"error": f"Station {code} does not have any measure"},
-                            status=status.HTTP_404_NOT_FOUND)
             serializer = StationSerializer(station)
             correct_format = json.loads(json.dumps(serializer.data))
             return Response(correct_format)
