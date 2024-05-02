@@ -1,13 +1,13 @@
 from datetime import datetime
-import pytz
 
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 from rest_framework import viewsets
 from rest_framework.response import Response
 
 from ..serializers import FriendshipSerializer
-from ..models import Friendship
+from ..models import Friendship, Chat
 
 from rest_framework import status
 
@@ -20,8 +20,11 @@ from rest_framework.permissions import IsAuthenticated
 # @permission_classes([IsAuthenticated])
 class FriendshipViewSet(viewsets.ViewSet):
     def get_id(self, username):
-        user = User.objects.get(username=username)
-        return user.id
+        try:
+            user = User.objects.get(username=username)
+            return user.id
+        except User.DoesNotExist:
+            Response({'message': 'user does not existtt'}, status=status.HTTP_404_NOT_FOUND)
 
     def retrieve(self, request, username=None):
         try:
@@ -35,9 +38,17 @@ class FriendshipViewSet(viewsets.ViewSet):
     def create(self, request):
         data = request.data
         try:
-            user1 = User.objects.get(id=self.get_id(data['user1']))
-            user2 = User.objects.get(id=self.get_id(data['user2']))
-            Friendship.objects.create(user1=user1, user2=user2, date=datetime.now(pytz.timezone("Europe/Madrid")))
-            return Response({'message': 'success'}, status=status.HTTP_201_CREATED)
+            Friendship.objects.create(
+                user1=User.objects.get(username=data['user1']),
+                user2=User.objects.get(username=data['user2']),
+                date=datetime.now()
+            )
+            chat = Chat.objects.create(
+                user1=User.objects.get(username=data['user1']),
+                user2=User.objects.get(username=data['user2'])
+            )
+            return Response({'chat_id': chat.id}, status=status.HTTP_201_CREATED)
         except User.DoesNotExist:
-            return Response({'message': 'user does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'message': 'user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        except IntegrityError:
+            return Response({'message', 'the friendship already exists'}, status=status.HTTP_400_BAD_REQUEST)
