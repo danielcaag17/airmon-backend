@@ -13,7 +13,4 @@ app = Celery("airmon")
 # the configuration object to child processes.
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
-# Load task modules from all registered Django app configs.
-TASKS = ['mock_task']
-
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)

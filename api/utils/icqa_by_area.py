@@ -16,6 +16,7 @@ ICQA_VALORATION = {
     6: "Extremadament desfavorable",
 }
 
+
 def longest_common_prefix(my_str):
     if my_str == []:
         return ""
@@ -31,15 +32,19 @@ def longest_common_prefix(my_str):
             break
     return prefix
 
+
 def get_stations_in_area(locations: List[str], coords_list):
     common_geohash = longest_common_prefix(locations)
     inverted_coords_list = [[p[1], p[0]] for p in coords_list]
     bbox = geometry.Polygon(inverted_coords_list)
-    outer_covered_geohashes = polygon_to_geohashes(
-        bbox, len(common_geohash) + 1, False
-    )
+    outer_covered_geohashes = polygon_to_geohashes(bbox, len(common_geohash) + 1, False)
     query = reduce(
         or_,
         (Q(location__geohash__startswith=item) for item in outer_covered_geohashes),
     )
     return Station.objects.filter(query)
+
+
+def get_nearest_station(location: str):
+    station = Station.objects.get(location__geohash="sp3e902j1c3z")  # Mocked station
+    return station
