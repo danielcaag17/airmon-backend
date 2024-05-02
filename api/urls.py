@@ -30,7 +30,7 @@ urlpatterns = [
     path('stations/', views.StationViewSet.as_view({'get': 'list'}), name="stations"),
     path("posts/<str:username>/", views.PlayerImageView.as_view({"get": "retrieve"})),
     path("chat/<int:chat_id>", views.ChatView.as_view(), name="chat"),
-    path("friendship/", views.FriendshipViewSet.as_view({'post': 'create', 'get': 'retrieve'}),
+    path("friendship/", views.FriendshipViewSet.as_view({'post': 'create', 'get': 'retrieve', 'delete': 'delete'}),
          name="friendship"),
     # path("test-token/", views.test_token, name="test-token"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
