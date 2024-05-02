@@ -17,7 +17,10 @@ class Player(models.Model):
 
 
 class PlayerImages(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(null=True, upload_to='uploaded/')
+    date = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ['user', 'date']
 

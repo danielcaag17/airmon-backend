@@ -39,9 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "api",
-    "channels",
     "daphne",
+    "api",
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
@@ -170,3 +169,12 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 ASGI_APPLICATION = 'airmon.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
