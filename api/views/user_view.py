@@ -24,12 +24,13 @@ def get_current_user(request):
 class FindUserViewSet(viewsets.ViewSet):
     def list(self, request, key=None):
         users = User.objects.filter(username__contains=key)
+        limit = 10
         # NO es fa a partir del serializer perque només es retorna el field username
         # serializer = UserSerializer(users, many=True)
         result = []
         for user in users:
-            station_obj_serialized = {
+            user_obj_serialized = {
                 'username': user.username
             }
-            result.append(station_obj_serialized)
-        return Response(result)
+            result.append(user_obj_serialized)
+        return Response(result[:limit])
