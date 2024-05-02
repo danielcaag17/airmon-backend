@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterUniqueTogether(
             name='chatmessage',
-            unique_together={('from_user', 'to_user', 'date', 'date')},
+            unique_together={('from_user', 'to_user', 'date')},
         ),
         migrations.AddField(
             model_name='chatmessage',
