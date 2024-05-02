@@ -1,71 +1,51 @@
 from django.test import TestCase
 from django.db.utils import IntegrityError
-from rest_framework.test import APIClient
-from django.urls import reverse
 
-from ..models import LocationGeohash, Station
+from .utils import *
 
 
 class StationModelTest(TestCase):
     def setUp(self):
-        # Per quan es fan endpoints
-        # self.client = APIClient()
-        LocationGeohash.objects.create(
-            geohash='1'
-        )
-        LocationGeohash.objects.create(
-            geohash='2'
-        )
-        Station.objects.create(
-            code='1',
-            name="Test Station",
-            location_id=1
-        )
+        self.station = create_station(code=1, name='Test Station', location=create_location_geohash("u09tunqp3d08"))
 
     def test_station_creation(self):
-        station = Station.objects.get(code='1')
-        self.assertEqual(station.code, '1')
+        self.assertEqual(self.station.code, 1)
+        self.assertEqual(self.station.name, "Test Station")
+        self.assertEqual(self.station.location.geohash, "u09tunqp3d08")
 
-    # Crear una estació amb un codi que ja existeix
-    def test_station_creation_invalid(self):
+    def test_station_destroy(self):
+        stations_before = Station.objects.count()  # Nombre de Stations que hi ha
+        self.station.delete()
+        stations_after = Station.objects.count()
+        self.assertEqual(stations_after, stations_before - 1)
+
+    def test_station_update(self):
+        self.station.code = 2
+        self.station.name = "Station updated"
+        self.station.location = create_location_geohash("dr5ru9pq8")
+        self.station.save()
+        self.assertEqual(self.station.code, 2)
+        self.assertEqual(self.station.name, "Station updated")
+        self.assertEqual(self.station.location.geohash, "dr5ru9pq8")
+
+    def test_station_invalid1(self):
         try:
             Station.objects.create(
-                code='1',
-                name="Invalid code repeated",
-                location_id=2
+                code=1,
             )
+            self.fail("It should raise an exception, station invalid1")
         except IntegrityError as e:
-            print("Type:", type(e))
-            print("Error:", e)
+            self.assertIsInstance(e, IntegrityError)
+            self.assertIn("UNIQUE constraint failed: api_station.code", str(e))
 
-    # Crear una estació amb una location que ja esta associada a un estació
-    def test_station_creation_invalid2(self):
+    def test_station_invalid2(self):
         try:
             Station.objects.create(
-                code='2',
-                name="Invalid location",
-                location_id=1
+                code=2,
+                name="Invalid station",
+                location=self.station.location
             )
-        except Exception as e:
-            print("Type:", type(e))
-            print("Error:", e)
-
-
-    '''
-    def test_get_station(self):
-        # Realizar una solicitud GET al endpoint
-        response = self.client.get(reverse("get-station"), kwargs={"code": "1"})
-
-        # Verificar que la solicitud sea exitosa (código de estado 200)
-        self.assertEqual(response.status_code, 200)
-
-        # Verificar que la respuesta sea JSON
-        self.assertEqual(response["content-type"], "application/json")
-
-        # Verificar que la respuesta contenga la lista de usuarios
-        self.assertEqual(len(response.json()), 1)
-
-        # Verificar el contenido de la respuesta
-        self.assertEqual(response.json()[0]["id"], 1)
-        self.assertEqual(response.json()[0]["name"], "Test Station")
-    '''
+            self.fail("It should raise an exception, station invalid2")
+        except IntegrityError as e:
+            self.assertIsInstance(e, IntegrityError)
+            self.assertIn("UNIQUE constraint failed: api_station.location_id", str(e))
