@@ -11,7 +11,9 @@ class CaptureModelTest(TestCase):
     def setUp(self):
         self.capture = create_capture(create_user("User test"),
                                       create_airmon("Airmon test"),
-                                      datetime.now(get_timezone()), 0)
+                                      datetime.now(get_timezone()),
+                                      0
+                                      )
 
     def test_capture_creation(self):
         self.assertEqual(self.capture.username.username, 'User test')
@@ -55,11 +57,10 @@ class CaptureModelTest(TestCase):
                 date=datetime.now(get_timezone()),
                 attempts=10
             )
+            self.fail("It should raise an exception, capture invalid1")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
             self.assertIn("UNIQUE constraint failed: api_capture.id", str(e))
-        except Exception as e:
-            self.fail("A IntegrityError exception was expected, but was raised: {}".format(e))
 
     # Crear una Capture amb un conjunt UNIQUE existent
     def test_capture_invalid2(self):
@@ -67,33 +68,33 @@ class CaptureModelTest(TestCase):
             user = User.objects.get(username=self.capture.username.username)
             airmon = Airmon.objects.get(name=self.capture.airmon.name)
             create_capture(user, airmon, self.capture.date, self.capture.attempts)
+            self.fail("It should raise an exception, capture invalid2")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
-            self.assertIn("UNIQUE constraint failed: api_capture.airmon_id, api_capture.username_id, api_capture.date", str(e))
-        except Exception as e:
-            self.fail("A IntegrityError exception was expected, but was raised: {}".format(e))
+            self.assertIn(
+                "UNIQUE constraint failed: api_capture.airmon_id, api_capture.username_id, api_capture.date",
+                str(e)
+            )
 
     # Crear Capture sense User
     def test_capture_invalid3(self):
         try:
             airmon = Airmon.objects.get(name=self.capture.airmon.name)
             create_capture(None, airmon, self.capture.date, self.capture.attempts)
+            self.fail("It should raise an exception, capture invalid3")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
             self.assertIn("NOT NULL constraint failed: api_capture.username_id", str(e))
-        except Exception as e:
-            self.fail("A IntegrityError exception was expected, but was raised: {}".format(e))
 
     # Crear Capture sense Airmon
     def test_capture_invalid4(self):
         try:
             user = User.objects.get(username=self.capture.username.username)
             create_capture(user, None, self.capture.date, self.capture.attempts)
+            self.fail("It should raise an exception, capture invalid4")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
             self.assertIn("NOT NULL constraint failed: api_capture.airmon_id", str(e))
-        except Exception as e:
-            self.fail("A IntegrityError exception was expected, but was raised: {}".format(e))
 
     # Crear Caputre amb date superior a actual
     def test_capture_invalid5(self):
@@ -101,11 +102,10 @@ class CaptureModelTest(TestCase):
             user = User.objects.get(username=self.capture.username.username)
             airmon = Airmon.objects.get(name=self.capture.airmon.name)
             create_capture(user, airmon, self.capture.date + timedelta(days=2), self.capture.attempts)
+            self.fail("It should raise an exception, capture invalid5")
         except ValueError as e:
             self.assertIsInstance(e, ValueError)
             self.assertIn("The date cannot be in the future.", str(e))
-        except Exception as e:
-            self.fail("A ValueError exception was expected, but was raised: {}".format(e))
 
     # Crear Capture amb attemps inferior a 0
     def test_capture_invalid6(self):
@@ -113,10 +113,7 @@ class CaptureModelTest(TestCase):
             user = User.objects.get(username=self.capture.username.username)
             airmon = Airmon.objects.get(name=self.capture.airmon.name)
             create_capture(user, airmon, datetime.now(get_timezone()), -100)
+            self.fail("It should raise an exception, capture invalid6")
         except ValidationError as e:
             self.assertIsInstance(e, ValidationError)
             self.assertIn("The number of attempts must be a positive number.", str(e))
-        except Exception as e:
-            self.fail("A ValidationError exception was expected, but was raised: {}".format(e))
-
-
