@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import Player, Language
+from api.models import Player, Language, PlayerImages
 
 
 class PlayerSerializer(serializers.ModelSerializer):
@@ -13,3 +13,9 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     def get_username(self, obj):
         return obj.user.username
+
+
+class PlayerImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerImages
+        fields = ['user', 'image', 'date']
