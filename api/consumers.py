@@ -25,6 +25,7 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
     Please note that this consumer is ASYNC, so we need to take into account that
     we can't use blocking calls like calling to ORM methods, etc.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.chat_name = None
@@ -88,20 +89,24 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
 
         chat_message = await create_chat_message(chat, message, user, receiver, reading)
         date = await get_message_date(chat_message)
+        receiver_name = await get_username(receiver)
         # Send message to room group
         await self.channel_layer.group_send(
-            self.chat_name, {"type": "chat.message", "message": message, "from_user": user.username,
-                             "read": reading, "date": chat_message.date}
+            self.chat_name, {"type": "chat.message", "content": message, "sender": user.username,
+                             "receiver": receiver_name, "read": reading, "date": date}
         )
 
     # Receive message from room group
     async def chat_message(self, event):
         message = event["message"]
-        from_user = event["from_user"]
+        sender = event["sender"]
+        receiver = event["receiver"]
+        date = event["date"]
         read = event["read"]
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({"message": message, "from_user": from_user, "read": read}))
+        await self.send(text_data=json.dumps({"content": message, "sender": sender,
+                                             "receiver": receiver, "date": date, "read": read}))
 
 
 @database_sync_to_async  # We need to run database queries asynchronously
@@ -127,3 +132,8 @@ def create_chat_message(chat, message, from_user, to_user, read):
 @database_sync_to_async  # We need to run database queries asynchronously
 def get_message_date(chat_message):
     return chat_message.date
+
+
+@database_sync_to_async
+def get_username(user_id):
+    return User.objects.get(id=user_id).username
