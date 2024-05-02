@@ -2,8 +2,10 @@ from django.db import IntegrityError
 from django.test import TestCase
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
+from datetime import datetime
 
 from ..models import Airmon
+from .utils import *
 
 
 class AirmonModelTest(TestCase):
@@ -33,6 +35,23 @@ class AirmonModelTest(TestCase):
         self.airmon.delete()
         airmons_after = Airmon.objects.count()
         self.assertEqual(airmons_after, airmons_before - 1)
+
+    # Eliminar un Airmon que te una captura
+    def test_airmon_destroy2(self):
+        create_capture(create_user("User test"),
+                       self.airmon,
+                       datetime.now(get_timezone()),
+                       0
+                       )
+        airmons_before = Airmon.objects.count()  # Nombre de Airmons que hi ha
+        captures_before = Capture.objects.count()
+
+        self.airmon.delete()
+
+        airmons_after = Airmon.objects.count()
+        captures_after = Capture.objects.count()
+        self.assertEqual(airmons_after, airmons_before - 1)
+        self.assertEqual(captures_after, captures_before - 1)
 
     # Modificar PK Airmon simple
     def test_airmon_update_PK(self):
