@@ -39,7 +39,7 @@ class FriendshipViewSet(viewsets.ViewSet):
             serializer = FriendshipSerializer(friendship, many=True, context={'username': username})
             return Response(serializer.data)
         except User.DoesNotExist:
-            return Response(None)
+            return Response(status=404)
 
     def create(self, request):
         data = request.data
