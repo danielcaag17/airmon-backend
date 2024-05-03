@@ -37,8 +37,8 @@ class FindUserViewSet(viewsets.ViewSet):
         return Response(result)
 
 
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class EditUserViewSet(viewsets.ViewSet):
     def update(self, request):
         username = request.user.username
