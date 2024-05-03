@@ -7,7 +7,7 @@ from .station_view import *
 from .airmons_view import AirmonsViewSet
 from .airmononmap_view import AirmonOnMapView
 from .auth_view import login, register, test_token
-from .user_view import get_current_user, FindUserViewSet
+from .user_view import get_current_user, FindUserViewSet, EditUserViewSet
 from .friendship_view import FriendshipViewSet
 from .chat_view import ChatView
 from .icqa_view import ICQAView

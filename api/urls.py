@@ -33,6 +33,7 @@ urlpatterns = [
     path("chat/<int:chat_id>", views.ChatView.as_view(), name="chat"),
     path("friendship/", views.FriendshipViewSet.as_view({'post': 'create', 'get': 'retrieve', 'delete': 'delete'}),
          name="friendship"),
+    path("edit-user/", views.EditUserViewSet.as_view({'post': 'update'}), name="edit-profile")
     # path("test-token/", views.test_token, name="test-token"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
     # path("endpoint2/", views.Endpoint2View.as_view(), name="endpoint2"),
