@@ -3,3 +3,7 @@ __pycache__
 .env
 .idea
 .venv
+.vscode
+db.sqlite3
+venv
+static

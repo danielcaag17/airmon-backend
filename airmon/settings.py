@@ -20,7 +20,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -30,8 +29,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG") == "true"
 
-ALLOWED_HOSTS = ["51.21.149.211", "127.0.0.1"]
-
+ALLOWED_HOSTS = ["51.21.149.211", "127.0.0.1", "localhost"]
 
 # Application definition
 
@@ -41,8 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
+    "daphne",
     "api",
+    "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
     "django_celery_beat",
@@ -78,7 +77,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "airmon.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -132,7 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -144,12 +141,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = '/var/www/airmon/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -162,6 +158,7 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_IMPORTS = (
     'api.tasks.mock_task',
     'api.tasks.daily_air_request',
+    'api.tasks.daily_airmons_spawn',
     # Add other task modules here
 )
 
@@ -173,5 +170,20 @@ CELERY_BEAT_SCHEDULE = {
     'execute-every-day-at-7': {
         'task': 'api.tasks.daily_air_request.daily_air_request',
         'schedule': crontab(hour="7", minute="0"),
+    },
+    'daily-airmons-spawn': {
+        'task': 'api.tasks.daily_airmons_spawn.daily_airmons_spawn',
+        'schedule': crontab(hour="0", minute="0"),
+    },
+}
+
+ASGI_APPLICATION = 'airmon.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
     },
 }
