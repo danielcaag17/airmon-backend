@@ -30,7 +30,6 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
         super().__init__(args, kwargs)
         self.chat_name = None
         self.chat_id = None
-        self.users = []
 
     async def connect(self):
         self.chat_id = self.scope["url_route"]["kwargs"]["chat_id"]
@@ -55,12 +54,6 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
             await self.close()
             return
 
-        # Check if user is already in chat
-        if user.id in self.users:
-            return
-
-        self.users.append(user.id)
-
         # Join room group
         await self.channel_layer.group_add(self.chat_name, self.channel_name)
 
@@ -68,9 +61,6 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         # Leave room group
-        user = self.scope["user"]
-        if user.id in self.users:
-            self.users.remove(user.id)
         await self.channel_layer.group_discard(self.chat_name, self.channel_name)
 
     # Receive message from WebSocket
@@ -85,7 +75,11 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
         user2_id = await get_chat_user2_id(chat)
         receiver = user1_id if user.id == user2_id else user2_id
 
-        reading = receiver in self.users
+        make_chat_message_read(user.id, chat.id)
+
+        reading = False
+        if len(self.channel_layer.groups[self.chat_name].items()) == 2:
+            reading = True
 
         chat_message = await create_chat_message(chat, message, user, receiver, reading)
         date = await get_message_date(chat_message)
@@ -138,3 +132,9 @@ def get_message_date(chat_message):
 @database_sync_to_async
 def get_username(user_id):
     return User.objects.get(id=user_id).username
+
+
+@database_sync_to_async
+def make_chat_message_read(user_id, chat_id):
+    ChatMessage.objects.filter(to_user_id=user_id, chat_id=chat_id, read=False).update(read=True)
+
