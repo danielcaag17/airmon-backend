@@ -9,8 +9,8 @@ router = DefaultRouter()
 router.register(r'captures', views.CaptureViewSet)
 router.register(r'player/(?P<username>\w+)/captures', views.PlayerCaptureViewSet, basename="player-captures")
 router.register(r'airmons', views.AirmonsViewSet)
-router.register(r'players', views.PlayerViewSet, basename="players")
 router.register(r'images', views.PlayerImageViewSet, basename="images")
+
 
 
 router.APIRootView.authentication_classes = [TokenAuthentication]
@@ -33,7 +33,9 @@ urlpatterns = [
     path("chat/<int:chat_id>", views.ChatView.as_view(), name="chat"),
     path("friendship/", views.FriendshipViewSet.as_view({'post': 'create', 'get': 'retrieve', 'delete': 'delete'}),
          name="friendship"),
-    path("edit-user/", views.EditUserViewSet.as_view({'post': 'update'}), name="edit-profile")
+    path('player/<str:username>/', views.PlayerViewSet.as_view({'get': 'retrieve'}), name="player"),
+    path('players/', views.PlayerViewSet.as_view({'get': 'list'}), name="players"),
+    path("edit-user/", views.EditUserViewSet.as_view({'post': 'update'}), name="edit-profile"),
     # path("test-token/", views.test_token, name="test-token"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
     # path("endpoint2/", views.Endpoint2View.as_view(), name="endpoint2"),
