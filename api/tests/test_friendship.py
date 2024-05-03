@@ -13,7 +13,6 @@ class FriendshipModelTest(TestCase):
         self.friend = Friendship.objects.create(
             user1=create_user("user1"),
             user2=create_user("user2"),
-            date=datetime.now(get_timezone())
         )
 
     def test_friendship_creation(self):
@@ -47,7 +46,6 @@ class FriendshipModelTest(TestCase):
                 id=self.friend.id,
                 user1=create_user("user3"),
                 user2=create_user("user4"),
-                date=datetime.now(get_timezone())
             )
             self.fail("It should raise an exception, friendship invalid1")
         except IntegrityError as e:
@@ -60,25 +58,11 @@ class FriendshipModelTest(TestCase):
             Friendship.objects.create(
                 user1=self.friend.user1,
                 user2=self.friend.user2,
-                date=datetime.now(get_timezone())
             )
             self.fail("It should raise an exception, friendship invalid2")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
             self.assertIn("UNIQUE constraint failed: api_friendship.user1_id, api_friendship.user2_id", str(e))
-
-    # Crear un friendship amb una data futura
-    def test_friendship_invalid3(self):
-        try:
-            Friendship.objects.create(
-                user1=create_user("user3"),
-                user2=create_user("user4"),
-                date=datetime.now(get_timezone()) + timedelta(days=2)
-            )
-            self.fail("It should raise an exception, friendship invalid3")
-        except ValueError as e:
-            self.assertIsInstance(e, ValueError)
-            self.assertIn("The date cannot be in the future.", str(e))
 
     # Crear un friendship amb els user intercanviats
     def test_friendship_invalid4(self):
@@ -86,7 +70,6 @@ class FriendshipModelTest(TestCase):
             Friendship.objects.create(
                 user1=self.friend.user2,
                 user2=self.friend.user1,
-                date=datetime.now(get_timezone())
             )
             self.fail("It should raise an exception, friendship invalid4")
         except ValidationError as e:
@@ -99,7 +82,6 @@ class FriendshipModelTest(TestCase):
             Friendship.objects.create(
                 user1=self.friend.user1,
                 user2=self.friend.user1,
-                date=datetime.now(get_timezone())
             )
             self.fail("It should raise an exception, friendship invalid5")
         except ValidationError as e:
@@ -112,7 +94,6 @@ class FriendshipModelTest(TestCase):
             Friendship.objects.create(
                 user1=None,
                 user2=self.friend.user2,
-                date=datetime.now(get_timezone())
             )
             self.fail("It should raise an exception, friendship invalid6")
         except ObjectDoesNotExist as e:

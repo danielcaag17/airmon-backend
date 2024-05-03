@@ -49,7 +49,6 @@ class FriendshipViewSet(viewsets.ViewSet):
             Friendship.objects.create(
                 user1=user,
                 user2=User.objects.get(username=data['user']),
-                date=datetime.now()
             )
             chat = Chat.objects.create(
                 user1=user,
