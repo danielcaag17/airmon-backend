@@ -15,14 +15,11 @@ class MessageSerializer(serializers.ModelSerializer):
         model = ChatMessage
         fields = ['chat_id', 'content', 'date', 'sender', 'receiver', 'read']
 
-
     def get_chat_id(self, obj):
         return obj.chat.id
 
-
     def get_sender(self, obj):
         return obj.from_user.username
-
 
     def get_receiver(self, obj):
         return obj.to_user.username
