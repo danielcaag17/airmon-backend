@@ -1,16 +1,27 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from ..models import PlayerImages
 from ..serializers import PlayerImagesSerializer
 
 
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class PlayerImageViewSet(viewsets.ModelViewSet):
     queryset = PlayerImages.objects.all()
     serializer_class = PlayerImagesSerializer
 
+    def perform_create(self, serializer):
+        serializer.validated_data['user'] = self.request.user
+        serializer.save()
 
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class PlayerImageView(viewsets.ViewSet):
     def get_id(self, username):
         try:
