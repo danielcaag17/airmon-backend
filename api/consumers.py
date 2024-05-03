@@ -56,7 +56,7 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
             await self.close()
             return
 
-        make_chat_message_read(user.id, chat.id)
+        database_sync_to_async(ChatMessage.objects.filter(chat=chat, to_user=user).update(read=True))
 
         # Join room group
         await self.channel_layer.group_add(self.chat_name, self.channel_name)
@@ -137,9 +137,3 @@ def get_message_date(chat_message):
 @database_sync_to_async
 def get_username(user_id):
     return User.objects.get(id=user_id).username
-
-
-@database_sync_to_async
-def make_chat_message_read(user_id, chat_id):
-    ChatMessage.objects.filter(chat_id=chat_id, to_user_id=user_id).update(read=True)
-
