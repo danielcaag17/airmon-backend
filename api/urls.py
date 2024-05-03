@@ -2,7 +2,6 @@ from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
 
-from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 

@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from ..serializers import FriendshipSerializer
 from ..models import Friendship, Chat
 
+
 from rest_framework import status
 
 from rest_framework.decorators import authentication_classes, permission_classes
