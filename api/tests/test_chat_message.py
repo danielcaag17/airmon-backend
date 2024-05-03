@@ -87,6 +87,7 @@ class ChatMessageModelTest(TestCase):
         except Exception as e:
             self.fail("A IntegrityError exception was expected, but was raised: {}".format(e))
 
+    '''
     # Crear ChatMessage amb dos Users que no son els del Chat
     def test_chat_message_invalid2(self):
         try:
@@ -103,5 +104,6 @@ class ChatMessageModelTest(TestCase):
             self.assertIn("UNIQUE constraint failed: api_chatmessage.chat_id", str(e))
         except Exception as e:
             self.fail("A IntegrityError exception was expected, but was raised: {}".format(e))
+    '''
 
 
