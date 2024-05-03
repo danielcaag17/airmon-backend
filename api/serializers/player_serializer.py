@@ -14,5 +14,6 @@ class PlayerSerializer(serializers.ModelSerializer):
 class PlayerImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayerImages
-        fields = ['image', 'date']
+        fields = ['user', 'image', 'date']
+        read_only_fields = ['user']
 
