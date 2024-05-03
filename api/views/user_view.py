@@ -55,10 +55,6 @@ class EditUserViewSet(viewsets.ViewSet):
 
             if data['language'] != "":
                 player.language = data['language']
-            if data['xp_points'] != 0:
-                player.xp_points = data['xp_points']
-            if data['coins'] != 0:
-                player.coins = data['coins']
             if avatar is not None:
                 avatar_name = default_storage.save('avatar/' + avatar.name, avatar)
                 player.avatar = default_storage.url(avatar_name)
