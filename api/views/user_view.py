@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from ..models import Player
 from ..serializers import UserSerializer
 
 from rest_framework.decorators import authentication_classes, permission_classes
@@ -19,8 +20,8 @@ def get_current_user(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class FindUserViewSet(viewsets.ViewSet):
     def list(self, request, key=None):
         users = User.objects.filter(username__contains=key)
@@ -33,3 +34,34 @@ class FindUserViewSet(viewsets.ViewSet):
             }
             result.append(station_obj_serialized)
         return Response(result)
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class EditUserViewSet(viewsets.ViewSet):
+    def update(self, request):
+        username = request.user.username
+        # username = request.data['username']
+        data = request.data
+        try:
+            user = User.objects.get(username=username)
+            player = Player.objects.get(user=user)
+
+            if data['password'] != "":
+                user.password = data['password']
+            user.save()
+
+            if data['language'] != "":
+                player.language = data['language']
+            if data['xp_points'] != 0:
+                player.xp_points = data['xp_points']
+            if data['coins'] != 0:
+                player.coins = data['coins']
+
+            # TODO: player.avatar
+            player.save()
+
+            return Response(status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'message': 'user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
