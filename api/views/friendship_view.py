@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 
@@ -64,7 +62,13 @@ class FriendshipViewSet(viewsets.ViewSet):
         data = request.data
         user = request.user
         user1 = self.get_id(user.username)
-        user2 = self.get_id(data['user'])
+
+        username = request.query_params.get('user')
+
+        if username is None:
+            return Response({'message': 'user not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user2 = self.get_id(username)
         try:
             friendship = (Friendship.objects.filter(user1=user1, user2=user2)
                           | Friendship.objects.filter(user1=user2, user2=user1))
@@ -78,3 +82,5 @@ class FriendshipViewSet(viewsets.ViewSet):
             chat.delete()
         except Chat.DoesNotExist:
             return Response({'message': 'chat does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(status=status.HTTP_200_OK)
