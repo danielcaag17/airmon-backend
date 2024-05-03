@@ -4,7 +4,7 @@ from ..models import Player
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..serializers import PlayerSerializer
+from ..serializers import PlayerSerializer, PlayerPublicSerializer
 
 
 from rest_framework.decorators import authentication_classes, permission_classes
@@ -12,8 +12,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class PlayerViewSet(viewsets.ViewSet):
     def list(self, request):
         players = Player.objects.all()
@@ -22,9 +22,13 @@ class PlayerViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, username=None):
         try:
+            username = request.user.username
             user = User.objects.get(username=username)
             player = Player.objects.get(user=user.id)
-            serializer = PlayerSerializer(player)
+            if username == user.username:   # Privat
+                serializer = PlayerSerializer(player)
+            else:   # Public
+                serializer = PlayerPublicSerializer(player)
             return Response(serializer.data)
         except Player.DoesNotExist:
             return Response({"error": f"Player {username} does not exist"},
