@@ -83,7 +83,7 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
         receiver = user1_id if user.id == user2_id else user2_id
 
         reading = False
-        if self.chats[self.chat_name] == 2:
+        if self.chats[self.chat_name] >= 2:
             reading = True
 
         chat_message = await create_chat_message(chat, message, user, receiver, reading)
@@ -141,5 +141,5 @@ def get_username(user_id):
 
 @database_sync_to_async
 def make_chat_message_read(user_id, chat_id):
-    ChatMessage.objects.filter(chat_id=chat_id, to_user_id=user_id, read=False).update(read=True)
+    ChatMessage.objects.filter(chat_id=chat_id, to_user_id=user_id).update(read=True)
 
