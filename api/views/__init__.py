@@ -12,3 +12,4 @@ from .friendship_view import FriendshipViewSet
 from .chat_view import ChatView
 from .icqa_view import ICQAView
 from .player_images_view import PlayerImageViewSet, PlayerImageView
+from .spawned_airmons_view import SpawnedAirmonsView
