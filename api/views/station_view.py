@@ -23,15 +23,11 @@ class StationViewSet(viewsets.ViewSet):
 
     def list(self, request):
         stations = Station.objects.filter(measure__isnull=False)
-        result = []
-        for station in stations:
-            station_obj_serialized = {
-                'code': station.code,
-                'name': station.name,
-                'icqa': self.get_icqa(station.code)
-            }
-            result.append(station_obj_serialized)
-        return Response(result)
+        station_serializer = StationSerializer(stations, many=True)
+        for station in station_serializer.data:
+            station.pop('measure')
+            station['icqa'] = self.get_icqa(station['code_station'])
+        return Response(station_serializer.data)
 
     def retrieve(self, request, code=None):
         try:
