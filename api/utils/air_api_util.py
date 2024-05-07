@@ -19,6 +19,9 @@ def update_air_data():
 
     data = _request_air_data()
 
+    PollutantMeasure.objects.all().delete()
+    Measure.objects.all().delete()
+
     for info in data:
 
         measure_amount = _get_air_measurement(info)
@@ -51,9 +54,6 @@ def update_air_data():
         )
 
         time = datetime.strptime(info["data"], "%Y-%m-%dT%H:%M:%S.%f")
-
-        PollutantMeasure.objects.all().delete()
-        Measure.objects.all().delete()
 
         measure, created = Measure.objects.update_or_create(
             station_code=station, date=time.date(), hour=time.time(),
