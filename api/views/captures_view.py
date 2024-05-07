@@ -16,6 +16,10 @@ class CaptureViewSet(viewsets.ModelViewSet):
     queryset = Capture.objects.all()
     serializer_class = CaptureSerializer
 
+    def perform_create(self, serializer):
+        serializer.validated_data['username'] = self.request.user
+        serializer.save()
+
 
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
