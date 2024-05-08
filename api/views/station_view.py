@@ -13,8 +13,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
 class StationViewSet(viewsets.ViewSet):
 
     def get_icqa(self, code):
@@ -23,11 +23,18 @@ class StationViewSet(viewsets.ViewSet):
 
     def list(self, request):
         stations = Station.objects.filter(measure__isnull=False)
-        station_serializer = StationSerializer(stations, many=True)
-        for station in station_serializer.data:
-            station.pop('measure')
-            station['icqa'] = self.get_icqa(station['code_station'])
-        return Response(station_serializer.data)
+        if stations.count() == 1:
+            station_serializer = StationSerializer(stations.first())
+            station_data = station_serializer.data
+            station_data.pop('measure')
+            station_data['icqa'] = self.get_icqa(station_data['code_station'])
+            return Response(station_data)
+        else:
+            station_serializer = StationSerializer(stations, many=True)
+            for station in station_serializer.data:
+                station.pop('measure')
+                station['icqa'] = self.get_icqa(station['code_station'])
+            return Response(station_serializer.data)
 
     def retrieve(self, request, code=None):
         try:
