@@ -18,3 +18,4 @@ from .player import PlayerImages
 from .chat import Chat, ChatMessage
 from .spawn_point import SpawnPoint
 from .spawned_airmon import SpawnedAirmon
+from .event import EventModel, EventCategoryModel

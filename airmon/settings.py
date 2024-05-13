@@ -159,6 +159,7 @@ CELERY_IMPORTS = (
     'api.tasks.mock_task',
     'api.tasks.daily_air_request',
     'api.tasks.daily_airmons_spawn',
+    'api.tasks.daily_event_request',
     # Add other task modules here
 )
 
