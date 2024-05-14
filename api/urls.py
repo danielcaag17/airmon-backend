@@ -12,7 +12,6 @@ router.register(r'airmons', views.AirmonsViewSet)
 router.register(r'images', views.PlayerImageViewSet, basename="images")
 
 
-
 router.APIRootView.authentication_classes = [TokenAuthentication]
 router.APIRootView.permission_classes = [IsAuthenticated]
 
@@ -36,6 +35,8 @@ urlpatterns = [
     path('player/<str:username>/', views.PlayerViewSet.as_view({'get': 'retrieve'}), name="player"),
     path('players/', views.PlayerViewSet.as_view({'get': 'list'}), name="players"),
     path("edit-user/", views.EditUserViewSet.as_view({'post': 'update'}), name="edit-profile"),
+    path("events/", views.EventViewSet.as_view({'get': 'list'}), name="events"),
+    # path("event/", views.run_script_view, name="event"),
     # path("test-token/", views.test_token, name="test-token"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
     # path("endpoint2/", views.Endpoint2View.as_view(), name="endpoint2"),

@@ -33,7 +33,6 @@ def update_event_data():
                         data_ini=data_inici,
                         data_fi=data_fi,
                         geohash=geohash,
-                        imatge=element["imatge"],
                         espai=element["espai"]
                     )
     else:

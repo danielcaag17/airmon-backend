@@ -9,5 +9,4 @@ class Event(models.Model):
     data_ini = models.DateTimeField()
     data_fi = models.DateTimeField()
     geohash = models.ForeignKey(LocationGeohash, on_delete=models.CASCADE)
-    imatge = models.ImageField(upload_to='events/')
     espai = models.TextField()
