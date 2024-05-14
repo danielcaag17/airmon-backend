@@ -21,4 +21,3 @@ class Airmon(models.Model):
             raise ValueError("Invalid type value.")
         else:
             super().save(*args, **kwargs)
-

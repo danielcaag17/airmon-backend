@@ -35,4 +35,3 @@ class PlayerImagesSerializer(serializers.ModelSerializer):
         model = PlayerImages
         fields = ['user', 'image', 'date']
         read_only_fields = ['user']
-

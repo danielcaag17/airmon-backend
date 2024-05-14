@@ -66,4 +66,3 @@ class EditUserViewSet(viewsets.ViewSet):
             return Response(status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({'message': 'user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-
