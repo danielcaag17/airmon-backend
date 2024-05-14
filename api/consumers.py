@@ -142,4 +142,3 @@ def get_username(user_id):
 @database_sync_to_async
 def make_chat_message_read(user_id, chat_id):
     return ChatMessage.objects.filter(chat_id=chat_id, to_user_id=user_id).update(read=True)
-

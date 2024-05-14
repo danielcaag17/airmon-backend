@@ -36,7 +36,8 @@ def spawn_new_airmons():
         # Airmon x hour in the day
         for hour in range(24):
             apparition_by_icqa = random.randint(1, 6)
-            current_icqa = measure_dict.get(spawn_point.station.code).icqa if measure_dict.get(spawn_point.station.code) else 1
+            current_icqa = measure_dict.get(spawn_point.station.code).icqa \
+                if measure_dict.get(spawn_point.station.code) else 1
             if apparition_by_icqa >= current_icqa:
                 # Generate the rarity
                 random_rarity = random.choices(rarities, weights=weights, k=1)[0]

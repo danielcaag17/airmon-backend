@@ -5,4 +5,3 @@ class Language(models.TextChoices):
     CATALA = "Catala"
     ANGLES = "Angles"
     CASTELLA = "Castella"
-

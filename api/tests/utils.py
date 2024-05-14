@@ -43,5 +43,6 @@ def create_pollutant(name, measure_unit, recommended_limit):
 def create_station(code, name, location):
     return Station.objects.create(code=code, name=name, location=location)
 
+
 def get_timezone():
     return pytz.timezone("Europe/Madrid")

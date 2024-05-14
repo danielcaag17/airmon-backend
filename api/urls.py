@@ -12,7 +12,6 @@ router.register(r'airmons', views.AirmonsViewSet)
 router.register(r'images', views.PlayerImageViewSet, basename="images")
 
 
-
 router.APIRootView.authentication_classes = [TokenAuthentication]
 router.APIRootView.permission_classes = [IsAuthenticated]
 
