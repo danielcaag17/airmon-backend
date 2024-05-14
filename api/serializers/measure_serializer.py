@@ -36,7 +36,7 @@ class MeasureSerializer(serializers.ModelSerializer):
         nom_pollutant = self.calcularICQA(pollutants, "nom")
         return nom_pollutant
 
-    def calcularICQA(self, pollutants, type):
+    def calcularICQA(self, pollutants, type):  # noqa C901
         val_max = 0
         val_color = 0
         nom_pollutant = ""

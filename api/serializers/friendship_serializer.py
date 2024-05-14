@@ -15,4 +15,3 @@ class FriendshipSerializer(serializers.ModelSerializer):
             return obj.user2.username
         else:
             return obj.user1.username
-

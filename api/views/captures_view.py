@@ -28,4 +28,3 @@ class PlayerCaptureViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         username = self.kwargs['username']
         return Capture.objects.filter(airmon__capture__username=username)
-

@@ -7,4 +7,3 @@ class CaptureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Capture
         fields = ['id', 'username', 'airmon', 'date', 'attempts']
-

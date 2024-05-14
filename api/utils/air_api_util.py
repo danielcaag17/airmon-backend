@@ -1,4 +1,3 @@
-import json
 from datetime import datetime, timedelta
 from django.apps import apps
 from decimal import Decimal, ROUND_DOWN

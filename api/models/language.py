@@ -5,4 +5,3 @@ class Language(Enum):
     CATALA = "Catala"
     ANGLES = "Angles"
     CASTELLA = "Castella"
-

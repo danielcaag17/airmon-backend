@@ -8,7 +8,3 @@ class Item (models.Model):
     rarity = models.CharField(max_length=32, choices=[(tag, tag.value) for tag in RarityType])
     price = models.DecimalField(decimal_places=2, max_digits=7)
     description = models.TextField()
-
-
-
-

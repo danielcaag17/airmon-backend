@@ -13,8 +13,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class FriendshipViewSet(viewsets.ViewSet):
     def get_id(self, username):
         user = User.objects.get(username=username)
@@ -27,4 +27,4 @@ class FriendshipViewSet(viewsets.ViewSet):
             serializer = FriendshipSerializer(friendship, many=True, context={'username': username})
             return Response(serializer.data)
         except User.DoesNotExist:
-            return Response(None)
+            return Response(status=status.HTTP_404_NOT_FOUND)

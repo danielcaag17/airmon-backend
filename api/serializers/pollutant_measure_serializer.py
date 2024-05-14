@@ -16,4 +16,3 @@ class PollutantMeasureSerializer(serializers.ModelSerializer):
 
     def get_measure_unit(self, obj):
         return obj.pollutant_name.measure_unit
-
