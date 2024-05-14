@@ -1,3 +1,7 @@
+from datetime import datetime
+import pytz
+from django.core.exceptions import ValidationError
+
 from django.db import models
 
 from .airmon import Airmon
@@ -15,3 +19,12 @@ class Capture (models.Model):
     # Clau primaria User+Data o User+Airmon
     class Meta:
         unique_together = ('airmon', 'username', 'date')
+
+    def save(self, *args, **kwargs):
+        timezone = pytz.timezone("Europe/Madrid")
+        if self.date > datetime.now(timezone):
+            raise ValueError("The date cannot be in the future.")
+        if self.attempts < 0:
+            raise ValidationError("The number of attempts must be a positive number.")
+        else:
+            super().save(*args, **kwargs)

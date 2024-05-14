@@ -1,7 +1,7 @@
-from enum import Enum
+from django.db import models
 
 
-class AirmonType(Enum):
+class AirmonType(models.TextChoices):
     LOREM = "Lorem"
     IPSUM = "Ipsum"
     DOLOR = "Dolor"

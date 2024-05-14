@@ -16,3 +16,5 @@ from .airmon_on_map import AirmonOnMap
 from .friendship import Friendship
 from .player import PlayerImages
 from .chat import Chat, ChatMessage
+from .spawn_point import SpawnPoint
+from .spawned_airmon import SpawnedAirmon
