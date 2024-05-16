@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.files.storage import default_storage
+from django.contrib.auth.hashers import make_password
 
 from ..models import Player
 from ..serializers import UserSerializer
@@ -53,7 +54,7 @@ class EditUserViewSet(viewsets.ViewSet):
             player = Player.objects.get(user=user)
 
             if data['password'] != "":
-                user.password = data['password']
+                user.password = make_password(data['password'])
             user.save()
 
             if data['language'] != "":
@@ -66,4 +67,3 @@ class EditUserViewSet(viewsets.ViewSet):
             return Response(status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({'message': 'user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-
