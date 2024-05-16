@@ -35,6 +35,9 @@ def update_event_data():
                         geohash=geohash,
                         espai=element["espai"]
                     )
+            else:
+                if event_exists(element["codi"]):
+                    Event.objects.filter(codi=element["codi"]).delte()
     else:
         print("error al fer la crida al servei extern:", response.status_code)
 
