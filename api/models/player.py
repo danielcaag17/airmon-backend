@@ -12,7 +12,7 @@ class Player(models.Model):
     language = models.CharField(max_length=16, choices=Language.choices, default=Language.CATALA)
     xp_points = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
-    avatar = models.ImageField(null=True, upload_to='avatars/')
+    avatar = models.ImageField(default=None, null=True, upload_to='avatars/')
 
     def save(self, *args, **kwargs):
         if self.language not in [choice[0] for choice in Language.choices]:
