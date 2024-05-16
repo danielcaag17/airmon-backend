@@ -60,7 +60,7 @@ class EditUserViewSet(viewsets.ViewSet):
             if data['language'] != "":
                 player.language = data['language']
             if avatar is not None:
-                avatar_name = default_storage.save('avatar/' + avatar.name, avatar)
+                avatar_name = default_storage.save('avatars/' + avatar.name, avatar)
                 player.avatar = default_storage.url(avatar_name)
             player.save()
 
