@@ -33,4 +33,3 @@ class PlayerViewSet(viewsets.ViewSet):
         except Player.DoesNotExist:
             return Response({"error": f"Player {username} does not exist"},
                             status=status.HTTP_400_BAD_REQUEST)
-

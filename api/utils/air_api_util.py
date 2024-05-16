@@ -1,4 +1,3 @@
-import json
 from datetime import datetime, timedelta
 from django.apps import apps
 from decimal import Decimal, ROUND_DOWN
@@ -120,7 +119,7 @@ def _get_air_measurement(data):
     return measure
 
 
-def calcular_icqa(pollutant):
+def calcular_icqa(pollutant):  # noqa C901
     val_max = 0
     val_color = 0
     nom_pollutant = ""

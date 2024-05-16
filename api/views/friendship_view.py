@@ -59,7 +59,6 @@ class FriendshipViewSet(viewsets.ViewSet):
             return Response({'message', 'the friendship already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
-        data = request.data
         user = request.user
         user1 = self.get_id(user.username)
 
