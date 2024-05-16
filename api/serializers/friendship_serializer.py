@@ -14,7 +14,7 @@ class FriendshipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friendship
-        fields = ['username', 'chat_id', 'date', 'avatar', 'images']
+        fields = ['username', 'chat_id', 'date', 'avatar']
 
     def get_username(self, obj):
         if obj.user1.username == self.context['username']:
@@ -31,10 +31,3 @@ class FriendshipSerializer(serializers.ModelSerializer):
         user = User.objects.get(username=username)
         player = Player.objects.get(user=user)
         return player.avatar
-
-    def get_images(self, obj):
-        username = self.get_username(obj)
-        user = User.objects.get(username=username)
-        player = PlayerImages.objects.get(user=user)
-        return player.image
-
