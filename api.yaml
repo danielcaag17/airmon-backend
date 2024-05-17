@@ -90,23 +90,124 @@ paths:
     get:
       tags:
         - User
-      summary: Descripcio
+      summary: Obtenir tots els usuaris que comencen per la key.
+      description: Retorna tots els usernames dels usuaris tals que el seu username comenci per la paraula key introduida.
+      parameters:
+        - name: key
+          in: path
+          description: Buscar usuaris que comencin per key
+          required: true
+          schema:
+            type: string
       responses:
         200:
-          description: Airmons # TODO: descripcio
-        # TODO: la resta
+          description: Informació obtinguda correctament
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      description: Nom del User
+                  example:
+                    username: "user123"
       security:
         - ApiKeyAuth: [ ]
 
   /friendship/:
+    delete:
+      tags:
+        - User
+      summary: Eliminar una Friendship.
+      description: S’elimina l’amistat entre l’user indicat i l’user autenticat. A més s’elimina el seu chat.
+      requestBody:
+        description: Indicar el username de la Friendship que es vol eliminar.
+        content:
+          application/json:
+            schema:
+              required:
+                - User
+              type: object
+              properties:
+                user:
+                  type: string
+                  example: 'user24'
+        required: true
+      responses:
+        200:
+          description: Friendship eliminada correctament
+        400:
+          description: "Error: Bad Request"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "user not provided"
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "friendship does not exist"
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "chat does not exist"
+      security:
+        - ApiKeyAuth: [ ]
     get:
       tags:
         - User
-      summary: Descripcio
+      summary: Obtenir els amics del User que fa la petició.
+      description: Retorna tots els amics que té l’usuari que es passa amb l'autenticació indicada. Per cada amic es retorna el username, la data de creació de l’amistat i la id del chat.
       responses:
         200:
-          description: Airmons # TODO: descripcio
-        # TODO: la resta
+          description: Informació obtinguda correctament
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friendship'
+      security:
+        - ApiKeyAuth: [ ]
+    post:
+      tags:
+        - User
+      summary: Crear una amistat.
+      description: Crear una amistat entre el User indicat i el User autenticat. A més es crea el seu chat.
+      responses:
+        200:
+          description: Informació obtinguda correctament
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chat_id:
+                    type: integer
+                    example: 1
+        400:
+          description: "Error: Bad Request"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "user does not exist"
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "the friendship already exists"
       security:
         - ApiKeyAuth: [ ]
 
@@ -260,6 +361,23 @@ components:
         - Ipsum
         - Dolor
 
+    Friendship:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Nom d'un dels dos Users de la Friendship
+          example: "user24"
+        chat_id:
+          type: integer
+          description: Id del Chat de la Friendship
+          example: 1
+        date:
+          type: string
+          format: date-time
+          description: Data que es va crear la Friendship
+          example: "2024-03-29T00:00:00Z"
+
     Language:
       type: string
       description: Llenguatge del Player
@@ -267,6 +385,31 @@ components:
         - "Catala"
         - "Angles"
         - "Castella"
+
+    Measure:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Data de la Measure
+          example: "2024-03-29T"
+        hour:
+          type: string
+          description: Hora de la Measure
+          example: "00:00:00Z"
+        icqa:
+          type: integer
+          description: Nivell de la qualitat de l'aire
+          example: 2
+        nom_pollutant:
+          type: string
+          description: Nom del contaminant que marca l'icqa
+          example: "CO2"
+        pollutants:
+          type: array
+          description: Pollutants de la Measure
+          items:
+            $ref: '#/components/schemas/Pollutant'
 
     Player:
       type: object
@@ -293,6 +436,20 @@ components:
           type: string
           description: Contrasenya del User codificada
           example: "b6eb16471f535636a4c4897ba6559384e9e80bf7"
+
+    Pollutant:
+      type: object
+      properties:
+        pollutant_name:
+          type: string
+          description: Nom del Pollutant
+          example: "CO2"
+        measure_unit:
+          $ref: '#/components/schemas/UnitType'
+        quantity:
+          type: number
+          description: Quantitat mesurada del Pollutant
+          example: 12.5
 
     Rarity:
       type: string
@@ -346,7 +503,17 @@ components:
           description: Latitud de la Station
           example: 41.386392
         measure:
-          $ref: '#/components/schemas/Language'
+          type: array
+          description: Measures de la Station
+          items:
+            $ref: '#/components/schemas/Measure'
+
+    UnitType:
+      type: string
+      description: Tipus d'unitat
+      enum:
+        - Micrograms/m3
+        - Miligrams/m3
 
 
     # TODO: la resta
