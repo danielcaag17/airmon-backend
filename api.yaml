@@ -1,0 +1,359 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: API Airmon
+  description: "Aquesta es la documentació de la API REST de l'aplicació Airmon."
+servers:
+  - url: 'http://127.0.0.1:8000/api'
+  - url: 'http://51.21.149.211//api'
+tags:
+  - name: Airmon
+    description: Tot sobre Airmons
+  - name: User
+    description: Tot sobre Users
+  - name: Station
+    description: Tot sobre Stations
+paths:
+  /airmons/:
+    get:
+      tags:
+        - Airmon
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons obtinguts correctament
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /get-airmon-map/:
+    get:
+      tags:
+        - Airmon
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /spawned_airmons/:
+    get:
+      tags:
+        - Airmon
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /chat/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /chat/{chat_id}/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /edit-user/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /find-user/{key}/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /friendship/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /get-user/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /login/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /player/{username}/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /players/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /posts/{username}/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /register/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /icqa/:
+    get:
+      tags:
+        - Station
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /map/:
+    get:
+      tags:
+        - Station
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /station/{code}/:
+    get:
+      tags:
+        - Station
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /stations/:
+    get:
+      tags:
+        - Station
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+components:
+  schemas:
+    Airmon:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nom del Airmon
+          example: "Nitrox"
+        description:
+          type: string
+          description: Descripció del Airmon
+          example: "This is an example of a description"
+        rarity:
+          $ref: '#/components/schemas/Rarity'
+        type:
+          $ref: '#/components/schemas/AirmonType'
+        image:
+          type: string
+          description: Url de la imatge del Airmon
+          example: "https://airmon.s3.amazonaws.com/image"
+
+    AirmonType:
+      type: string
+      description: Tipus del Airmon
+      enum:
+        - Lorem
+        - Ipsum
+        - Dolor
+
+    Language:
+      type: string
+      description: Llenguatge del Player
+      enum:
+        - "Catala"
+        - "Angles"
+        - "Castella"
+
+    Player:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username del Player
+          example: "user123"
+        language:
+          $ref: '#/components/schemas/Language'
+        xp_points:
+          type: integer
+          description: Punts d'experiència del Player
+          example: 123
+        coins:
+          type: integer
+          description: Monedes del Player
+          example: 10
+        avatar:
+          type: string
+          description: Url de la imatge del Player
+          example: "https://airmon.s3.amazonaws.com/avatar"
+        password: # TODO: correcte password si es atribut de user??, es el que esta al serializer
+          type: string
+          description: Contrasenya del User codificada
+          example: "b6eb16471f535636a4c4897ba6559384e9e80bf7"
+
+    Rarity:
+      type: string
+      description: Raresa del Airmon
+      enum:
+        - Llegendari
+        - Epic
+        - Curios
+        - Especial
+        - Comu
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id del User
+          example: 12
+        username:
+          type: string
+          description: Username del User
+          example: "user123"
+        email:
+          type: string
+          description: Email del User
+          example: "user123@gmail.com"
+        password:
+          type: string
+          description: Contrasenya del User codificada
+          example: "b6eb16471f535636a4c4897ba6559384e9e80bf7"
+
+    Station:
+      type: object
+      properties:
+        code_station:
+          type: integer
+          description: Codi únic de la Station
+          example: 08019057
+        name:
+          type: string
+          description: Nom de la Station
+          example: "Barcelona (Palau Reial)"
+        longitude:
+          type: number
+          format: double
+          description: Longitud de la Station
+          example: 2.116504
+        latitude:
+          type: number
+          format: double
+          description: Latitud de la Station
+          example: 41.386392
+        measure:
+          $ref: '#/components/schemas/Language'
+
+
+    # TODO: la resta
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+
