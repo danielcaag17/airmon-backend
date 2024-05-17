@@ -27,7 +27,7 @@ class FriendshipViewSet(viewsets.ViewSet):
 
     def retrieve(self, request):
         try:
-            username = request.query_params.get('username')
+            username = request.data['user']
             if username is None:
                 user_id = request.user.id
                 username = request.user.username
@@ -62,7 +62,7 @@ class FriendshipViewSet(viewsets.ViewSet):
         user = request.user
         user1 = self.get_id(user.username)
 
-        username = request.query_params.get('user')
+        username = request.data['user']
 
         if username is None:
             return Response({'message': 'user not provided'}, status=status.HTTP_400_BAD_REQUEST)
