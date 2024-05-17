@@ -27,12 +27,8 @@ class FriendshipViewSet(viewsets.ViewSet):
 
     def retrieve(self, request):
         try:
-            username = request.data['user']
-            if username is None:
-                user_id = request.user.id
-                username = request.user.username
-            else:
-                user_id = self.get_id(username)
+            user_id = request.user.id
+            username = request.user.username
 
             friendship = Friendship.objects.filter(user1=user_id) | Friendship.objects.filter(user2=user_id)
             serializer = FriendshipSerializer(friendship, many=True, context={'username': username})
