@@ -6,7 +6,7 @@ from .language import Language
 from .location import Location, LocationGeohash
 from .measure import Measure
 from .player import Player, PlayerImages
-from .player_item import PlayerItem
+from .player_item import PlayerItem, PlayerActiveItem
 from .pollutant import Pollutant
 from .pollutant_measure import PollutantMeasure
 from .rarity_type import RarityType

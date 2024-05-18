@@ -11,4 +11,13 @@ class PlayerItem(models.Model):
     quantity = models.PositiveSmallIntegerField()
 
     class Meta:
-        unique_together = ('item_name', 'username')
+        unique_together = ('item_name', 'user')
+
+
+class PlayerActiveItem(models.Model):
+    item_name = models.ForeignKey(Item, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    expiration = models.DateTimeField()
+
+    class Meta:
+        unique_together = ('item_name', 'user')
