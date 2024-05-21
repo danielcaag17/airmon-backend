@@ -9,7 +9,7 @@ class PlayerTrophyModelTest(TestCase):
     def setUp(self):
         self.player_trophy = PlayerTrophy.objects.create(
             username=create_user('test user1'),
-            trophy=create_trophy("test trophy", "Or", 123),
+            trophy=create_trophy("test trophy", "Or", "test description", 3, 123),
             date=datetime.now(get_timezone()),
         )
 
@@ -17,6 +17,8 @@ class PlayerTrophyModelTest(TestCase):
         self.assertEqual(self.player_trophy.username.username, "test user1")
         self.assertEqual(self.player_trophy.trophy.name, "test trophy")
         self.assertEqual(self.player_trophy.trophy.type, "Or")
+        self.assertEqual(self.player_trophy.trophy.description, "test description")
+        self.assertEqual(self.player_trophy.trophy.requirement, 3)
         self.assertEqual(self.player_trophy.trophy.xp, 123)
 
         hora_actual = datetime.now(get_timezone())
@@ -26,7 +28,6 @@ class PlayerTrophyModelTest(TestCase):
         # Validar que la diferencia entre els dos temps es menor que la tolerancia
         self.assertLessEqual(diferencia, tolerancia)
 
-
     def test_player_trophy_destroy(self):
         player_trophies_before = PlayerTrophy.objects.count()  # Nombre de PlayerTrophies que hi ha
         self.player_trophy.delete()
@@ -35,7 +36,8 @@ class PlayerTrophyModelTest(TestCase):
 
     def test_trophy_update(self):
         self.player_trophy.username = create_user('user2')
-        self.player_trophy.trophy = create_trophy("trophy2", "Or", 123)
+        self.player_trophy.trophy = create_trophy("trophy2", "Or", "new description",
+                                                  10, 123)
         self.player_trophy.save()
         self.assertEqual(self.player_trophy.username.username, "user2")
         self.assertEqual(self.player_trophy.trophy.name, "trophy2")
@@ -46,7 +48,7 @@ class PlayerTrophyModelTest(TestCase):
             PlayerTrophy.objects.create(
                 id=self.player_trophy.id,
                 username=create_user('test user2'),
-                trophy=create_trophy("test trophy2", "Or", 123),
+                trophy=create_trophy("test trophy2", "Or", "description invalid", 10, 123),
                 date=datetime.now(get_timezone()),
             )
             self.fail("It should raise an exception, player_trophy invalid1")

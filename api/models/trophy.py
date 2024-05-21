@@ -6,6 +6,7 @@ from .trophy_type import TrophyType
 class Trophy(models.Model):
     name = models.CharField(max_length=32)
     type = models.CharField(max_length=32, choices=TrophyType.choices, default=TrophyType.BRONZE)
+    # Pot ser una descripció o pot ser descripció del requisit (Obté requirement Airmons)
     description = models.TextField(default=None)
     # Requisit per obtenir el trofeu
     requirement = models.PositiveIntegerField(default=0)
