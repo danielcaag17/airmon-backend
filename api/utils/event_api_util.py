@@ -19,27 +19,38 @@ def update_event_data():
     if response.status_code == 200:
         # Obtenir los dades de la resposta en format JSON
         data = response.json()
+        new_events = []
 
         for element in data:
             data_inici = datetime.strptime(element["data_inici"], "%Y-%m-%dT%H:%M:%S.%f").date()
             data_fi = datetime.strptime(element["data_fi"], "%Y-%m-%dT%H:%M:%S.%f").date()
             exists = event_exists(element["codi"])
-            is_valid = is_valid(data_inici, data_fi)
-            # Events que estan actius a dia d'avui
-            if is_valid and not exists:
+            valid = is_valid(data_inici, data_fi)
+            # Esdeveniments que estan actius el dia d'avui
+            if valid and not exists:
                 geohash = get_geohash(element)
-                Event.objects.create(
-                    codi=element["codi"],
-                    denominacio=element["denominaci"],
-                    data_ini=data_inici,
-                    data_fi=data_fi,
-                    geohash=geohash,
-                    espai=element["espai"]
+                new_events.append(
+                    Event(
+                        codi=element["codi"],
+                        denominacio=element["denominaci"],
+                        data_ini=data_inici,
+                        data_fi=data_fi,
+                        geohash=geohash,
+                        espai=element["espai"]
+                    )
                 )
-            elif not is_valid and exists:
+            elif not valid and exists:
                 Event.objects.filter(codi=element["codi"]).delte()
+
+        Event.objects.bulk_create(
+            new_events,
+            update_conflicts=True,
+            unique_fields=["codi"],
+            update_fields=["denominacio", "data_ini", "data_fi", "geohash", "espai"],
+        )
+
     else:
-        print("error al fer la crida al servei extern:", response.status_code)
+        raise Exception(f"error al fer la crida al servie extern {response.status_code}")
 
 
 def is_valid(data_inici, data_fi):
