@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import Item, PlayerItem
+from ..models import Item, PlayerItem, PlayerActiveItem
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -10,14 +10,14 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class PlayerItemSerializer(serializers.ModelSerializer):
-    model = PlayerItem
-
     class Meta:
+        model = PlayerItem
         fields = ['item_name', 'quantity']
 
 
 class PlayerActiveItemSerializer(serializers.ModelSerializer):
-    model = PlayerItem
 
     class Meta:
+        model = PlayerActiveItem
         fields = ['item_name', 'expiration']
+        read_only_fields = ['expiration']
