@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import viewsets, status
@@ -66,7 +64,20 @@ class PlayerActiveItemViewSet(viewsets.ModelViewSet):
         item_name = self.request.data.get('item_name')
 
         item = get_object_or_404(Item, pk=item_name)
-        # TODO CHECK DURATION BEING NULL FOR SOME REASON
-        expiration = datetime.combine(timezone.now(), item.duration)
+        duration = item.duration
+
+        active_items = item_util.get_active_items(self.request.user.id)
+
+        searched = active_items.filter(item_name=item_name)
+        if searched.exists():
+            active_item = searched.first()
+            active_item.expiration += timezone.timedelta(hours=duration.hour, minutes=duration.minute,
+                                                         seconds=duration.second)
+            active_item.save()
+            serializer.validated_data['expiration'] = active_item.expiration
+            return
+
+        expiration = timezone.now() + timezone.timedelta(hours=duration.hour, minutes=duration.minute,
+                                                         seconds=duration.second)
 
         serializer.save(user=self.request.user, expiration=expiration)
