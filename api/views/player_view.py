@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, status
 from ..models import Player
 from rest_framework.response import Response
-from rest_framework import status
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
