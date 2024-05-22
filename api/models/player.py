@@ -32,7 +32,6 @@ class Player(models.Model):
     X airmons diferents
 
     consumibles usats??
-    
     #compres realitzades
     '''
 
