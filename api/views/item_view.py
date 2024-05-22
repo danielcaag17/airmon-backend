@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.response import Response
 
-from ..models import Item, PlayerItem, PlayerActiveItem
+from ..models import Item, PlayerItem
 from ..serializers import ItemSerializer, PlayerItemSerializer, PlayerActiveItemSerializer
 from ..utils import item_util
 
