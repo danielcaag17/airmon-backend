@@ -9,13 +9,13 @@ from ..models import PlayerTrophy
 class PlayerTrophyModelTest(TestCase):
     def setUp(self):
         self.player_trophy = PlayerTrophy.objects.create(
-            username=create_user('test user1'),
+            user=create_user('test user1'),
             trophy=create_trophy("test trophy", "Or", 123),
             date=datetime.now(get_timezone()),
         )
 
     def test_player_trophy_creation(self):
-        self.assertEqual(self.player_trophy.username.username, "test user1")
+        self.assertEqual(self.player_trophy.user.username, "test user1")
         self.assertEqual(self.player_trophy.trophy.name, "test trophy")
         self.assertEqual(self.player_trophy.trophy.type, "Or")
         self.assertEqual(self.player_trophy.trophy.xp, 123)
@@ -35,10 +35,10 @@ class PlayerTrophyModelTest(TestCase):
         self.assertEqual(player_trophies_after, player_trophies_before - 1)
 
     def test_trophy_update(self):
-        self.player_trophy.username = create_user('user2')
+        self.player_trophy.user = create_user('user2')
         self.player_trophy.trophy = create_trophy("trophy2", "Or", 123)
         self.player_trophy.save()
-        self.assertEqual(self.player_trophy.username.username, "user2")
+        self.assertEqual(self.player_trophy.user.username, "user2")
         self.assertEqual(self.player_trophy.trophy.name, "trophy2")
 
     # Crear PlayerTrophy que violi la PK
@@ -46,7 +46,7 @@ class PlayerTrophyModelTest(TestCase):
         try:
             PlayerTrophy.objects.create(
                 id=self.player_trophy.id,
-                username=create_user('test user2'),
+                user=create_user('test user2'),
                 trophy=create_trophy("test trophy2", "Or", 123),
                 date=datetime.now(get_timezone()),
             )
@@ -59,21 +59,21 @@ class PlayerTrophyModelTest(TestCase):
     def test_player_trophy_invalid2(self):
         try:
             PlayerTrophy.objects.create(
-                username=self.player_trophy.username,
+                user=self.player_trophy.user,
                 trophy=self.player_trophy.trophy,
                 date=datetime.now(get_timezone()),
             )
             self.fail("It should raise an exception, player_trophy invalid2")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
-            self.assertIn("UNIQUE constraint failed: api_playertrophy.username_id, api_playertrophy.trophy_id",
+            self.assertIn("UNIQUE constraint failed: api_playertrophy.user_id, api_playertrophy.trophy_id",
                           str(e))
 
     # Crear PlayerTrophy amb trophy NULL
     def test_player_trophy_invalid3(self):
         try:
             PlayerTrophy.objects.create(
-                username=create_user('test user2'),
+                user=create_user('test user2'),
                 trophy=None,
                 date=datetime.now(get_timezone()),
             )
