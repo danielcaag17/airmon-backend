@@ -36,6 +36,8 @@ class PlayerViewSet(viewsets.ViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
 
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class RouletteView(viewsets.ViewSet):
 
     def create(self, request, *args, **kwargs):
