@@ -45,10 +45,11 @@ class RouletteView(viewsets.ViewSet):
 
         date = timezone.now().date()
         player.last_roulette_spin = date
+        player.save()
 
-        return Response({'last_spin': date}, status=status.HTTP_200_OK)
+        return Response({'last_spin': date.strftime("%d-%m-%Y")}, status=status.HTTP_200_OK)
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request):
         player = get_object_or_404(Player, user=request.user)
 
-        return Response({'last_spin': player.last_roulette_spin}, status=status.HTTP_200_OK)
+        return Response({'last_spin': player.last_roulette_spin.strftime("%d-%m-%Y")}, status=status.HTTP_200_OK)
