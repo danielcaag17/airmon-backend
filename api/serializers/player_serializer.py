@@ -11,6 +11,7 @@ class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = ['username', 'language', 'xp_points', 'coins', 'avatar', 'password']
+        # TODO: correcte password si es atribut de user??
 
     def get_username(self, obj):
         return obj.user.username

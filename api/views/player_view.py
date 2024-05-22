@@ -16,11 +16,13 @@ from rest_framework.permissions import IsAuthenticated
 @permission_classes([IsAuthenticated])
 class PlayerViewSet(viewsets.ViewSet):
     def list(self, request):
+        # TODO: canviar la info a publica
         players = Player.objects.all()
         serializer = PlayerSerializer(players, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, username=None):
+        # TODO: fer-ho be el public i el privat, vigilar amb quin username es fa el if
         try:
             username = request.user.username
             user = User.objects.get(username=username)
