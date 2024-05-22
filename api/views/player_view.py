@@ -17,15 +17,15 @@ from rest_framework.permissions import IsAuthenticated
 class PlayerViewSet(viewsets.ViewSet):
     def list(self, request):
         players = Player.objects.all()
-        serializer = PlayerSerializer(players, many=True)
+        serializer = PlayerPublicSerializer(players, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, username=None):
         try:
-            username = request.user.username
+            auth_user = request.user.username
             user = User.objects.get(username=username)
             player = Player.objects.get(user=user.id)
-            if username == user.username:   # Privat
+            if auth_user.id == user.id:   # Privat
                 serializer = PlayerSerializer(player)
             else:   # Public
                 serializer = PlayerPublicSerializer(player)
