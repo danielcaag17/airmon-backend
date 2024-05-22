@@ -22,7 +22,7 @@ class PlayerViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, username=None):
         try:
-            auth_user = request.user.username
+            auth_user = request.user
             user = User.objects.get(username=username)
             player = Player.objects.get(user=user.id)
             if auth_user.id == user.id:   # Privat
