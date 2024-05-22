@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from datetime import datetime, timedelta
 
 from .utils import *
+from ..models import PlayerTrophy
 
 
 class PlayerTrophyModelTest(TestCase):

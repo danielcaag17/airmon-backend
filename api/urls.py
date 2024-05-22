@@ -10,6 +10,10 @@ router.register(r'captures', views.CaptureViewSet)
 router.register(r'player/(?P<username>\w+)/captures', views.PlayerCaptureViewSet, basename="player-captures")
 router.register(r'airmons', views.AirmonsViewSet)
 router.register(r'images', views.PlayerImageViewSet, basename="images")
+router.register(r'items', views.ItemViewSet, basename="items")
+
+router.register(r'player/items', views.PlayerItemViewSet, basename="player-items")
+router.register(r'player/active-items', views.PlayerActiveItemViewSet, basename="active-items")
 
 
 router.APIRootView.authentication_classes = [TokenAuthentication]
@@ -33,6 +37,7 @@ urlpatterns = [
     path("friendship/", views.FriendshipViewSet.as_view({'post': 'create', 'get': 'retrieve', 'delete': 'delete'}),
          name="friendship"),
     path('player/<str:username>/', views.PlayerViewSet.as_view({'get': 'retrieve'}), name="player"),
+    path('player/roulette', views.RouletteView.as_view({'post': 'create', 'get': 'retrieve'}), name='roulette'),
     path('players/', views.PlayerViewSet.as_view({'get': 'list'}), name="players"),
     path("edit-user/", views.EditUserViewSet.as_view({'post': 'update'}), name="edit-profile"),
     path('trophy/<str:name>/', views.TrophyViewSet.as_view({'get': 'retrieve'}), name="throphy"),
