@@ -8,3 +8,4 @@ from .message_serializer import MessageSerializer
 from .player_serializer import PlayerSerializer, PlayerPublicSerializer, PlayerImagesSerializer
 from .player_trophy_serializer import PlayerTrophySerializer
 from .trophy_serializer import TrophySerializer
+from .item_serializer import ItemSerializer, PlayerItemSerializer, PlayerActiveItemSerializer

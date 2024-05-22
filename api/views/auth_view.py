@@ -38,7 +38,7 @@ def register(request):
         user = serializer.save()
         token = Token.objects.create(user=user)
 
-        player = Player.objects.create(user=user)
+        player = Player.objects.create(user=user, avatar=None)
         player.save()
 
         return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_201_CREATED)
