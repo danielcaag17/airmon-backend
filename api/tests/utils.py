@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 import pytz
 
-from ..models import *
+from ..models import Airmon, Capture, Chat, Item, Location, LocationGeohash, Measure, Pollutant, Station, Trophy
 
 
 def create_user(username):
