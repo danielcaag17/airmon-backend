@@ -14,6 +14,31 @@ class Player(models.Model):
     coins = models.PositiveSmallIntegerField(default=0)
     avatar = models.ImageField(null=True, upload_to='avatars/')
 
+    # Estadístiques que s'han d'actualitzar cada cop
+    n_airmons_capturats = models.PositiveSmallIntegerField(default=0)
+
+    airmons_alliberats = models.PositiveSmallIntegerField(default=0)
+
+    n_tirades_ruleta = models.PositiveSmallIntegerField(default=0)
+    total_coins = models.PositiveSmallIntegerField(default=0)
+    total_airmons_comu = models.PositiveSmallIntegerField(default=0)
+    total_airmons_especial = models.PositiveSmallIntegerField(default=0)
+    total_airmons_curios = models.PositiveSmallIntegerField(default=0)
+    total_airmons_epic = models.PositiveSmallIntegerField(default=0)
+    total_airmons_llegendari = models.PositiveSmallIntegerField(default=0)
+    total_compres = models.PositiveSmallIntegerField(default=0)
+
+    '''
+    X airmons diferents
+
+    consumibles usats??
+    
+    #compres realitzades
+    '''
+
+    # Estadistiques que es poden calcular
+    # ...
+
     def save(self, *args, **kwargs):
         if self.language not in [choice[0] for choice in Language.choices]:
             raise ValueError("Invalid language value.")
@@ -28,21 +53,3 @@ class PlayerImages(models.Model):
 
     class Meta:
         unique_together = ['user', 'date']
-
-    '''
-    Airmons capturats
-    X airmons diferents
-    
-    airmons alliberats
-    consumibles usats??
-    tirades ruleta
-    Monedes històriques
-    #airmons comu capturats
-    #airmons especial capturats
-    #airmons curios capturats
-    #airmons epic capturats
-    #airmons llegendari capturats
-    #compres realitzades
-    #monedes guanyades
-    
-    '''
