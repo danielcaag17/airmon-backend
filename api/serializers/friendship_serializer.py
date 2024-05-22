@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from ..models import Friendship
 from ..models import Chat
-from ..models import Player, PlayerImages
+from ..models import Player
 
 
 class FriendshipSerializer(serializers.ModelSerializer):
