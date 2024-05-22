@@ -28,3 +28,21 @@ class PlayerImages(models.Model):
 
     class Meta:
         unique_together = ['user', 'date']
+
+    '''
+    Airmons capturats
+    X airmons diferents
+    
+    airmons alliberats
+    consumibles usats??
+    tirades ruleta
+    Monedes històriques
+    #airmons comu capturats
+    #airmons especial capturats
+    #airmons curios capturats
+    #airmons epic capturats
+    #airmons llegendari capturats
+    #compres realitzades
+    #monedes guanyades
+    
+    '''
