@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 import pytz
 
-from ..models import Airmon, Capture, Chat, Item, Pollutant, Measure, Station, Location, LocationGeohash
+from ..models import *
 
 
 def create_user(username):
@@ -42,6 +42,10 @@ def create_pollutant(name, measure_unit, recommended_limit):
 
 def create_station(code, name, location):
     return Station.objects.create(code=code, name=name, location=location)
+
+
+def create_trophy(name, tipus, xp):
+    return Trophy.objects.create(name=name, type=tipus, xp=xp)
 
 
 def get_timezone():
