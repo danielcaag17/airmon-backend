@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 import pytz
 
-from ..models import *
+from ..models import Airmon, Capture, Chat, Item, Location, LocationGeohash, Measure, Pollutant, Station, Trophy
 
 
 def create_user(username):
@@ -20,8 +20,8 @@ def create_chat(user1, user2):
     return Chat.objects.create(user1=create_user(user1), user2=create_user(user2))
 
 
-def create_item(name, rarity, price, description):
-    return Item.objects.create(name=name, rarity=rarity, price=price, description=description)
+def create_item(name, price, description, duration):
+    return Item.objects.create(name=name, price=price, description=description, duration=duration)
 
 
 def create_location(lng, lat):
