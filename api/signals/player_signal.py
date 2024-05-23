@@ -22,7 +22,10 @@ def user_created(sender, instance, created, **kwargs):
 def player_old_values(sender, instance, **kwargs):
     if instance.pk:
         old_instance = Player.objects.get(pk=instance.pk)
-        old_values_cache[instance.pk] = old_instance.coins
+        old_values_cache[instance.pk] = {
+            "coins": old_instance.coins,
+            "roulette": old_instance.last_roulette_spin
+        }
 
 
 @receiver(post_save, sender=Player)
@@ -30,15 +33,21 @@ def player_updated(sender, instance, created, **kwargs):
     if created:
         pass
     else:
-        old_coins = old_values_cache.get(instance.pk)
+        old_instance = old_values_cache.get(instance.pk)
+        old_coins = old_instance.get("coins")
         new_coins = instance.coins
-
-        # Player ha obtingut monedas
-        if old_coins is not None and old_coins < new_coins:
-            # Sumar la diferència de monedes que ha guanyat
-            instance.total_coins += new_coins - old_coins
-            # Evitar bucle infinit
-            instance.save(update_fields=['total_coins'])
+        old_roulette = old_instance.get("roulette")
+        new_roulette = instance.last_roulette_spin
+        if old_coins != new_coins:
+            # Player ha obtingut monedas
+            if old_coins is not None and old_coins < new_coins:
+                # Sumar la diferència de monedes que ha guanyat
+                instance.total_coins += new_coins - old_coins
+                instance.save(update_fields=['total_coins'])
+        if old_roulette != new_roulette:
+            instance.n_tirades_ruleta += 1
+            instance.save(update_fields=['n_tirades_ruleta'])
+        old_values_cache.pop(instance.pk, None)
 
 
 @receiver(pre_save, sender=PlayerItem)
@@ -63,6 +72,8 @@ def player_item_created(sender, instance, created, **kwargs):
             player = Player.objects.get(user__username=instance.user)
             player.total_compres += new_quantity - old_quantity
             player.save(update_fields=['total_compres'])
+
+        old_values_cache.pop(instance.pk, None)
 
 
 @receiver(post_save, sender=PlayerActiveItem)
