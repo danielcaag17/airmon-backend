@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.response import Response
 
-from ..models import Item, PlayerItem
+from ..models import Item, PlayerItem, Player
 from ..serializers import ItemSerializer, PlayerItemSerializer, PlayerActiveItemSerializer
 from ..utils import item_util
 
@@ -27,12 +27,23 @@ class PlayerItemViewSet(viewsets.ModelViewSet):
         return PlayerItem.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        item = self.request.data.get('item_name')
+        item_name = self.request.data.get('item_name')
+        quantity = int(self.request.data.get('quantity'))
+
+        item = get_object_or_404(Item, pk=item_name)
+        player = get_object_or_404(Player, user=self.request.user)
+
+        if player.coins < item.price * quantity:
+            return Response({"error": "You don't have enough coins"}, status=status.HTTP_400_BAD_REQUEST)
+
+        player.coins -= item.price * quantity
+        player.save()
+
         try:
-            item = PlayerItem.objects.get(user=self.request.user, item_name=item)
-            quantity = self.request.data.get('quantity')
-            item.quantity += int(quantity)
-            item.save()
+            player_item = PlayerItem.objects.get(user=self.request.user, item_name=item_name)
+            player_item.quantity += quantity
+            player_item.save()
+            serializer.validated_data['quantity'] = player_item.quantity
         except PlayerItem.DoesNotExist:
             serializer.save(user=self.request.user)
 

@@ -1,0 +1,526 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: API Airmon
+  description: "Aquesta es la documentació de la API REST de l'aplicació Airmon."
+servers:
+  - url: 'http://127.0.0.1:8000/api'
+  - url: 'http://51.21.149.211//api'
+tags:
+  - name: Airmon
+    description: Tot sobre Airmons
+  - name: User
+    description: Tot sobre Users
+  - name: Station
+    description: Tot sobre Stations
+paths:
+  /airmons/:
+    get:
+      tags:
+        - Airmon
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons obtinguts correctament
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /get-airmon-map/:
+    get:
+      tags:
+        - Airmon
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /spawned_airmons/:
+    get:
+      tags:
+        - Airmon
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /chat/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /chat/{chat_id}/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /edit-user/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /find-user/{key}/:
+    get:
+      tags:
+        - User
+      summary: Obtenir tots els usuaris que comencen per la key.
+      description: Retorna tots els usernames dels usuaris tals que el seu username comenci per la paraula key introduida.
+      parameters:
+        - name: key
+          in: path
+          description: Buscar usuaris que comencin per key
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Informació obtinguda correctament
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      description: Nom del User
+                  example:
+                    username: "user123"
+      security:
+        - ApiKeyAuth: [ ]
+
+  /friendship/:
+    delete:
+      tags:
+        - User
+      summary: Eliminar una Friendship.
+      description: S’elimina l’amistat entre l’user indicat i l’user autenticat. A més s’elimina el seu chat.
+      requestBody:
+        description: Indicar el username de la Friendship que es vol eliminar.
+        content:
+          application/json:
+            schema:
+              required:
+                - User
+              type: object
+              properties:
+                user:
+                  type: string
+                  example: 'user24'
+        required: true
+      responses:
+        200:
+          description: Friendship eliminada correctament
+        400:
+          description: "Error: Bad Request"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "user not provided"
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "friendship does not exist"
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "chat does not exist"
+      security:
+        - ApiKeyAuth: [ ]
+    get:
+      tags:
+        - User
+      summary: Obtenir els amics del User que fa la petició.
+      description: Retorna tots els amics que té l’usuari que es passa amb l'autenticació indicada. Per cada amic es retorna el username, la data de creació de l’amistat i la id del chat.
+      responses:
+        200:
+          description: Informació obtinguda correctament
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friendship'
+      security:
+        - ApiKeyAuth: [ ]
+    post:
+      tags:
+        - User
+      summary: Crear una amistat.
+      description: Crear una amistat entre el User indicat i el User autenticat. A més es crea el seu chat.
+      responses:
+        200:
+          description: Informació obtinguda correctament
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chat_id:
+                    type: integer
+                    example: 1
+        400:
+          description: "Error: Bad Request"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "user does not exist"
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "the friendship already exists"
+      security:
+        - ApiKeyAuth: [ ]
+
+  /get-user/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /login/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /player/{username}/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /players/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /posts/{username}/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /register/:
+    get:
+      tags:
+        - User
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /icqa/:
+    get:
+      tags:
+        - Station
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /map/:
+    get:
+      tags:
+        - Station
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /station/{code}/:
+    get:
+      tags:
+        - Station
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+  /stations/:
+    get:
+      tags:
+        - Station
+      summary: Descripcio
+      responses:
+        200:
+          description: Airmons # TODO: descripcio
+        # TODO: la resta
+      security:
+        - ApiKeyAuth: [ ]
+
+components:
+  schemas:
+    Airmon:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nom del Airmon
+          example: "Nitrox"
+        description:
+          type: string
+          description: Descripció del Airmon
+          example: "This is an example of a description"
+        rarity:
+          $ref: '#/components/schemas/Rarity'
+        type:
+          $ref: '#/components/schemas/AirmonType'
+        image:
+          type: string
+          description: Url de la imatge del Airmon
+          example: "https://airmon.s3.amazonaws.com/image"
+
+    AirmonType:
+      type: string
+      description: Tipus del Airmon
+      enum:
+        - Lorem
+        - Ipsum
+        - Dolor
+
+    Friendship:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Nom d'un dels dos Users de la Friendship
+          example: "user24"
+        chat_id:
+          type: integer
+          description: Id del Chat de la Friendship
+          example: 1
+        date:
+          type: string
+          format: date-time
+          description: Data que es va crear la Friendship
+          example: "2024-03-29T00:00:00Z"
+
+    Language:
+      type: string
+      description: Llenguatge del Player
+      enum:
+        - "Catala"
+        - "Angles"
+        - "Castella"
+
+    Measure:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Data de la Measure
+          example: "2024-03-29T"
+        hour:
+          type: string
+          description: Hora de la Measure
+          example: "00:00:00Z"
+        icqa:
+          type: integer
+          description: Nivell de la qualitat de l'aire
+          example: 2
+        nom_pollutant:
+          type: string
+          description: Nom del contaminant que marca l'icqa
+          example: "CO2"
+        pollutants:
+          type: array
+          description: Pollutants de la Measure
+          items:
+            $ref: '#/components/schemas/Pollutant'
+
+    Player:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username del Player
+          example: "user123"
+        language:
+          $ref: '#/components/schemas/Language'
+        xp_points:
+          type: integer
+          description: Punts d'experiència del Player
+          example: 123
+        coins:
+          type: integer
+          description: Monedes del Player
+          example: 10
+        avatar:
+          type: string
+          description: Url de la imatge del Player
+          example: "https://airmon.s3.amazonaws.com/avatar"
+        password: # TODO: correcte password si es atribut de user??, es el que esta al serializer
+          type: string
+          description: Contrasenya del User codificada
+          example: "b6eb16471f535636a4c4897ba6559384e9e80bf7"
+
+    Pollutant:
+      type: object
+      properties:
+        pollutant_name:
+          type: string
+          description: Nom del Pollutant
+          example: "CO2"
+        measure_unit:
+          $ref: '#/components/schemas/UnitType'
+        quantity:
+          type: number
+          description: Quantitat mesurada del Pollutant
+          example: 12.5
+
+    Rarity:
+      type: string
+      description: Raresa del Airmon
+      enum:
+        - Llegendari
+        - Epic
+        - Curios
+        - Especial
+        - Comu
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id del User
+          example: 12
+        username:
+          type: string
+          description: Username del User
+          example: "user123"
+        email:
+          type: string
+          description: Email del User
+          example: "user123@gmail.com"
+        password:
+          type: string
+          description: Contrasenya del User codificada
+          example: "b6eb16471f535636a4c4897ba6559384e9e80bf7"
+
+    Station:
+      type: object
+      properties:
+        code_station:
+          type: integer
+          description: Codi únic de la Station
+          example: 08019057
+        name:
+          type: string
+          description: Nom de la Station
+          example: "Barcelona (Palau Reial)"
+        longitude:
+          type: number
+          format: double
+          description: Longitud de la Station
+          example: 2.116504
+        latitude:
+          type: number
+          format: double
+          description: Latitud de la Station
+          example: 41.386392
+        measure:
+          type: array
+          description: Measures de la Station
+          items:
+            $ref: '#/components/schemas/Measure'
+
+    UnitType:
+      type: string
+      description: Tipus d'unitat
+      enum:
+        - Micrograms/m3
+        - Miligrams/m3
+
+
+    # TODO: la resta
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+

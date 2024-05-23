@@ -15,6 +15,23 @@ class Player(models.Model):
     avatar = models.ImageField(null=True, upload_to='avatars/')
     last_roulette_spin = models.DateField(null=True)
 
+    # Estadístiques que s'han d'actualitzar cada cop
+    n_airmons_capturats = models.PositiveSmallIntegerField(default=0)
+    airmons_alliberats = models.PositiveSmallIntegerField(default=0)
+    n_consumibles_usats = models.PositiveSmallIntegerField(default=0)
+    n_tirades_ruleta = models.PositiveSmallIntegerField(default=0)
+    total_coins = models.PositiveSmallIntegerField(default=0)
+    total_airmons_common = models.PositiveSmallIntegerField(default=0)
+    total_airmons_special = models.PositiveSmallIntegerField(default=0)
+    total_airmons_epic = models.PositiveSmallIntegerField(default=0)
+    total_airmons_mythical = models.PositiveSmallIntegerField(default=0)
+    total_airmons_legendary = models.PositiveSmallIntegerField(default=0)
+    # No és per compra sinó quantitat
+    total_compres = models.PositiveSmallIntegerField(default=0)
+
+    # Estadistiques que es poden calcular
+    # ...
+
     def save(self, *args, **kwargs):
         if self.language not in [choice[0] for choice in Language.choices]:
             raise ValueError("Invalid language value.")
