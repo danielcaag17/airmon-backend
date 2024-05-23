@@ -16,9 +16,8 @@ class Player(models.Model):
 
     # Estadístiques que s'han d'actualitzar cada cop
     n_airmons_capturats = models.PositiveSmallIntegerField(default=0)
-
     airmons_alliberats = models.PositiveSmallIntegerField(default=0)
-
+    n_consumibles_usats = models.PositiveSmallIntegerField(default=0)
     n_tirades_ruleta = models.PositiveSmallIntegerField(default=0)
     total_coins = models.PositiveSmallIntegerField(default=0)
     total_airmons_comu = models.PositiveSmallIntegerField(default=0)
@@ -27,13 +26,6 @@ class Player(models.Model):
     total_airmons_epic = models.PositiveSmallIntegerField(default=0)
     total_airmons_llegendari = models.PositiveSmallIntegerField(default=0)
     total_compres = models.PositiveSmallIntegerField(default=0)
-
-    '''
-    X airmons diferents
-
-    consumibles usats??
-    #compres realitzades
-    '''
 
     # Estadistiques que es poden calcular
     # ...
