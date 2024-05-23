@@ -53,7 +53,7 @@ def update_event_data():
 
 
 def is_valid(data_inici, data_fi):
-    avui = date.today()
+    avui = timezone.date.today()
     if data_inici <= avui <= data_fi:
         return True
     return False
