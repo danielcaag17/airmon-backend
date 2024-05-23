@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .utils import *
+from .utils import get_raresa
 from ..models import Capture, Player
 
 
