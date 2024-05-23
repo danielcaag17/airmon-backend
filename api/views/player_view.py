@@ -4,7 +4,7 @@ from ..models import Player
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..serializers import PlayerSerializer, PlayerPublicSerializer
+from ..serializers import PlayerSerializer, PlayerPublicSerializer, PlayerStatisticsSerializer
 
 
 from rest_framework.decorators import authentication_classes, permission_classes
@@ -33,3 +33,12 @@ class PlayerViewSet(viewsets.ViewSet):
         except Player.DoesNotExist:
             return Response({"error": f"Player {username} does not exist"},
                             status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class PlayerStatisticsViewSet(viewsets.ViewSet):
+    def list(self, request, username=None):
+        player = Player.objects.get(user__username=username)
+        serializer = PlayerStatisticsSerializer(player)
+        return Response(serializer.data)

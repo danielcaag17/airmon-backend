@@ -35,6 +35,7 @@ urlpatterns = [
     path('player/<str:username>/', views.PlayerViewSet.as_view({'get': 'retrieve'}), name="player"),
     path('players/', views.PlayerViewSet.as_view({'get': 'list'}), name="players"),
     path("edit-user/", views.EditUserViewSet.as_view({'post': 'update'}), name="edit-profile"),
+    path('<str:username>/statistics/', views.PlayerStatisticsViewSet.as_view({'get': 'list'}), name="statistics")
     # path("test-token/", views.test_token, name="test-token"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
     # path("endpoint2/", views.Endpoint2View.as_view(), name="endpoint2"),
