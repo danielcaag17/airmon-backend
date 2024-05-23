@@ -1,6 +1,5 @@
-from datetime import datetime
 import requests
-from datetime import date
+from django.utils import timezone
 from decimal import Decimal, ROUND_DOWN
 from django.apps import apps
 
@@ -22,8 +21,8 @@ def update_event_data():
         new_events = []
 
         for element in data:
-            data_inici = datetime.strptime(element["data_inici"], "%Y-%m-%dT%H:%M:%S.%f").date()
-            data_fi = datetime.strptime(element["data_fi"], "%Y-%m-%dT%H:%M:%S.%f").date()
+            data_inici = timezone.datetime.strptime(element["data_inici"], "%Y-%m-%dT%H:%M:%S.%f").date()
+            data_fi = timezone.datetime.strptime(element["data_fi"], "%Y-%m-%dT%H:%M:%S.%f").date()
             exists = event_exists(element["codi"])
             valid = is_valid(data_inici, data_fi)
             # Esdeveniments que estan actius el dia d'avui
