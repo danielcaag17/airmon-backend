@@ -36,7 +36,7 @@ class StationModelTest(TestCase):
             self.fail("It should raise an exception, station invalid1")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
-            self.assertIn("UNIQUE constraint failed: api_station.code", str(e))
+            self.assertIn("NOT NULL constraint failed: api_station.location_id", str(e))
 
     def test_station_invalid2(self):
         try:
