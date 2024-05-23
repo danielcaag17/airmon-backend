@@ -7,3 +7,4 @@ from .measure_serializer import MeasureSerializer
 from .message_serializer import MessageSerializer
 from .player_serializer import PlayerSerializer, PlayerPublicSerializer, PlayerImagesSerializer
 from .event_serializer import EventSerializer
+from .item_serializer import ItemSerializer, PlayerItemSerializer, PlayerActiveItemSerializer

@@ -13,6 +13,7 @@ class Player(models.Model):
     xp_points = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
     avatar = models.ImageField(null=True, upload_to='avatars/')
+    last_roulette_spin = models.DateField(null=True)
 
     def save(self, *args, **kwargs):
         if self.language not in [choice[0] for choice in Language.choices]:
