@@ -6,5 +6,5 @@ from .friendship_serializer import FriendshipSerializer
 from .measure_serializer import MeasureSerializer
 from .message_serializer import MessageSerializer
 from .event_serializer import EventSerializer
-from .player_serializer import PlayerSerializer, PlayerPublicSerializer, PlayerImagesSerializer,
+from .player_serializer import PlayerSerializer, PlayerPublicSerializer, PlayerImagesSerializer, PlayerStatisticsSerializer
 from .item_serializer import ItemSerializer, PlayerItemSerializer, PlayerActiveItemSerializer
