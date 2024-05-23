@@ -100,6 +100,9 @@ else:
         }
     }
 
+SERVEI_URL = os.environ.get("SERVEI_URL")
+SERVEI_TOKEN = os.environ.get("SERVEI_TOKEN")
+
 if os.environ.get("DEV_ENV") == "true":
     MEDIA_URL = '/media/'
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
@@ -160,6 +163,7 @@ CELERY_IMPORTS = (
     'api.tasks.mock_task',
     'api.tasks.daily_air_request',
     'api.tasks.daily_airmons_spawn',
+    'api.tasks.daily_event_request',
     # Add other task modules here
 )
 

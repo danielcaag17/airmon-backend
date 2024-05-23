@@ -3,6 +3,7 @@ from .airmon_on_map import AirmonOnMap
 from .airmon_type import AirmonType
 from .capture import Capture
 from .chat import Chat, ChatMessage
+from .event import Event
 from .friendship import Friendship
 from .item import Item
 from .language import Language
@@ -27,7 +28,3 @@ from .station import Station
 from .trophy import Trophy
 from .trophy_type import TrophyType
 from .unit_type import UnitType
-
-
-
-

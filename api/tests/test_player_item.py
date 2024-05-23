@@ -8,7 +8,7 @@ from ..models import PlayerItem
 class PlayerItemModelTest(TestCase):
     def setUp(self):
         self.player_item = PlayerItem.objects.create(
-            item_name=create_item("item", 10, "description", "00:30:00"),
+            item_name=create_item("item", 10, "description", None, "00:30:00"),
             user=create_user("user1"),
             quantity=100,
         )
@@ -26,7 +26,7 @@ class PlayerItemModelTest(TestCase):
 
     def test_player_item_update(self):
         self.player_item.item_name = create_item("item updated",
-                                                 100, "description", "00:30:00")
+                                                 100, "description", None,  "00:30:00")
         self.player_item.username = create_user("user2")
         self.player_item.quantity = 2
         self.player_item.save()
@@ -39,7 +39,7 @@ class PlayerItemModelTest(TestCase):
         try:
             PlayerItem.objects.create(
                 id=self.player_item.id,
-                item_name=create_item("item2", 10, "Description", "00:30:00"),
+                item_name=create_item("item2", 10, "Description", None, "00:30:00"),
                 user=create_user("user2"),
                 quantity=0,
             )
@@ -66,7 +66,7 @@ class PlayerItemModelTest(TestCase):
     def test_player_item_invalid3(self):
         try:
             PlayerItem.objects.create(
-                item_name=create_item("item2", 100, "Description", duration="00:30:00"),
+                item_name=create_item("item2", 100, "Description", None, duration="00:30:00"),
                 user=create_user("user2"),
                 quantity=-123,
             )
@@ -79,7 +79,7 @@ class PlayerItemModelTest(TestCase):
     def test_player_item_invalid4(self):
         try:
             PlayerItem.objects.create(
-                item_name=create_item("item2", 100, "Description", duration="00:30:00"),
+                item_name=create_item("item2", 100, "Description", None, duration="00:30:00"),
                 user=None,
                 quantity=-123,
             )
