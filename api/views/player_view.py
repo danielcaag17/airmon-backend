@@ -5,8 +5,7 @@ from rest_framework.response import Response
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
-
-from ..serializers import PlayerSerializer, PlayerPublicSerializer
+from ..serializers import PlayerSerializer, PlayerPublicSerializer, PlayerStatisticsSerializer
 
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
@@ -33,6 +32,17 @@ class PlayerViewSet(viewsets.ViewSet):
             return Response(serializer.data)
         except Player.DoesNotExist:
             return Response({"error": f"Player {username} does not exist"},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request):
+        try:
+            player = Player.objects.get(user__username=request.user.username)
+            if request.data['coins'] != "":
+                player.coins += int(request.data['coins'])
+            player.save()
+            return Response(status=status.HTTP_200_OK)
+        except Player.DoesNotExist:
+            return Response({"error": f"Player {request.user.username} does not exist"},
                             status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -70,3 +80,12 @@ class ExpView(viewsets.ViewSet):
         player.xp_points += exp
         player.save()
         return Response({'exp': player.xp_points}, status=status.HTTP_200_OK)
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class PlayerStatisticsViewSet(viewsets.ViewSet):
+    def list(self, request, username=None):
+        player = Player.objects.get(user__username=username)
+        serializer = PlayerStatisticsSerializer(player)
+        return Response(serializer.data)

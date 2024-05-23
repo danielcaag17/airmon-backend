@@ -35,3 +35,12 @@ class PlayerImagesSerializer(serializers.ModelSerializer):
         model = PlayerImages
         fields = ['user', 'image', 'date']
         read_only_fields = ['user']
+
+
+class PlayerStatisticsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Player
+        fields = ['n_airmons_capturats', 'airmons_alliberats', 'n_consumibles_usats',
+                  'n_tirades_ruleta', 'total_coins', 'total_airmons_common', 'total_airmons_special',
+                  'total_airmons_epic', 'total_airmons_mythical', 'total_airmons_legendary',
+                  'total_compres',]
