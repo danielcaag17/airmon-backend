@@ -100,7 +100,8 @@ else:
         }
     }
 
-if 'test' in sys.argv:
+if os.environ.get("DEV_ENV") == "true":
+    MEDIA_URL = '/media/'
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
