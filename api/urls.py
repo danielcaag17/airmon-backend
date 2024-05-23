@@ -57,8 +57,11 @@ station_urls = [
     path('stations/', views.StationViewSet.as_view({'get': 'list'}), name='stations'),
 ]
 
+trophies_urls = [
+    path("trophies/<str:username>/", views.PlayerTrophyViewSet.as_view({'get': 'list'}), name="trophies-player")
+]
+
 urlpatterns = [
     path('', include(router.urls)),
-    path("trophies/<str:username>/", views.PlayerTrophyViewSet.as_view({'get': 'list'}), name="trophies-player")
     # path('test-token/', views.test_token, name='test-token'),
-] + airmon_urls + event_urls + user_urls + player_urls + station_urls
+] + airmon_urls + event_urls + user_urls + player_urls + station_urls + trophies_urls
