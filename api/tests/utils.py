@@ -50,8 +50,8 @@ def create_station(code, name, location):
     return Station.objects.create(code=code, name=name, location=location)
 
 
-def create_trophy(name, tipus, xp):
-    return Trophy.objects.create(name=name, type=tipus, xp=xp)
+def create_trophy(name, tipus, description, requirement, xp):
+    return Trophy.objects.create(name=name, type=tipus, description=description, requirement=requirement, xp=xp)
 
 
 def get_timezone():

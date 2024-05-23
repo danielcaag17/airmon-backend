@@ -9,12 +9,16 @@ class TrophyModelTest(TestCase):
         self.trophy = Trophy.objects.create(
             name='Test Trophy',
             type="Or",
+            description="test description",
+            requirement=3,
             xp=123
         )
 
     def test_trophy_creation(self):
         self.assertEqual(self.trophy.name, "Test Trophy")
         self.assertEqual(self.trophy.type, "Or")
+        self.assertEqual(self.trophy.description, "test description")
+        self.assertEqual(self.trophy.requirement, 3)
         self.assertEqual(self.trophy.xp, 123)
 
     def test_trophy_destroy(self):
@@ -26,10 +30,14 @@ class TrophyModelTest(TestCase):
     def test_trophy_update(self):
         self.trophy.name = "Trophy updated"
         self.trophy.type = "Plata"
+        self.trophy.description = "new description"
+        self.trophy.requirement = 10
         self.trophy.xp = 2
         self.trophy.save()
         self.assertEqual(self.trophy.name, "Trophy updated")
         self.assertEqual(self.trophy.type, "Plata")
+        self.assertEqual(self.trophy.description, "new description")
+        self.assertEqual(self.trophy.requirement, 10)
         self.assertEqual(self.trophy.xp, 2)
 
     # Crear Trophy que violi la PK
@@ -39,6 +47,8 @@ class TrophyModelTest(TestCase):
                 id=self.trophy.id,
                 name="Trophy name",
                 type="Or",
+                description="test description",
+                requirement=3,
                 xp=0,
             )
             self.fail("It should raise an exception, trophy invalid1")
@@ -52,6 +62,8 @@ class TrophyModelTest(TestCase):
             Trophy.objects.create(
                 name=self.trophy.name,
                 type=self.trophy.type,
+                description=self.trophy.description,
+                requirement=self.trophy.requirement,
                 xp=0,
             )
             self.fail("It should raise an exception, trophy invalid2")
@@ -65,6 +77,8 @@ class TrophyModelTest(TestCase):
             Trophy.objects.create(
                 name=self.trophy.name,
                 type=None,
+                description="test description",
+                requirement=3,
                 xp=0,
             )
             self.fail("It should raise an exception, trophy invalid3")
@@ -78,9 +92,11 @@ class TrophyModelTest(TestCase):
             Trophy.objects.create(
                 name=self.trophy.name,
                 type=self.trophy.type,
+                description="test description",
+                requirement=3,
                 xp=-123,
             )
-            self.fail("It should raise an exception, trophy invalid2")
+            self.fail("It should raise an exception, trophy invalid4")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
             self.assertIn("CHECK constraint failed: xp", str(e))

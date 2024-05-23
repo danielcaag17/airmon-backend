@@ -58,7 +58,8 @@ station_urls = [
 ]
 
 trophies_urls = [
-    path("trophies/<str:username>/", views.PlayerTrophyViewSet.as_view({'get': 'list'}), name="trophies-player")
+    path("trophies/<str:username>/", views.PlayerTrophyViewSet.as_view({'get': 'list'}), name="trophies-player"),
+    path('trophy/<str:name>/', views.TrophyViewSet.as_view({'get': 'retrieve'}), name="throphy"),
 ]
 
 urlpatterns = [
