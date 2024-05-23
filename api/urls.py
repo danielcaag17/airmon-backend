@@ -36,7 +36,7 @@ urlpatterns = [
     path("chat/<int:chat_id>", views.ChatView.as_view(), name="chat"),
     path("friendship/", views.FriendshipViewSet.as_view({'post': 'create', 'get': 'retrieve', 'delete': 'delete'}),
          name="friendship"),
-    path('player/<str:username>/', views.PlayerViewSet.as_view({'get': 'retrieve'}), name="player"),
+    path('player/<str:username>', views.PlayerViewSet.as_view({'get': 'retrieve'}), name="player"),
     path('player/roulette', views.RouletteView.as_view({'post': 'create', 'get': 'retrieve'}), name='roulette'),
     path('player/exp', views.ExpView.as_view({'get': 'retrieve', 'put': 'partial_update'}), name='exp'),
     path('players/', views.PlayerViewSet.as_view({'get': 'list'}), name="players"),
