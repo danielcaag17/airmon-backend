@@ -26,6 +26,7 @@ class Player(models.Model):
     total_airmons_epic = models.PositiveSmallIntegerField(default=0)
     total_airmons_mythical = models.PositiveSmallIntegerField(default=0)
     total_airmons_legendary = models.PositiveSmallIntegerField(default=0)
+    # No és per compra sinó quantitat
     total_compres = models.PositiveSmallIntegerField(default=0)
 
     # Estadistiques que es poden calcular

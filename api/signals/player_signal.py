@@ -3,7 +3,10 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 
 from .utils import get_raresa
-from ..models import Capture, Player
+from ..models import Capture, Player, PlayerItem, PlayerActiveItem
+
+# Utilitzat per guardar instàncies abans de fer el save
+old_values_cache = {}
 
 
 @receiver(post_save, sender=User)
@@ -15,11 +18,8 @@ def user_created(sender, instance, created, **kwargs):
         pass
 
 
-old_values_cache = {}
-
-
 @receiver(pre_save, sender=Player)
-def cache_old_values(sender, instance, **kwargs):
+def player_old_values(sender, instance, **kwargs):
     if instance.pk:
         old_instance = Player.objects.get(pk=instance.pk)
         old_values_cache[instance.pk] = old_instance.coins
@@ -35,10 +35,44 @@ def player_updated(sender, instance, created, **kwargs):
 
         # Player ha obtingut monedas
         if old_coins is not None and old_coins < new_coins:
-            # Sumar la diferencia de monedes que ha guanyat
+            # Sumar la diferència de monedes que ha guanyat
             instance.total_coins += new_coins - old_coins
             # Evitar bucle infinit
             instance.save(update_fields=['total_coins'])
+
+
+@receiver(pre_save, sender=PlayerItem)
+def player_item_old_values(sender, instance, **kwargs):
+    if instance.pk:
+        old_instance = PlayerItem.objects.get(pk=instance.pk)
+        old_values_cache[instance.pk] = old_instance.quantity
+
+
+@receiver(post_save, sender=PlayerItem)
+def player_item_created(sender, instance, created, **kwargs):
+    if created:
+        player = Player.objects.get(user__username=instance.user)
+        player.total_compres += instance.quantity
+        player.save(update_fields=['total_compres'])
+    else:
+        old_quantity = old_values_cache.get(instance.pk)
+        new_quantity = instance.quantity
+
+        # Player ha comprat item
+        if old_quantity is not None and old_quantity < new_quantity:
+            player = Player.objects.get(user__username=instance.user)
+            player.total_compres += new_quantity - old_quantity
+            player.save(update_fields=['total_compres'])
+
+
+@receiver(post_save, sender=PlayerActiveItem)
+def player_active_item_created(sender, instance, created, **kwargs):
+    if created:
+        player = Player.objects.get(user=instance.user_id)
+        player.n_consumibles_usats += 1
+        player.save(update_fields=['n_consumibles_usats'])
+    else:
+        pass
 
 
 @receiver(post_save, sender=Capture)
