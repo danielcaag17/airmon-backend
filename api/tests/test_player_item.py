@@ -8,14 +8,14 @@ from ..models import PlayerItem
 class PlayerItemModelTest(TestCase):
     def setUp(self):
         self.player_item = PlayerItem.objects.create(
-            item_name=create_item("item", "Epic", 10.50, "description"),
-            username=create_user("user1"),
+            item_name=create_item("item", 10, "description", None, "00:30:00"),
+            user=create_user("user1"),
             quantity=100,
         )
 
     def test_player_item_creation(self):
         self.assertEqual(self.player_item.item_name.name, "item")
-        self.assertEqual(self.player_item.username.username, "user1")
+        self.assertEqual(self.player_item.user.username, "user1")
         self.assertEqual(self.player_item.quantity, 100)
 
     def test_player_item_destroy(self):
@@ -25,8 +25,8 @@ class PlayerItemModelTest(TestCase):
         self.assertEqual(player_items_after, player_items_before - 1)
 
     def test_player_item_update(self):
-        self.player_item.item_name = create_item("item updated", "Llegendari",
-                                                 10.50, "description")
+        self.player_item.item_name = create_item("item updated",
+                                                 100, "description", None,  "00:30:00")
         self.player_item.username = create_user("user2")
         self.player_item.quantity = 2
         self.player_item.save()
@@ -39,8 +39,8 @@ class PlayerItemModelTest(TestCase):
         try:
             PlayerItem.objects.create(
                 id=self.player_item.id,
-                item_name=create_item("item2", "Epic", 10.5, "Description"),
-                username=create_user("user2"),
+                item_name=create_item("item2", 10, "Description", None, "00:30:00"),
+                user=create_user("user2"),
                 quantity=0,
             )
             self.fail("It should raise an exception, player_item invalid1")
@@ -53,21 +53,21 @@ class PlayerItemModelTest(TestCase):
         try:
             PlayerItem.objects.create(
                 item_name=self.player_item.item_name,
-                username=self.player_item.username,
+                user=self.player_item.user,
                 quantity=0,
             )
             self.fail("It should raise an exception, player_item invalid2")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
-            self.assertIn("UNIQUE constraint failed: api_playeritem.item_name_id, api_playeritem.username_id",
+            self.assertIn("UNIQUE constraint failed: api_playeritem.item_name_id, api_playeritem.user_id",
                           str(e))
 
     # Crear PlayerItem amb quantity negativa
     def test_player_item_invalid3(self):
         try:
             PlayerItem.objects.create(
-                item_name=create_item("item2", "Epic", 10.5, "Description"),
-                username=create_user("user2"),
+                item_name=create_item("item2", 100, "Description", None, duration="00:30:00"),
+                user=create_user("user2"),
                 quantity=-123,
             )
             self.fail("It should raise an exception, player_item invalid3")
@@ -79,12 +79,12 @@ class PlayerItemModelTest(TestCase):
     def test_player_item_invalid4(self):
         try:
             PlayerItem.objects.create(
-                item_name=create_item("item2", "Epic", 10.5, "Description"),
-                username=None,
+                item_name=create_item("item2", 100, "Description", None, duration="00:30:00"),
+                user=None,
                 quantity=-123,
             )
             self.fail("It should raise an exception, player_item invalid4")
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
-            self.assertIn("NOT NULL constraint failed: api_playeritem.username_id", str(e))
+            self.assertIn("NOT NULL constraint failed: api_playeritem.user_id", str(e))
 

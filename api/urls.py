@@ -10,6 +10,10 @@ router.register(r'captures', views.CaptureViewSet)
 router.register(r'player/(?P<username>\w+)/captures', views.PlayerCaptureViewSet, basename="player-captures")
 router.register(r'airmons', views.AirmonsViewSet)
 router.register(r'images', views.PlayerImageViewSet, basename="images")
+router.register(r'items', views.ItemViewSet, basename="items")
+
+router.register(r'player/items', views.PlayerItemViewSet, basename="player-items")
+router.register(r'player/active-items', views.PlayerActiveItemViewSet, basename="active-items")
 
 
 router.APIRootView.authentication_classes = [TokenAuthentication]
@@ -32,11 +36,15 @@ urlpatterns = [
     path("chat/<int:chat_id>", views.ChatView.as_view(), name="chat"),
     path("friendship/", views.FriendshipViewSet.as_view({'post': 'create', 'get': 'retrieve', 'delete': 'delete'}),
          name="friendship"),
-    path('player/<str:username>/', views.PlayerViewSet.as_view({'get': 'retrieve'}), name="player"),
+    path('player/<str:username>', views.PlayerViewSet.as_view({'get': 'retrieve'}), name="player"),
+    path('player/roulette', views.RouletteView.as_view({'post': 'create', 'get': 'retrieve'}), name='roulette'),
+    path('player/exp', views.ExpView.as_view({'get': 'retrieve', 'put': 'partial_update'}), name='exp'),
     path('players/', views.PlayerViewSet.as_view({'get': 'list'}), name="players"),
     path("edit-user/", views.EditUserViewSet.as_view({'post': 'update'}), name="edit-profile"),
     path('<str:username>/statistics/', views.PlayerStatisticsViewSet.as_view({'get': 'list'}), name="statistics"),
     path('<str:username>/update/', views.PlayerViewSet.as_view({'post': 'update'}), name="player-update"),
+path("events/", views.EventViewSet.as_view({'get': 'list'}), name="events"),
+    # path("event/", views.run_script_view, name="event"),
     # path("test-token/", views.test_token, name="test-token"),
     # path("endpoint1/", views.Endpoint1View.as_view(), name="endpoint1"),
     # path("endpoint2/", views.Endpoint2View.as_view(), name="endpoint2"),

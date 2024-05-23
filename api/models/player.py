@@ -13,6 +13,7 @@ class Player(models.Model):
     xp_points = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
     avatar = models.ImageField(null=True, upload_to='avatars/')
+    last_roulette_spin = models.DateField(null=True)
 
     # Estadístiques que s'han d'actualitzar cada cop
     n_airmons_capturats = models.PositiveSmallIntegerField(default=0)
