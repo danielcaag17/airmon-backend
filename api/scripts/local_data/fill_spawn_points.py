@@ -190,9 +190,15 @@ geohash_characters = [
 
 
 def populate_barcelona_spawn_points():
+    import random
+
+    from api.models.station import Station
+    from api.models.location import LocationGeohash
+    from api.models.spawn_point import SpawnPoint
+    from api.utils.icqa_by_area import get_nearest_station_v2
+
     locations = []
     spawn_points = []
-    stations = Station.objects.all()
     for base_geohash in barcelona_geohashes:
         for c1 in geohash_characters:
             for c2 in geohash_characters:
@@ -209,6 +215,13 @@ def populate_barcelona_spawn_points():
 
 
 def populate_catalonia_spawn_points():
+    import random
+
+    from api.models.station import Station
+    from api.models.location import LocationGeohash
+    from api.models.spawn_point import SpawnPoint
+    from api.utils.icqa_by_area import get_nearest_station
+
     locations = []
     spawn_points = []
     stations = Station.objects.all()
@@ -243,11 +256,5 @@ if __name__ == "__main__":
     from api.scripts.django_setup import setup_django
 
     setup_django()
-
-    import random
-    from api.models.station import Station
-    from api.models.location import LocationGeohash
-    from api.models.spawn_point import SpawnPoint
-    from api.utils.icqa_by_area import get_nearest_station, get_nearest_station_v2
 
     populate_barcelona_spawn_points()
