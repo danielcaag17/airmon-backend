@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.db import IntegrityError
 from datetime import datetime, timedelta
 
+from ..models import PlayerTrophy
 from .utils import *
 
 
