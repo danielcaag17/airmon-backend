@@ -20,11 +20,17 @@ def user_created(sender, instance, created, **kwargs):
 
 @receiver(pre_save, sender=Player)
 def player_old_values(sender, instance, **kwargs):
-    if instance.pk:
-        old_instance = Player.objects.get(pk=instance.pk)
+    try:
+        if instance.pk:
+            old_instance = Player.objects.get(pk=instance.pk)
+            old_values_cache[instance.pk] = {
+                "coins": old_instance.coins,
+                "roulette": old_instance.last_roulette_spin
+            }
+    except Player.DoesNotExist:
         old_values_cache[instance.pk] = {
-            "coins": old_instance.coins,
-            "roulette": old_instance.last_roulette_spin
+            'coins': None,
+            'last_roulette_spin': None,
         }
 
 
@@ -113,6 +119,9 @@ raresa_mapping = {
 
 @receiver(post_delete, sender=Capture)
 def mymodel_post_delete(sender, instance, **kwargs):
-    player = Player.objects.get(user__username=instance.username)
-    player.airmons_alliberats += 1
-    player.save(update_fields=['airmons_alliberats'])
+    try:
+        player = Player.objects.get(user__username=instance.username)
+        player.airmons_alliberats += 1
+        player.save(update_fields=['airmons_alliberats'])
+    except Player.DoesNotExist:
+        pass
