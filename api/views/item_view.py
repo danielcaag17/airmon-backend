@@ -37,6 +37,7 @@ class PlayerItemViewSet(viewsets.ModelViewSet):
             return Response({"error": "You don't have enough coins"}, status=status.HTTP_400_BAD_REQUEST)
 
         player.coins -= item.price * quantity
+        player.save()
 
         try:
             player_item = PlayerItem.objects.get(user=self.request.user, item_name=item_name)
