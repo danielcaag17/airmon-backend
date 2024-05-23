@@ -12,7 +12,24 @@ def user_created(sender, instance, created, **kwargs):
         user = User.objects.get(username=instance.username)
         Player.objects.create(user=user, avatar=None)
     else:
-        print(f'User {instance.username} has been updated.')
+        pass
+
+
+@receiver(post_save, sender=Player)
+def player_updated(sender, instance, created, **kwargs):
+    if created:
+        pass
+    else:
+        # Instancia no modificada
+        old_instance = Player.objects.get(pk=instance.pk)
+
+        # Player ha obtingut monedes
+        if old_instance.coins < instance.coins:
+            # Sumar la diferencia de monedes que ha guanyat
+            instance.total_coins = instance.coins - old_instance.coins
+            # Evitar bucle infinit
+            instance.save(update_fields=['total_coins'])
+
 
 @receiver(post_save, sender=Capture)
 def capture_created(sender, instance, created, **kwargs):
@@ -24,7 +41,7 @@ def capture_created(sender, instance, created, **kwargs):
             setattr(player, raresa_mapping[raresa], getattr(player, raresa_mapping[raresa]) + 1)
         player.save()
     else:
-        print(f'User {instance.username} has been updated.')
+        pass
 
 
 raresa_mapping = {
