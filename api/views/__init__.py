@@ -1,4 +1,4 @@
-from .player_view import PlayerViewSet, RouletteView
+from .player_view import PlayerViewSet, RouletteView, ExpView, PlayerStatisticsViewSet
 from .map_view import MapViewSet
 from .captures_view import CaptureViewSet
 from .captures_view import PlayerCaptureViewSet
@@ -13,5 +13,7 @@ from .chat_view import ChatView
 from .icqa_view import ICQAView
 from .player_images_view import PlayerImageViewSet, PlayerImageView
 from .spawned_airmons_view import SpawnedAirmonsView
+from .player_trophy_view import PlayerTrophyViewSet
+from .event_view import EventViewSet, run_script_view
 from .trophy_view import TrophyViewSet
 from .item_view import ItemViewSet, PlayerItemViewSet, PlayerActiveItemViewSet

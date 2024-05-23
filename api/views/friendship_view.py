@@ -39,6 +39,7 @@ class FriendshipViewSet(viewsets.ViewSet):
     def create(self, request):
         data = request.data
         user = request.user
+        # TODO: user not provided
         try:
             Friendship.objects.create(
                 user1=user,
@@ -63,6 +64,7 @@ class FriendshipViewSet(viewsets.ViewSet):
         if username is None:
             return Response({'message': 'user not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # TODO: user does not exists
         user2 = self.get_id(username)
         try:
             friendship = (Friendship.objects.filter(user1=user1, user2=user2)

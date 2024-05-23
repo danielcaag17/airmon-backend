@@ -5,13 +5,14 @@ from api.models.measure import Measure
 from api.models.spawned_airmon import SpawnedAirmon
 from api.models.spawn_point import SpawnPoint
 from api.models.airmon import Airmon
+from api.models.rarity_type import RarityType
 
 PROBABILITIES = {
-    "Comu": 0.4,
-    "Especial": 0.3,
-    "Curios": 0.22,
-    "Epic": 0.07,
-    "Llegendari": 0.01,
+    RarityType.COMMON: 0.4,
+    RarityType.SPECIAL: 0.3,
+    RarityType.EPIC: 0.22,
+    RarityType.MYTHICAL: 0.07,
+    RarityType.LEGENDARY: 0.01,
 }
 
 
