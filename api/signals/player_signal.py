@@ -101,7 +101,6 @@ def capture_created(sender, instance, created, **kwargs):
         if raresa in raresa_mapping:
             player_field = raresa_mapping[raresa]
             setattr(player, player_field, getattr(player, player_field) + 1)
-            # Actualiza solo los campos modificados utilizando 'update_fields'
         update_fields = ['n_airmons_capturats'] + [raresa_mapping[raresa]] if raresa in raresa_mapping else []
         player.save(update_fields=update_fields)
     else:
