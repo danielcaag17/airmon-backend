@@ -34,6 +34,19 @@ class PlayerViewSet(viewsets.ViewSet):
             return Response({"error": f"Player {username} does not exist"},
                             status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, username=None):
+        try:
+            player = Player.objects.get(user__username=username)
+            if request.data['coins'] != "":
+                player.coins += int(request.data['coins'])
+            if request.data['xp_points'] != "":
+                player.xp_points += int(request.data['xp_points'])
+            player.save()
+            return Response(status=status.HTTP_200_OK)
+        except Player.DoesNotExist:
+            return Response({"error": f"Player {username} does not exist"},
+                            status=status.HTTP_400_BAD_REQUEST)
+
 
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
