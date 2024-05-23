@@ -1,4 +1,4 @@
-from .player_view import PlayerViewSet, RouletteView
+from .player_view import PlayerViewSet, RouletteView, ExpView
 from .map_view import MapViewSet
 from .captures_view import CaptureViewSet
 from .captures_view import PlayerCaptureViewSet

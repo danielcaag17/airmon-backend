@@ -53,3 +53,20 @@ class RouletteView(viewsets.ViewSet):
         player = get_object_or_404(Player, user=request.user)
 
         return Response({'last_spin': player.last_roulette_spin}, status=status.HTTP_200_OK)
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class ExpView(viewsets.ViewSet):
+
+    def retrieve(self, request):
+        player = get_object_or_404(Player, user=request.user)
+
+        return Response({'exp': player.xp_points}, status=status.HTTP_200_OK)
+
+    def partial_update(self, request):
+        player = get_object_or_404(Player, user=request.user)
+        exp = int(request.data['exp'])
+        player.xp_points += exp
+        player.save()
+        return Response({'exp': player.xp_points}, status=status.HTTP_200_OK)
