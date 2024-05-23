@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 import pytz
 
-from ..models import *
+from ..models import Airmon, Capture, Chat, Event, Item, Location, LocationGeohash, Measure, Pollutant, Station, Trophy
 
 
 def create_user(username):
@@ -23,6 +23,7 @@ def create_chat(user1, user2):
 def create_event(codi, denominacio, data_ini, data_fi, geohash, espai):
     return Event.objects.create(codi=codi, denominacio=denominacio, data_ini=data_ini,
                                 data_fi=data_fi, geohash=geohash, espai=espai)
+
 
 def create_item(name, rarity, price, description):
     return Item.objects.create(name=name, rarity=rarity, price=price, description=description)
