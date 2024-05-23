@@ -102,7 +102,7 @@ else:
 SERVEI_URL = os.environ.get("SERVEI_URL")
 SERVEI_TOKEN = os.environ.get("SERVEI_TOKEN")
 
-if os.environ.get("DEV_ENV") == "true":
+if os.environ.get("NOT_S3") == "true":
     MEDIA_URL = '/media/'
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
