@@ -100,8 +100,8 @@ else:
         }
     }
 
-SERVEI_URL=os.environ.get("SERVEI_URL")
-SERVEI_TOKEN=os.environ.get("SERVEI_TOKEN")
+SERVEI_URL = os.environ.get("SERVEI_URL")
+SERVEI_TOKEN = os.environ.get("SERVEI_TOKEN")
 
 if 'test' in sys.argv:
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'

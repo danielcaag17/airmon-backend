@@ -4,7 +4,7 @@ from datetime import date
 from decimal import Decimal, ROUND_DOWN
 from django.apps import apps
 
-from settings import SERVEI_URL, SERVEI_TOKEN
+from ...airmon.settings import SERVEI_URL, SERVEI_TOKEN
 from ..models import Event, LocationGeohash
 
 
