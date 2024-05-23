@@ -4,18 +4,19 @@ from datetime import date
 from decimal import Decimal, ROUND_DOWN
 from django.apps import apps
 
+from settings import SERVEI_URL, SERVEI_TOKEN
 from ..models import Event, LocationGeohash
 
 
-url = "https://culturify.azurewebsites.net/events/aire_lliure/"
-token = "Token 064050afcc548f7447f29e203189aee2db9d2063"
+# url = "https://culturify.azurewebsites.net/events/aire_lliure/"
+# token = "Token 064050afcc548f7447f29e203189aee2db9d2063"
 headers = {
-    "Authorization": token
+    "Authorization": SERVEI_TOKEN
 }
 
 
 def update_event_data():
-    response = requests.get(url, headers=headers)
+    response = requests.get(SERVEI_URL, headers=headers)
     if response.status_code == 200:
         # Obtenir los dades de la resposta en format JSON
         data = response.json()
@@ -40,7 +41,7 @@ def update_event_data():
                     )
                 )
             elif not valid and exists:
-                Event.objects.filter(codi=element["codi"]).delte()
+                Event.objects.filter(codi=element["codi"]).delete()
 
         Event.objects.bulk_create(
             new_events,
