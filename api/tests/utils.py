@@ -26,8 +26,8 @@ def create_event(codi, denominacio, data_ini, data_fi, geohash, espai):
                                 data_fi=data_fi, geohash=geohash, espai=espai)
 
 
-def create_item(name, rarity, price, description):
-    return Item.objects.create(name=name, rarity=rarity, price=price, description=description)
+def create_item(name, price, description, image, duration):
+    return Item.objects.create(name=name, price=price, description=description, image=image, duration=duration)
 
 
 def create_location(lng, lat):
