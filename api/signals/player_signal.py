@@ -1,9 +1,18 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.models import User
 
 from .utils import get_raresa
 from ..models import Capture, Player
 
+
+@receiver(post_save, sender=User)
+def user_created(sender, instance, created, **kwargs):
+    if created:
+        user = User.objects.get(username=instance.username)
+        Player.objects.create(user=user, avatar=None)
+    else:
+        print(f'User {instance.username} has been updated.')
 
 @receiver(post_save, sender=Capture)
 def capture_created(sender, instance, created, **kwargs):
