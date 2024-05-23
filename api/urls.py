@@ -33,7 +33,7 @@ user_urls = [
     path('edit-user/', views.EditUserViewSet.as_view({'post': 'update'}), name='edit-profile'),
     path('find-user/<str:key>/', views.FindUserViewSet.as_view({'get': 'list'}), name='find-user'),
     path('friendship/', views.FriendshipViewSet.as_view({'post': 'create', 'get': 'retrieve', 'delete': 'delete'}),
-             name='friendship'),
+         name='friendship'),
     path('get-user/', views.get_current_user, name='get-user'),
     path('login/', views.login, name='login'),
     path('posts/<str:username>/', views.PlayerImageView.as_view({'get': 'retrieve'}), name="player-images"),
