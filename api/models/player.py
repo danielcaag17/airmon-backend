@@ -20,11 +20,11 @@ class Player(models.Model):
     n_consumibles_usats = models.PositiveSmallIntegerField(default=0)
     n_tirades_ruleta = models.PositiveSmallIntegerField(default=0)
     total_coins = models.PositiveSmallIntegerField(default=0)
-    total_airmons_comu = models.PositiveSmallIntegerField(default=0)
-    total_airmons_especial = models.PositiveSmallIntegerField(default=0)
-    total_airmons_curios = models.PositiveSmallIntegerField(default=0)
+    total_airmons_common = models.PositiveSmallIntegerField(default=0)
+    total_airmons_special = models.PositiveSmallIntegerField(default=0)
     total_airmons_epic = models.PositiveSmallIntegerField(default=0)
-    total_airmons_llegendari = models.PositiveSmallIntegerField(default=0)
+    total_airmons_mythical = models.PositiveSmallIntegerField(default=0)
+    total_airmons_legendary = models.PositiveSmallIntegerField(default=0)
     total_compres = models.PositiveSmallIntegerField(default=0)
 
     # Estadistiques que es poden calcular

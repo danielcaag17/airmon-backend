@@ -1,1 +1,1 @@
-from .stadistics_signal import capture_created
+from .statistics_signal import capture_created
