@@ -11,11 +11,17 @@ def capture_created(sender, instance, created, **kwargs):
         player = Player.objects.get(user__username=instance.username)
         player.n_airmons_capturats += 1
         raresa = get_raresa(instance.airmon_id)
-        action = raresa_actions.get(raresa, lambda player: handle_default(player))
-        action(player)
+        if raresa in raresa_mapping:
+            setattr(player, raresa_mapping[raresa], getattr(player, raresa_mapping[raresa]) + 1)
         player.save()
     else:
         print(f'User {instance.username} has been updated.')
 
 
-
+raresa_mapping = {
+    "Legendary": "total_airmons_legendary",
+    "Mythical": "total_airmons_mythical",
+    "Epic": "total_airmons_epic",
+    "Special": "total_airmons_special",
+    "Common": "total_airmons_common"
+}
