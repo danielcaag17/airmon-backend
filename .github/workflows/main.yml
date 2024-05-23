@@ -11,6 +11,7 @@ jobs:
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
       DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
       DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+      NOT_S3: ${{ secrets.NOT_S3 }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
