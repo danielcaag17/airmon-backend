@@ -3,8 +3,8 @@ from ..models import Airmon, RarityType, AirmonType
 
 
 class AirmonSerializer(serializers.ModelSerializer):
-    rarity = serializers.ChoiceField(choices=[(tag.value, tag.value) for tag in RarityType])
-    type = serializers.ChoiceField(choices=[(tag.value, tag.value) for tag in AirmonType])
+    rarity = serializers.ChoiceField(choices=RarityType.choices)
+    type = serializers.ChoiceField(choices=AirmonType.choices)
 
     class Meta:
         model = Airmon
