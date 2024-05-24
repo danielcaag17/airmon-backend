@@ -6,7 +6,6 @@ from .pollutant import Pollutant
 
 class PollutantMeasure(models.Model):
     pollutant_name = models.ForeignKey(Pollutant, on_delete=models.CASCADE)
-    # measure conte station_code, date i hour de la measure associada
     measure = models.ForeignKey(Measure, on_delete=models.CASCADE)
     quantity = models.FloatField()
 

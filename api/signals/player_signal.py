@@ -2,13 +2,13 @@ from django.db.models.signals import post_save, pre_save, post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 
-from .utils import get_raresa
-from ..models import Capture, Player, PlayerItem, PlayerActiveItem
+from ..models import Airmon, Capture, Player, PlayerItem, PlayerActiveItem
 
 # Utilitzat per guardar instàncies abans de fer el save
 old_values_cache = {}
 
 
+# Crear Player quan es crea User
 @receiver(post_save, sender=User)
 def user_created(sender, instance, created, **kwargs):
     if created:
@@ -18,6 +18,7 @@ def user_created(sender, instance, created, **kwargs):
         pass
 
 
+# Guardar atributs de Player abans de guardar-lo
 @receiver(pre_save, sender=Player)
 def player_old_values(sender, instance, **kwargs):
     try:
@@ -34,6 +35,7 @@ def player_old_values(sender, instance, **kwargs):
         }
 
 
+# Actualitzar estadístiques del Player
 @receiver(post_save, sender=Player)
 def player_updated(sender, instance, created, **kwargs):
     if created:
@@ -44,18 +46,21 @@ def player_updated(sender, instance, created, **kwargs):
         new_coins = instance.coins
         old_roulette = old_instance.get("roulette")
         new_roulette = instance.last_roulette_spin
-        if old_coins != new_coins:
-            # Player ha obtingut monedas
-            if old_coins is not None and old_coins < new_coins:
-                # Sumar la diferència de monedes que ha guanyat
-                instance.total_coins += new_coins - old_coins
-                instance.save(update_fields=['total_coins'])
-        if old_roulette != new_roulette:
+
+        # Segona condició verifica que el Player ha obtingut monedes
+        if old_coins is not None and old_coins < new_coins:
+            # Sumar la diferència de monedes que ha guanyat
+            instance.total_coins += new_coins - old_coins
+            instance.save(update_fields=['total_coins'])
+
+        if old_roulette is not None and old_roulette != new_roulette:
             instance.n_tirades_ruleta += 1
             instance.save(update_fields=['n_tirades_ruleta'])
+
         old_values_cache.pop(instance.pk, None)
 
 
+# Guardar la quantitat de PlayerItem abans de guardar-lo
 @receiver(pre_save, sender=PlayerItem)
 def player_item_old_values(sender, instance, **kwargs):
     if instance.pk:
@@ -63,6 +68,7 @@ def player_item_old_values(sender, instance, **kwargs):
         old_values_cache[instance.pk] = old_instance.quantity
 
 
+# Actualitzar atribut de Player
 @receiver(post_save, sender=PlayerItem)
 def player_item_created(sender, instance, created, **kwargs):
     if created:
@@ -73,7 +79,7 @@ def player_item_created(sender, instance, created, **kwargs):
         old_quantity = old_values_cache.get(instance.pk)
         new_quantity = instance.quantity
 
-        # Player ha comprat item
+        # Segona condició verifica que Player ha comprat item
         if old_quantity is not None and old_quantity < new_quantity:
             player = Player.objects.get(user__username=instance.user)
             player.total_compres += new_quantity - old_quantity
@@ -82,6 +88,7 @@ def player_item_created(sender, instance, created, **kwargs):
         old_values_cache.pop(instance.pk, None)
 
 
+# Actualitzar atribut de Player
 @receiver(post_save, sender=PlayerActiveItem)
 def player_active_item_created(sender, instance, created, **kwargs):
     if created:
@@ -92,12 +99,16 @@ def player_active_item_created(sender, instance, created, **kwargs):
         pass
 
 
+# Actualitzar atributs de Player
 @receiver(post_save, sender=Capture)
 def capture_created(sender, instance, created, **kwargs):
     if created:
-        player = Player.objects.get(user__username=instance.username)
+        player = Player.objects.get(user__username=instance.user)
         player.n_airmons_capturats += 1
-        raresa = get_raresa(instance.airmon_id)
+
+        # Actualitzar atribut segons la raresa de l'Airmon
+        airmon = Airmon.objects.get(name=instance.airmon_id)
+        raresa = airmon.rarity
         if raresa in raresa_mapping:
             player_field = raresa_mapping[raresa]
             setattr(player, player_field, getattr(player, player_field) + 1)
@@ -116,10 +127,11 @@ raresa_mapping = {
 }
 
 
+# Actualitzar quan s'allibera un Airmon
 @receiver(post_delete, sender=Capture)
-def mymodel_post_delete(sender, instance, **kwargs):
+def capture_post_delete(sender, instance, **kwargs):
     try:
-        player = Player.objects.get(user__username=instance.username)
+        player = Player.objects.get(user__username=instance.user)
         player.airmons_alliberats += 1
         player.save(update_fields=['airmons_alliberats'])
     except Player.DoesNotExist:

@@ -11,7 +11,7 @@ class PollutantMeasureModelTest(TestCase):
         self.station = create_station(1, "station1", create_location_geohash("u09tunqp3d08"))
         measure = create_measure(self.station, datetime.now().date(), datetime.now().time())
         self.pollutant_measure = PollutantMeasure.objects.create(
-            pollutant_name=create_pollutant("CO2", "Micrograms/m3", 2),
+            pollutant_name=create_pollutant("CO2", "Micrograms/m3"),
             measure=measure,
             quantity=100,
         )
@@ -28,8 +28,7 @@ class PollutantMeasureModelTest(TestCase):
         self.assertEqual(pollutant_measures_after, pollutant_measures_before - 1)
 
     def test_pollutant_measure_update(self):
-        self.pollutant_measure.pollutant_name = create_pollutant("pollutant updated", "Micrograms/m3",
-                                                                 10)
+        self.pollutant_measure.pollutant_name = create_pollutant("pollutant updated", "Micrograms/m3")
         station = Station.objects.create(code=2, name="station2", location_id=create_location_geohash("dr5ru9pq8"))
         measure = create_measure(station, datetime.now().date(), datetime.now().time())
         self.pollutant_measure.measure = measure
@@ -44,7 +43,7 @@ class PollutantMeasureModelTest(TestCase):
         try:
             PollutantMeasure.objects.create(
                 id=self.pollutant_measure.id,
-                pollutant_name=create_pollutant("pollutant2", "Micrograms/m3", 10),
+                pollutant_name=create_pollutant("pollutant2", "Micrograms/m3"),
                 measure=self.pollutant_measure.measure,
                 quantity=0,
             )

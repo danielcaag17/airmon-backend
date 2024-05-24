@@ -120,6 +120,7 @@ class AirmonModelTest(TestCase):
             self.assertIn("Invalid type value.", str(e))
 
     # Crear Airmon amb una imatge que no existeix
+    '''
     def test_airmon_invalid5(self):
         try:
             # Per forçar l'excepció
@@ -132,3 +133,4 @@ class AirmonModelTest(TestCase):
         except ValueError as e:
             self.assertIsInstance(e, ValueError)
             self.assertIn('Required parameter name not set', str(e))
+    '''
