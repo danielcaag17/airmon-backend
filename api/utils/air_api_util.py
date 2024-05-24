@@ -1,10 +1,8 @@
 from datetime import datetime, timedelta
-from django.apps import apps
-from decimal import Decimal, ROUND_DOWN
 
 from .requester import Requester
 from .utils import get_geohash
-from ..models import Station, Pollutant, PollutantMeasure, LocationGeohash, Measure, UnitType
+from ..models import Station, Pollutant, PollutantMeasure, Measure, UnitType
 
 url = "https://analisi.transparenciacatalunya.cat/resource/tasf-thgu.json"
 client = Requester(url)

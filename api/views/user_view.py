@@ -67,4 +67,3 @@ class EditUserViewSet(viewsets.ViewSet):
         player.save()
 
         return Response(status=status.HTTP_200_OK)
-
