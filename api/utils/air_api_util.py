@@ -3,6 +3,7 @@ from django.apps import apps
 from decimal import Decimal, ROUND_DOWN
 
 from .requester import Requester
+from .utils import get_geohash
 from ..models import Station, Pollutant, PollutantMeasure, LocationGeohash, Measure, UnitType
 
 url = "https://analisi.transparenciacatalunya.cat/resource/tasf-thgu.json"
@@ -28,14 +29,7 @@ def update_air_data():
         if measure_amount == -1:
             continue
 
-        longitude = round_decimal(Decimal(info["longitud"]), 6)
-        latitude = round_decimal(Decimal(info["latitud"]), 6)
-
-        # Transformar coordenades a geohash
-        geohash = LocationGeohash.objects.coords_to_geohash(latitude=latitude, longitude=longitude)
-
-        if (loc := _check_model_exists("LocationGeohash", geohash=geohash)) is None:
-            loc = LocationGeohash.objects.create(geohash=geohash)
+        loc = get_geohash(info)
 
         station, created = Station.objects.update_or_create(
             code=info["codi_eoi"],
@@ -71,10 +65,6 @@ def update_air_data():
         measure.save()
 
 
-def round_decimal(value, decimal_places):
-    return value.quantize(Decimal(10) ** -decimal_places, rounding=ROUND_DOWN)
-
-
 def _parse_pollutant_measure(measure):
     if measure == "mg/m3":
         return UnitType.MILIGRAMSxMETRES3.value
@@ -95,15 +85,6 @@ def _request_air_data():
     date = date.isoformat()
 
     return client.get(limit=500, where=f"data='{date}'")
-
-
-def _check_model_exists(model_name, **kwargs):
-    """
-    Checks if a model exists in the database
-    """
-    model = apps.get_model('api', model_name)
-    res = model.objects.filter(**kwargs).first()
-    return res
 
 
 def _get_air_measurement(data):
