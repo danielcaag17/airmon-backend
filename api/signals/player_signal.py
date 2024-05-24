@@ -95,7 +95,7 @@ def player_active_item_created(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Capture)
 def capture_created(sender, instance, created, **kwargs):
     if created:
-        player = Player.objects.get(user__username=instance.username)
+        player = Player.objects.get(user__username=instance.user)
         player.n_airmons_capturats += 1
         raresa = get_raresa(instance.airmon_id)
         if raresa in raresa_mapping:
@@ -117,9 +117,9 @@ raresa_mapping = {
 
 
 @receiver(post_delete, sender=Capture)
-def mymodel_post_delete(sender, instance, **kwargs):
+def capture_post_delete(sender, instance, **kwargs):
     try:
-        player = Player.objects.get(user__username=instance.username)
+        player = Player.objects.get(user__username=instance.user)
         player.airmons_alliberats += 1
         player.save(update_fields=['airmons_alliberats'])
     except Player.DoesNotExist:

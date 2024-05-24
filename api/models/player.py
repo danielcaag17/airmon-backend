@@ -5,9 +5,6 @@ from . import Language
 
 
 class Player(models.Model):
-    # PositiveSmallIntegerField amb rang [0-32767]
-    # PositiveIntegerField amb rang [0-2147483647]
-    # RT10 garantida
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     language = models.CharField(max_length=16, choices=Language.choices, default=Language.CATALA)
     xp_points = models.PositiveSmallIntegerField(default=0)
@@ -26,8 +23,7 @@ class Player(models.Model):
     total_airmons_epic = models.PositiveSmallIntegerField(default=0)
     total_airmons_mythical = models.PositiveSmallIntegerField(default=0)
     total_airmons_legendary = models.PositiveSmallIntegerField(default=0)
-    # No és per compra sinó quantitat
-    total_compres = models.PositiveSmallIntegerField(default=0)
+    total_compres = models.PositiveSmallIntegerField(default=0)         # No és per compra sinó quantitat
 
     # Estadistiques que es poden calcular
     # ...
