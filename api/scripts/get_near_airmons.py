@@ -12,6 +12,7 @@ from api.models.spawned_airmon import SpawnedAirmon
 
 latitude = 41.387296
 longitude = 2.159478
+# TODO: refactor
 geohash_ = geohash.encode(latitude=latitude, longitude=longitude, precision=6)
 neighbors = geohash.neighbors(geohash_)
 current_hour = datetime.datetime.now().hour
