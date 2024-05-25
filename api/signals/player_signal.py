@@ -95,8 +95,11 @@ def player_active_item_created(sender, instance, created, **kwargs):
         player = Player.objects.get(user=instance.user_id)
         player.n_consumibles_usats += 1
         player.save(update_fields=['n_consumibles_usats'])
+    # TODO: veure si es exactament aixi
     else:
-        pass
+        player = Player.objects.get(user=instance.user_id)
+        player.n_consumibles_usats += 1
+        player.save(update_fields=['n_consumibles_usats'])
 
 
 # Actualitzar atributs de Player
@@ -113,17 +116,18 @@ def capture_created(sender, instance, created, **kwargs):
             player_field = raresa_mapping[raresa]
             setattr(player, player_field, getattr(player, player_field) + 1)
         update_fields = ['n_airmons_capturats'] + [raresa_mapping[raresa]] if raresa in raresa_mapping else []
+        print(update_fields)
         player.save(update_fields=update_fields)
     else:
         pass
 
 
 raresa_mapping = {
-    "Legendary": "total_airmons_legendary",
-    "Mythical": "total_airmons_mythical",
-    "Epic": "total_airmons_epic",
-    "Special": "total_airmons_special",
-    "Common": "total_airmons_common"
+    "LEGENDARY": "total_airmons_legendary",
+    "MYTHICAL": "total_airmons_mythical",
+    "EPIC": "total_airmons_epic",
+    "SPECIAL": "total_airmons_special",
+    "COMMON": "total_airmons_common"
 }
 
 

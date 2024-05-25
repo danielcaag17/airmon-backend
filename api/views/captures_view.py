@@ -17,7 +17,7 @@ class CaptureViewSet(viewsets.ModelViewSet):
     serializer_class = CaptureSerializer
 
     def perform_create(self, serializer):
-        serializer.validated_data['username'] = self.request.user
+        serializer.validated_data['user'] = self.request.user
         serializer.save()
 
 

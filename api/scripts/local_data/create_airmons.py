@@ -1,10 +1,9 @@
-from .airmons_data import get_airmons
-
 def create_airmons():
     import os
     from django.core.files import File
     from django.conf import settings
 
+    from api.scripts.local_data.airmons_data import get_airmons
     from api.models.airmon import Airmon
 
     # Define the path to the temp folder
