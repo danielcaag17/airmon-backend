@@ -5,17 +5,17 @@ from django.utils import timezone
 from ..models import Player, PlayerTrophy, Trophy
 
 player_field = {
-    "Caçador Mestre": "n_airmons_capturats",
-    "Llibertador d’Esperits": "airmons_alliberats",
-    "Col·leccionista quotidià": "total_airmons_common",
-    "Explorador Especial": "total_airmons_special",
-    "Caçador Èpic": "total_airmons_epic",
-    "Descobridor Mític": "total_airmons_mythical",
-    "Llegenda Vivent": "total_airmons_legendary",
-    "Apostador Aeri": "n_tirades_ruleta",
-    "Alquimista de Combat": "n_consumibles_usats",
-    "Comprador Compulsiu": "total_compres",
-    "Rei del Tresor": "total_coins",
+    "trophy1": "n_airmons_capturats",
+    "trophy2": "airmons_alliberats",
+    "trophy3": "total_airmons_common",
+    "trophy4": "total_airmons_special",
+    "trophy5": "total_airmons_epic",
+    "trophy6": "total_airmons_mythical",
+    "trophy7": "total_airmons_legendary",
+    "trophy8": "n_tirades_ruleta",
+    "trophy9": "n_consumibles_usats",
+    "trophy10": "total_compres",
+    "trophy11": "total_coins",
 }
 
 

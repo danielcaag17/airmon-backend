@@ -1,11 +1,11 @@
 def create_trophies():
-    import os
-    from django.conf import settings
-
     from api.scripts.local_data.trophies_data import get_trophies
     from api.models.trophy import Trophy
 
-    # Trophy.objects.all().delete()
+    Trophy.objects.all().delete()
+
+    print("Creating Trophies")
+
     new_trophies = []
     trophies = get_trophies()
     for trophy in trophies:

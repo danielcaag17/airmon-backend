@@ -247,4 +247,9 @@ trophies = [
 
 
 def get_trophies():
+    i = 3
+    for trophy in trophies:
+        trophy["name"] = "trophy" + str(int(i/3))
+        trophy["description"] = "descTrophy" + str(int(i/3))
+        i += 1
     return trophies
