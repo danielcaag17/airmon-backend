@@ -10,7 +10,7 @@ router.register(r'airmons', views.AirmonsViewSet)
 router.register(r'images', views.PlayerImageViewSet, basename='images')
 router.register(r'items', views.ItemViewSet, basename='items')
 router.register(r'captures', views.CaptureViewSet)
-router.register(r'player/(?P<username>\w+)/captures', views.PlayerCaptureViewSet, basename='player-captures')
+router.register(r'player/captures', views.PlayerCaptureViewSet, basename='player-captures')
 router.register(r'player/active-items', views.PlayerActiveItemViewSet, basename='active-items')
 router.register(r'player/items', views.PlayerItemViewSet, basename='player-items')
 

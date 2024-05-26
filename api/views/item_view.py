@@ -26,12 +26,12 @@ class PlayerItemViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return PlayerItem.objects.filter(user=self.request.user)
 
-    def perform_create(self, serializer):
-        item_name = self.request.data.get('item_name')
-        quantity = int(self.request.data.get('quantity'))
+    def create(self, request, *args, **kwargs):
+        item_name = request.data.get('item_name')
+        quantity = int(request.data.get('quantity'))
 
         item = get_object_or_404(Item, pk=item_name)
-        player = get_object_or_404(Player, user=self.request.user)
+        player = get_object_or_404(Player, user=request.user)
 
         if player.coins < item.price * quantity:
             return Response({"error": "You don't have enough coins"}, status=status.HTTP_400_BAD_REQUEST)
@@ -39,13 +39,20 @@ class PlayerItemViewSet(viewsets.ModelViewSet):
         player.coins -= item.price * quantity
         player.save()
 
+        # Get the serializer
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
         try:
-            player_item = PlayerItem.objects.get(user=self.request.user, item_name=item_name)
+            player_item = PlayerItem.objects.get(user=request.user, item_name=item_name)
             player_item.quantity += quantity
             player_item.save()
             serializer.validated_data['quantity'] = player_item.quantity
         except PlayerItem.DoesNotExist:
-            serializer.save(user=self.request.user)
+            serializer.save(user=request.user)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 @authentication_classes([TokenAuthentication])
@@ -54,7 +61,7 @@ class PlayerActiveItemViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerActiveItemSerializer
 
     def get_queryset(self):
-        return item_util.get_active_items(self.request.user.id)
+        return item_util.get_active_items(self.request.user)
 
     def create(self, request, *args, **kwargs):
         item_name = request.data.get('item_name')
@@ -69,26 +76,38 @@ class PlayerActiveItemViewSet(viewsets.ModelViewSet):
 
         item.quantity -= 1
         item.save()
-        return super().create(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
-        item_name = self.request.data.get('item_name')
+        # Get the serializer
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
+        # The code from perform_create() starts here
         item = get_object_or_404(Item, pk=item_name)
-        duration = item.duration
+        duration = timezone.timedelta(hours=item.duration.hour, minutes=item.duration.minute,
+                                      seconds=item.duration.second)
 
-        active_items = item_util.get_active_items(self.request.user.id)
+        active_items = item_util.get_active_items(self.request.user)
 
         searched = active_items.filter(item_name=item_name)
         if searched.exists():
             active_item = searched.first()
-            active_item.expiration += timezone.timedelta(hours=duration.hour, minutes=duration.minute,
-                                                         seconds=duration.second)
+            active_item.expiration += duration
             active_item.save()
             serializer.validated_data['expiration'] = active_item.expiration
-            return
+        else:
+            instant = timezone.now()
+            if instant != instant + duration:
+                # Means the duration is not 0, so we save the item with an expiration date
+                expiration = timezone.now() + duration
+                serializer.save(user=self.request.user, expiration=expiration)
 
-        expiration = timezone.now() + timezone.timedelta(hours=duration.hour, minutes=duration.minute,
-                                                         seconds=duration.second)
+        result = item_util.handle_specific_action(self.request.user, item_name)
 
-        serializer.save(user=self.request.user, expiration=expiration)
+        headers = self.get_success_headers(serializer.data)
+
+        if result is not None:
+            data = {**serializer.data, **result}
+        else:
+            data = serializer.data
+
+        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
