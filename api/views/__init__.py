@@ -9,7 +9,7 @@ from .icqa_view import ICQAView
 from .item_view import ItemViewSet, PlayerItemViewSet, PlayerActiveItemViewSet
 from .map_view import MapViewSet
 from .player_images_view import PlayerImageViewSet, PlayerImageView
-from .player_trophy_view import PlayerTrophyViewSet
+from .player_trophy_view import PlayerTrophyViewSet, PlayerTrophyInfoViewSet
 from .player_view import PlayerViewSet, RouletteView, ExpView, PlayerStatisticsViewSet, RankingViewSet
 from .spawned_airmons_view import SpawnedAirmonsView
 from .station_view import *

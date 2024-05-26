@@ -39,3 +39,7 @@ def obtenir_trofeu(instance, field, trophy):
         if created:
             instance.xp_points += trophy.xp
             instance.save(update_fields=['xp_points'])
+
+
+def get_relation():
+    return player_field
