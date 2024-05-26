@@ -28,3 +28,11 @@ Item.objects.create(
     duration='00:00:00'
 )
 
+Item.objects.create(
+    name='airbox',
+    price=1000,
+    description='Open this box to get a random airmon',
+    image='items/airbox.png',
+    duration='00:00:00'
+)
+
