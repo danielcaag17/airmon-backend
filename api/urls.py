@@ -45,6 +45,7 @@ player_urls = [
     path('player/exp/', views.ExpView.as_view({'get': 'retrieve', 'put': 'partial_update'}), name='exp'),
     path('player/coins/', views.PlayerViewSet.as_view({'post': 'update'}), name='coins'),
     path('player/roulette/', views.RouletteView.as_view({'post': 'create', 'get': 'retrieve'}), name='roulette'),
+    path('player/<str:name>/', views.PlayerTrophyInfoViewSet.as_view({'get': 'retrieve'}), name='player-trophy'),
     path('player/<str:username>/', views.PlayerViewSet.as_view({'get': 'retrieve'}), name='player'),
     path('players/', views.PlayerViewSet.as_view({'get': 'list'}), name='players'),
     path('players/statistics/<str:statistic>/', views.RankingViewSet.as_view({'get': 'list'}), name='player-ranking'),
