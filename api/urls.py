@@ -47,6 +47,7 @@ player_urls = [
     path('player/roulette/', views.RouletteView.as_view({'post': 'create', 'get': 'retrieve'}), name='roulette'),
     path('player/<str:username>/', views.PlayerViewSet.as_view({'get': 'retrieve'}), name='player'),
     path('players/', views.PlayerViewSet.as_view({'get': 'list'}), name='players'),
+    path('players/statistics/<str:statistic>/', views.RankingViewSet.as_view({'get': 'list'}), name='player-ranking'),
     path('<str:username>/statistics/', views.PlayerStatisticsViewSet.as_view({'get': 'list'}), name='statistics'),
 ]
 

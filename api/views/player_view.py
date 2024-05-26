@@ -4,6 +4,7 @@ from ..models import Player
 from rest_framework.response import Response
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import FieldError
 
 from ..serializers import PlayerSerializer, PlayerPublicSerializer, PlayerStatisticsSerializer
 
@@ -90,4 +91,18 @@ class PlayerStatisticsViewSet(viewsets.ViewSet):
     def list(self, request, username=None):
         player = Player.objects.get(user__username=username)
         serializer = PlayerStatisticsSerializer(player)
+        return Response(serializer.data)
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class RankingViewSet(viewsets.ViewSet):
+    def list(self, request, statistic):
+        try:
+            # Ordenar per ordre descendent
+            players = Player.objects.all().order_by(f'-{statistic}')
+        except FieldError:
+            return Response({"error": "Invalid statistic field"}, status=400)
+
+        serializer = PlayerPublicSerializer(players, many=True)
         return Response(serializer.data)
