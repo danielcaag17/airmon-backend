@@ -22,7 +22,7 @@ class CaptureViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        serializer.validated_data['username'] = self.request.user
+        serializer.validated_data['user'] = self.request.user
         spawned_airmon = SpawnedAirmon.objects.get(id=self.request.data['spawned_airmon_id'])
         print(CaptureSpawnedAirmon.objects.all())
         if CaptureSpawnedAirmon.objects.filter(player__user=self.request.user, spawned_airmon=spawned_airmon).exists():

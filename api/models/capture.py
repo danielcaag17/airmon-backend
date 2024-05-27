@@ -11,4 +11,4 @@ class Capture (models.Model):
     date = models.DateTimeField(default=now, editable=False)
 
     class Meta:
-        unique_together = ('airmon', 'username', 'date')
+        unique_together = ('airmon', 'user', 'date')

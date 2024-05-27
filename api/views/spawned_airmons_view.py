@@ -8,8 +8,8 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from api.models.capture_spawned_airmon import CaptureSpawnedAirmon
 from api.models.spawned_airmon import SpawnedAirmon
-9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999from api.models.capture_spawned_airmon import CaptureSpawnedAirmon
 
 
 @authentication_classes([TokenAuthentication])
