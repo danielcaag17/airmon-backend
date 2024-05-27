@@ -14,7 +14,7 @@ def create_airmon(name):
 
 
 def create_capture(user, airmon, date, attempts):
-    return Capture.objects.create(username=user, airmon=airmon, date=date, attempts=attempts)
+    return Capture.objects.create(user=user, airmon=airmon, date=date, attempts=attempts)
 
 
 def create_chat(user1, user2):
@@ -42,16 +42,16 @@ def create_measure(code, date, hour):
     return Measure.objects.create(station_code=code, date=date, hour=hour)
 
 
-def create_pollutant(name, measure_unit, recommended_limit):
-    return Pollutant.objects.create(name=name, measure_unit=measure_unit, recommended_limit=recommended_limit)
+def create_pollutant(name, measure_unit):
+    return Pollutant.objects.create(name=name, measure_unit=measure_unit)
 
 
 def create_station(code, name, location):
     return Station.objects.create(code=code, name=name, location=location)
 
 
-def create_trophy(name, tipus, xp):
-    return Trophy.objects.create(name=name, type=tipus, xp=xp)
+def create_trophy(name, tipus, description, requirement, xp):
+    return Trophy.objects.create(name=name, type=tipus, description=description, requirement=requirement, xp=xp)
 
 
 def get_timezone():

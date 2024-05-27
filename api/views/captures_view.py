@@ -17,7 +17,7 @@ class CaptureViewSet(viewsets.ModelViewSet):
     serializer_class = CaptureSerializer
 
     def perform_create(self, serializer):
-        serializer.validated_data['username'] = self.request.user
+        serializer.validated_data['user'] = self.request.user
         serializer.save()
 
 
@@ -30,5 +30,4 @@ class PlayerCaptureViewSet(viewsets.ModelViewSet):
     serializer_class = CaptureSerializer
 
     def get_queryset(self):
-        username = self.kwargs['username']
-        return Capture.objects.filter(airmon__capture__username=username)
+        return Capture.objects.filter(user=self.request.user)

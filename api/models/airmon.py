@@ -7,8 +7,8 @@ from .rarity_type import RarityType
 class Airmon(models.Model):
     name = models.CharField(max_length=32, primary_key=True)
     description = models.TextField()
-    rarity = models.CharField(max_length=32, choices=RarityType.choices, default=RarityType.COMU)
-    type = models.CharField(max_length=32, choices=AirmonType.choices, default=AirmonType.LOREM)
+    rarity = models.CharField(max_length=32, choices=RarityType.choices, default=RarityType.COMMON)
+    type = models.CharField(max_length=32, choices=AirmonType.choices, default=AirmonType.NO2)
     image = models.ImageField(upload_to='airmons/')
 
     def save(self, *args, **kwargs):

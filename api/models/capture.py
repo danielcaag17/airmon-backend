@@ -9,13 +9,13 @@ from django.contrib.auth.models import User
 
 
 class Capture (models.Model):
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     airmon = models.ForeignKey(Airmon, on_delete=models.CASCADE)
     date = models.DateTimeField()
     attempts = models.PositiveSmallIntegerField()
 
     class Meta:
-        unique_together = ('airmon', 'username', 'date')
+        unique_together = ('airmon', 'user', 'date')
 
     def save(self, *args, **kwargs):
         timezone = pytz.timezone("Europe/Madrid")
