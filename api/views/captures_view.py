@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from ..models import Capture
+from ..models import Capture, CaptureSpawnedAirmon, SpawnedAirmon, Player
 from ..serializers import CaptureSerializer
 
 from rest_framework.decorators import authentication_classes, permission_classes
@@ -16,9 +16,20 @@ class CaptureViewSet(viewsets.ModelViewSet):
     queryset = Capture.objects.all()
     serializer_class = CaptureSerializer
 
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        # SpawnedAirmon.objects.get(id=request.data['id'])
+        return super().create(request, *args, **kwargs)
+
     def perform_create(self, serializer):
-        serializer.validated_data['user'] = self.request.user
+        serializer.validated_data['username'] = self.request.user
+        spawned_airmon = SpawnedAirmon.objects.get(id=self.request.data['spawned_airmon_id'])
+        print(CaptureSpawnedAirmon.objects.all())
+        if CaptureSpawnedAirmon.objects.filter(player__user=self.request.user, spawned_airmon=spawned_airmon).exists():
+            raise Exception('You already captured this airmon')
+        serializer.validated_data['airmon'] = spawned_airmon.airmon
         serializer.save()
+        CaptureSpawnedAirmon.objects.create(player=Player.objects.get(user=self.request.user), spawned_airmon=SpawnedAirmon.objects.get(id=self.request.data['spawned_airmon_id']))
 
 
 @authentication_classes([TokenAuthentication])
