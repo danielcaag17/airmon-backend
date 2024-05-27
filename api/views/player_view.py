@@ -97,7 +97,10 @@ class PlayerStatisticsViewSet(viewsets.ViewSet):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 class RankingViewSet(viewsets.ViewSet):
-    def list(self, request, statistic):
+    def list(self, request, statistic=None):
+        if statistic is None:
+            return Response({"error": "Statistic field is required"}, status=400)
+
         try:
             # Ordenar per ordre descendent
             players = Player.objects.all().order_by(f'-{statistic}')
@@ -105,4 +108,8 @@ class RankingViewSet(viewsets.ViewSet):
             return Response({"error": "Invalid statistic field"}, status=400)
 
         serializer = PlayerPublicSerializer(players, many=True)
+        for player in serializer.data:
+            player_instance = Player.objects.get(user__username=player['username'])
+            player['statistic'] = getattr(player_instance, statistic, None)
+            player.pop('avatar', None)
         return Response(serializer.data)
