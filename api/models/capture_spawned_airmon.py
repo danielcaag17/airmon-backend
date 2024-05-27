@@ -1,7 +1,3 @@
-from datetime import datetime
-import pytz
-from django.core.exceptions import ValidationError
-
 from django.db import models
 
 from .spawned_airmon import SpawnedAirmon

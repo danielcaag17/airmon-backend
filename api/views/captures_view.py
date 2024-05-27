@@ -26,7 +26,10 @@ class CaptureViewSet(viewsets.ModelViewSet):
             raise Exception('You already captured this airmon')
         serializer.validated_data['airmon'] = spawned_airmon.airmon
         serializer.save()
-        CaptureSpawnedAirmon.objects.create(player=Player.objects.get(user=self.request.user), spawned_airmon=SpawnedAirmon.objects.get(id=self.request.data['spawned_airmon_id']))
+        CaptureSpawnedAirmon.objects.create(
+            player=Player.objects.get(user=self.request.user),
+            spawned_airmon=SpawnedAirmon.objects.get(id=self.request.data['spawned_airmon_id'])
+        )
 
 
 @authentication_classes([TokenAuthentication])
