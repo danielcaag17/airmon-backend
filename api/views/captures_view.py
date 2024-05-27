@@ -17,14 +17,11 @@ class CaptureViewSet(viewsets.ModelViewSet):
     serializer_class = CaptureSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
-        # SpawnedAirmon.objects.get(id=request.data['id'])
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.validated_data['user'] = self.request.user
         spawned_airmon = SpawnedAirmon.objects.get(id=self.request.data['spawned_airmon_id'])
-        print(CaptureSpawnedAirmon.objects.all())
         if CaptureSpawnedAirmon.objects.filter(player__user=self.request.user, spawned_airmon=spawned_airmon).exists():
             raise Exception('You already captured this airmon')
         serializer.validated_data['airmon'] = spawned_airmon.airmon

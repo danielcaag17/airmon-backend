@@ -37,7 +37,6 @@ class SpawnedAirmonsView(APIView):
         )
         daily_captures = CaptureSpawnedAirmon.objects.filter(player__user=request.user)
         daily_captures_ids = [capture.spawned_airmon.id for capture in daily_captures]
-        print(daily_captures_ids)
         processed_airmons = []
         for airmon in spawned_airmons:
             if airmon.id in daily_captures_ids or (

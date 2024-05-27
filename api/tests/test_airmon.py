@@ -40,8 +40,6 @@ class AirmonModelTest(TestCase):
     def test_airmon_destroy2(self):
         create_capture(create_user("User test"),
                        self.airmon,
-                       datetime.now(get_timezone()),
-                       0
                        )
         airmons_before = Airmon.objects.count()  # Nombre de Airmons que hi ha
         captures_before = Capture.objects.count()

@@ -53,7 +53,7 @@ class PlayerModelTest(TestCase):
             user2=user2,
             date=datetime.now(get_timezone())
         )
-        create_capture(self.player.user, create_airmon("Airmon"), datetime.now(get_timezone()), 0)
+        create_capture(self.player.user, create_airmon("Airmon"))
 
         players_before = Player.objects.count()  # Nombre de Players que hi ha
         friends_before = Friendship.objects.count()

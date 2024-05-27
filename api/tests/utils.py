@@ -13,8 +13,8 @@ def create_airmon(name):
     return Airmon.objects.create(name=name)
 
 
-def create_capture(user, airmon, date):
-    return Capture.objects.create(username=user, airmon=airmon, date=date)
+def create_capture(user, airmon):
+    return Capture.objects.create(user=user, airmon=airmon)
 
 
 def create_chat(user1, user2):
