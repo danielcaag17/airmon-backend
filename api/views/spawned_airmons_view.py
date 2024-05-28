@@ -26,6 +26,7 @@ class SpawnedAirmonsView(APIView):
             return HttpResponseBadRequest("Latitude and/or longitude missing.")
         geohash_ = geohash.encode(latitude=latitude, longitude=longitude, precision=6)
         neighbors = geohash.neighbors(geohash_)
+        neighbors.append(geohash_)
         current_hour = datetime.datetime.now().hour
         prev_hour = current_hour - 1 if current_hour > 0 else 23
         minute = datetime.datetime.now().minute
