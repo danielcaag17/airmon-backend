@@ -20,7 +20,7 @@ class PlayerPublicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
-        fields = ['username', 'avatar']
+        fields = ['username', 'avatar', 'xp_points']
 
     def get_username(self, obj):
         return obj.user.username
