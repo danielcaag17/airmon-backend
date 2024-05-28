@@ -67,5 +67,6 @@ trophies_urls = [
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('diagrama/', views.veure_diagrama, name='veure_diagrama'),
     # path('test-token/', views.test_token, name='test-token'),
 ] + airmon_urls + event_urls + user_urls + player_urls + station_urls + trophies_urls
