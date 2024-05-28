@@ -67,15 +67,15 @@ class PlayerActiveItemViewSet(viewsets.ModelViewSet):
         item_name = request.data.get('item_name')
 
         try:
-            item = PlayerItem.objects.get(user=request.user, item_name=item_name)
+            player_item = PlayerItem.objects.get(user=request.user, item_name=item_name)
         except PlayerItem.DoesNotExist:
             return Response({"error": "You don't have this item"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if item.quantity <= 0:
+        if player_item.quantity <= 0:
             return Response({"error": "You don't have any more items left"}, status=status.HTTP_400_BAD_REQUEST)
 
-        item.quantity -= 1
-        item.save()
+        player_item.quantity -= 1
+        player_item.save()
 
         # Get the serializer
         serializer = self.get_serializer(data=request.data)
