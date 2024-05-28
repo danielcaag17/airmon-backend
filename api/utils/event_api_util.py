@@ -43,7 +43,7 @@ def update_event_data():
             new_events,
             update_conflicts=True,
             unique_fields=["codi"],
-            update_fields=["denominacio", "data_ini", "data_fi", "geohash", "espai"],
+            update_fields=["data_ini", "data_fi", "geohash", "espai"],
         )
 
     else:
