@@ -10,7 +10,6 @@ catalonia_geohashes_lvl_5 = get_catalonia_geohashes_lvl_5()
 def populate_barcelona_spawn_points():
     import random
 
-    from api.models.station import Station
     from api.models.location import LocationGeohash
     from api.models.spawn_point import SpawnPoint
     from api.utils.icqa_by_area import get_nearest_station_v2

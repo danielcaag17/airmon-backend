@@ -41,7 +41,7 @@ airmons = [
         {
             "name": "Aethertox",
             "description": "Emitting a faint, bluish glow, Aethertox neutralizes harmful gases with its ethereal touch, purifying the air effortlessly.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.LEGENDARY,
             "type": AirmonType.O3,
         },
         {
@@ -65,19 +65,19 @@ airmons = [
         {
             "name": "Particulon",
             "description": "A nimble and stealthy airmon, Particulon thrives in dense urban areas, using its particulate form to evade detection and strike swiftly.",
-            "rarity": RarityType.LEGENDARY,
+            "rarity": RarityType.COMMON,
             "type": AirmonType.PM10,
         },
         {
             "name": "Sootalon",
             "description": "Dark and mysterious, Sootalon glides through industrial zones, its sooty wings leaving a trail of fine dust that can obscure its presence.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.SPECIAL,
             "type": AirmonType.PM10,
         },
         {
             "name": "Dustrix",
             "description": "Agile and elusive, Dustrix dances through the air, manipulating dust clouds to create intricate patterns that confuse and disorient its foes.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.EPIC,
             "type": AirmonType.PM10,
         },
         {
@@ -89,31 +89,31 @@ airmons = [
         {
             "name": "Fumory",
             "description": "Cloaked in a haze of fine smoke, Fumory moves silently through polluted skies, using its smoky tendrils to entangle and overwhelm opponents with smoggy bursts.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.LEGENDARY,
             "type": AirmonType.PM10,
         },
         {
             "name": "Pollencloud",
             "description": "A whimsical airmon, Pollencloud drifts gently, dispersing allergenic particles. Its presence signals the start of spring and potential sneezes.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.SPECIAL,
             "type": AirmonType.PM25,
         },
         {
             "name": "Clogmist",
             "description": "Clogmist is dense and heavy, often found in industrial zones. Its thick fog impairs visibility and clogs the airways, making breathing difficult.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.LEGENDARY,
             "type": AirmonType.PM25,
         },
         {
             "name": "Hazebur",
             "description": "Enveloped in a perpetual haze, Hazebur is elusive and tricky to spot. It often lingers in places with poor ventilation, causing persistent coughs.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.COMMON,
             "type": AirmonType.PM25,
         },
         {
             "name": "Dustveil",
             "description": "Shrouded in mystery, Dustveil cloaks itself in a fine layer of dust. It can blend into arid environments, stirring up particles with every movement.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.EPIC,
             "type": AirmonType.PM25,
         },
         {
@@ -125,7 +125,7 @@ airmons = [
         {
             "name": "Sulfuraise",
             "description": "Sulfuraise rises with industrial smoke, spreading its sulfuric aura and causing environmental distress.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.LEGENDARY,
             "type": AirmonType.SO2,
         },
         {
@@ -137,7 +137,7 @@ airmons = [
         {
             "name": "Corrodeon",
             "description": "Corrodeon's corrosive emissions can damage metal structures, causing rust and decay over time.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.SPECIAL,
             "type": AirmonType.SO2,
         },
         {
@@ -149,31 +149,31 @@ airmons = [
         {
             "name": "Clowst",
             "description": "Clowst normally tricks people to think it's a friendly airmon, but it brings sulfuric clouds wherever it goes.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.COMMON,
             "type": AirmonType.SO2,
         },
         {
             "name": "Exhaurox",
             "description": "This Airmon releases harmful gases from its vents, thriving in urban areas with heavy traffic and pollution.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.COMMON,
             "type": AirmonType.CO,
         },
         {
             "name": "Combusta",
             "description": "Known for its fiery emissions, Combusta is often found near factories and industrial zones, feeding off exhaust fumes.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.SPECIAL,
             "type": AirmonType.CO,
         },
         {
             "name": "Gascape",
             "description": "Gascape has a knack for slipping through cracks and vents, spreading invisible toxins wherever it goes.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.EPIC,
             "type": AirmonType.CO,
         },
         {
             "name": "Carbost",
             "description": "A master of disguise, Carbost mimics smoke and can drift through the air, leaving behind traces of soot and ash.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.LEGENDARY,
             "type": AirmonType.CO,
         },
         {
@@ -185,13 +185,13 @@ airmons = [
         {
             "name": "Toxovent",
             "description": "Emitting hazardous gases, Toxovent lurks in underground tunnels, thriving on the noxious air found within.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.COMMON,
             "type": AirmonType.C6H6,
         },
         {
             "name": "Benzorin",
             "description": "Stealthy and swift, Benzorin navigates polluted skies, neutralizing benzene emissions with its electrifying aura.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.LEGENDARY,
             "type": AirmonType.C6H6,
         },
         {
@@ -203,37 +203,37 @@ airmons = [
         {
             "name": "Benzorak",
             "description": "With a fiery spirit, Benzorak combats benzene pollutants, leaving behind a trail of purified air in its wake.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.EPIC,
             "type": AirmonType.C6H6,
         },
         {
             "name": "Smogloom",
             "description": "Mysterious and enigmatic, Smogloom thrives in polluted environments, absorbing benzene to nurture its dark aura.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.SPECIAL,
             "type": AirmonType.C6H6,
         },
         {
             "name": "Toxithorn",
             "description": "A spiky plant Airmon with thorns dripping with toxic chemicals, leaving a trail of contamination.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.EPIC,
             "type": AirmonType.H2S,
         },
         {
             "name": "Nitrognarl",
             "description": "A gnarled tree-like Airmon with leaves that exude a noxious vapor, leaving a trail of toxicity in its wake.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.SPECIAL,
             "type": AirmonType.H2S,
         },
         {
             "name": "Plastoxin",
             "description": "A sludge-like Airmon formed from industrial waste, its gelatinous body oozing with toxins and pollutants.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.LEGENDARY,
             "type": AirmonType.H2S,
         },
         {
             "name": "Fumeroar",
             "description": "A lion-like Airmon with a mane made of smog. Its roar can release clouds of harmful pollutants.",
-            "rarity": RarityType.MYTHICAL,
+            "rarity": RarityType.COMMON,
             "type": AirmonType.H2S,
         },
         {

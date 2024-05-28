@@ -45,9 +45,18 @@ def spawn_new_airmons():
 
                 # Get the airmon
                 random_airmon = random.choices(airmons_by_rarity[random_rarity])[0]
+
+                # Move from the spawn point
+                variable_longitude = random.uniform(-0.001, 0.001)
+                variable_latitude = random.uniform(-0.001, 0.001)
+
                 spawned_airmons.append(
                     SpawnedAirmon(
-                        spawn_point=spawn_point, airmon=random_airmon, hour=hour
+                        spawn_point=spawn_point,
+                        airmon=random_airmon,
+                        hour=hour,
+                        variable_latitude=variable_latitude,
+                        variable_longitude=variable_longitude
                     )
                 )
     SpawnedAirmon.objects.bulk_create(spawned_airmons)
