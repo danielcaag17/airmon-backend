@@ -1,0 +1,14 @@
+# Fitxer per veure el coverage dels tests
+# No està posat a requirements, però cal fer pip install coverage
+# Executar coverage run manage.py test
+# Per veure el resultats per terminal executar coverage report
+# Per genera el mateix informe per HTML executar coverage html
+
+[run]
+source = .
+branch = True
+
+[report]
+omit =
+    */tests/*
+    */migrations/*
