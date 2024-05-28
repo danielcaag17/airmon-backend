@@ -41,7 +41,7 @@ def update_air_data():
 
         pollutant, created = Pollutant.objects.update_or_create(
             name=info["contaminant"],
-            defaults={'measure_unit': unit, 'recommended_limit': 1.0}
+            defaults={'measure_unit': unit}
         )
 
         time = datetime.strptime(info["data"], "%Y-%m-%dT%H:%M:%S.%f")

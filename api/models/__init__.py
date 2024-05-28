@@ -24,6 +24,7 @@ from .player import PlayerImages
 from .chat import Chat, ChatMessage
 from .spawn_point import SpawnPoint
 from .spawned_airmon import SpawnedAirmon
+from .capture_spawned_airmon import CaptureSpawnedAirmon
 from .station import Station
 from .trophy import Trophy
 from .trophy_type import TrophyType
