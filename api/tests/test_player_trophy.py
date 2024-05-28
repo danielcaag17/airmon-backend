@@ -2,9 +2,9 @@ from django.test import TestCase
 from django.db import IntegrityError
 from datetime import datetime, timedelta
 
-from ..models import PlayerTrophy
+from api.scripts.local_data.create_trophies import create_trophies
 from .utils import *
-from ..models import PlayerTrophy
+from ..models import Player, PlayerTrophy
 
 
 class PlayerTrophyModelTest(TestCase):
@@ -84,4 +84,24 @@ class PlayerTrophyModelTest(TestCase):
         except IntegrityError as e:
             self.assertIsInstance(e, IntegrityError)
             self.assertIn("NOT NULL constraint failed: api_playertrophy.trophy_id", str(e))
+
+
+class PlayerTrophySignalTest(TestCase):
+    def setUp(self):
+        self.user = create_user('test user1')
+        self.player = Player.objects.get(user=self.user)
+        create_trophies()
+
+    def test_player_trophy_none(self):
+        n_player_trophies = PlayerTrophy.objects.filter(user=self.user).count()
+        self.assertEqual(n_player_trophies, 0)
+
+    def test_coins_copper_trophy(self):
+        self.player.coins += 15
+        self.player.save()
+        trophy = Trophy.objects.get(name="trophy11", type="BRONZE")
+        player_trophy = PlayerTrophy.objects.filter(user=self.user, trophy=trophy).exists()
+        self.assertTrue(player_trophy)
+
+
 
