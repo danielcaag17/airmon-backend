@@ -29,5 +29,5 @@ def handle_specific_action(user, item_name):
 
 def _handle_airbox(user):
     airmon = Airmon.objects.order_by('?').first()
-    capture = Capture.objects.create(user=user, airmon=airmon, date=timezone.now(), attempts=0)
+    capture = Capture.objects.create(user=user, airmon=airmon, date=timezone.now())
     return CaptureSerializer(capture).data
