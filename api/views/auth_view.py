@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from ..models import BannedPlayer
 
+
 @api_view(['POST'])
 def login(request):
     username = request.data['username']
