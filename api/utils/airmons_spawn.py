@@ -1,3 +1,4 @@
+import geohash
 import random
 from collections import defaultdict
 
@@ -6,6 +7,7 @@ from api.models.spawned_airmon import SpawnedAirmon
 from api.models.spawn_point import SpawnPoint
 from api.models.airmon import Airmon
 from api.models.rarity_type import RarityType
+from api.models.event import Event
 
 PROBABILITIES = {
     RarityType.COMMON: 0.4,
@@ -31,12 +33,29 @@ def spawn_new_airmons():
     for airmon in airmons:
         airmons_by_rarity[airmon.rarity].append(airmon)
     measure_dict = {measure.station_code: measure for measure in Measure.objects.all()}
+    events = Event.objects.all()
+    event_geohashes = {event.geohash.geohash[:7] for event in events}
+    event_neighbors = set()
+    for event_geohash in event_geohashes:
+        event_neighbors.update(geohash.neighbors(event_geohash))
+    event_geohashes.update(event_neighbors)
 
     spawned_airmons = []
     for spawn_point in spawn_points:
+
+        # Check if the event is close
+        if spawn_point.location.geohash in event_geohashes:
+            event_close = True
+        else:
+            event_close = False
+
         # Airmon x hour in the day
         for hour in range(24):
-            apparition_by_icqa = random.randint(1, 6)
+            apparition_by_icqa = random.randint(-1, 6)
+
+            # More airmons if event close
+            if event_close:
+                apparition_by_icqa += 2
             current_icqa = measure_dict.get(spawn_point.station.code).icqa \
                 if measure_dict.get(spawn_point.station.code) else 1
             if apparition_by_icqa >= current_icqa:

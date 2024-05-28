@@ -187,6 +187,24 @@ geohash_characters = [
     "y",
     "z",
 ]
+geohash_half_characters = [
+    "1",
+    "2",
+    "5",
+    "6",
+    "9",
+    "b",
+    "e",
+    "f",
+    "j",
+    "k",
+    "p",
+    "q",
+    "t",
+    "u",
+    "x",
+    "y",
+]
 
 
 def get_barcelona_geohashes():
@@ -195,6 +213,10 @@ def get_barcelona_geohashes():
 
 def get_geohash_characters():
     return geohash_characters
+
+
+def get_geohash_half_characters():
+    return geohash_half_characters
 
 
 def get_catalonia_geohashes_lvl_4():

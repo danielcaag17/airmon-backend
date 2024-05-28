@@ -27,7 +27,7 @@ def update_event_data():
             # Esdeveniments que estan actius el dia d'avui
             if valid and not exists:
                 geohash = get_geohash(element)
-                if element["denominacio"] is None:
+                if element.get("denominacio") is None:
                     denominacio = "Fall api externa"
                 else:
                     denominacio = element["denominacio"]
@@ -48,7 +48,7 @@ def update_event_data():
             new_events,
             update_conflicts=True,
             unique_fields=["codi"],
-            update_fields=["data_ini", "data_fi", "geohash", "espai"],
+            update_fields=["denominacio", "data_ini", "data_fi", "geohash", "espai"],
         )
 
     else:
