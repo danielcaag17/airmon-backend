@@ -4,10 +4,10 @@ from django.conf import settings
 import graphviz
 import os
 
-'''
-Per a generar el diagrama python manage.py graph_models -a --dot -o my_models.dot
-Per a passar de .dot a imatge python manage.py graph_models -a -o my_models.png 
-'''
+
+# Per a generar el diagrama: python manage.py graph_models -a --dot -o my_models.dot
+# Per a passar del punt dot a imatge: python manage.py graph_models -a -o my_models.png
+
 
 def veure_diagrama(request):
     template = loader.get_template('veure_diagrama.html')
