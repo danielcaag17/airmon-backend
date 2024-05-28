@@ -21,8 +21,9 @@ def create_chat(user1, user2):
     return Chat.objects.create(user1=create_user(user1), user2=create_user(user2))
 
 
-def create_event(codi, data_ini, data_fi, geohash, espai):
-    return Event.objects.create(codi=codi, data_ini=data_ini, data_fi=data_fi, geohash=geohash, espai=espai)
+def create_event(codi, denominacio, data_ini, data_fi, geohash, espai):
+    return Event.objects.create(codi=codi, denominacio=denominacio, data_ini=data_ini, data_fi=data_fi, geohash=geohash,
+                                espai=espai)
 
 
 def create_item(name, price, description, image, duration):
