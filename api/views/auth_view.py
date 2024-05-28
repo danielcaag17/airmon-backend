@@ -11,6 +11,8 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from ..models import BannedPlayer
+
 
 @api_view(['POST'])
 def login(request):
@@ -25,6 +27,12 @@ def login(request):
     if not user.check_password(password):
         return Response({'detail': 'Not found.'},
                         status=status.HTTP_400_BAD_REQUEST)
+
+    banned_player_query = BannedPlayer.objects.filter(user=user)
+    if banned_player_query.exists():
+        banned_player = banned_player_query.first()
+        return Response({'token': banned_player.reason},
+                        status=status.HTTP_403_FORBIDDEN)
 
     token, created = Token.objects.get_or_create(user=user)
     return Response({'token': token.key}, status=status.HTTP_200_OK)
