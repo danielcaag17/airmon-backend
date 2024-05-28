@@ -9,7 +9,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['codi', 'denominacio', 'data_ini', 'data_fi', 'longitude', 'latitude', 'espai']
+        fields = ['codi', 'data_ini', 'data_fi', 'longitude', 'latitude', 'espai']
 
     def get_longitude(self, obj):
         return LocationGeohash.objects.geohash_to_coords(obj.geohash.geohash)['longitude']
