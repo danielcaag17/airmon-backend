@@ -30,7 +30,6 @@ def update_event_data():
                 new_events.append(
                     Event(
                         codi=element["codi"],
-                        denominacio=element["denominaci"],
                         data_ini=data_inici,
                         data_fi=data_fi,
                         geohash=geohash,
