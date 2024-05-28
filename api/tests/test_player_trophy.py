@@ -90,6 +90,7 @@ class PlayerTrophySignalTest(TestCase):
     def setUp(self):
         self.user = create_user('test user1')
         self.player = Player.objects.get(user=self.user)
+        self.item = create_item("item test", 1, "description", None, "00:30:00")
         create_trophies()
 
     def test_player_trophy_none(self):
@@ -103,5 +104,18 @@ class PlayerTrophySignalTest(TestCase):
         player_trophy = PlayerTrophy.objects.filter(user=self.user, trophy=trophy).exists()
         self.assertTrue(player_trophy)
 
+    def test_coins_gold_trophy(self):
+        self.player.coins += 100
+        self.player.save()
+        n_player_trophy = PlayerTrophy.objects.filter(user=self.user, trophy__name="trophy11").count()
+        self.assertEqual(n_player_trophy, 3)
 
+    def test_purchases_copper_trophy(self):
+        self.player.coins += 15
+        self.player.save()  # TODO: veure que es resten les monedes
+        create_player_item(self.user, self.item, 10)
+        trophy = Trophy.objects.get(name="trophy10", type="BRONZE")
+        player_trophy = PlayerTrophy.objects.filter(user=self.user, trophy=trophy).exists()
+        self.assertTrue(player_trophy)
+        self.assertEqual(self.player.coins, 5)
 

@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 import pytz
 
 
-from ..models import Airmon, Capture, Chat, Event, Item, Location, LocationGeohash, Measure, Pollutant, Station, Trophy
+from ..models import Airmon, Capture, Chat, Event, Item, Location, LocationGeohash, Measure, Pollutant, Station, Trophy, \
+    PlayerItem
 
 
 def create_user(username):
@@ -40,6 +41,10 @@ def create_location_geohash(geohash):
 
 def create_measure(code, date, hour):
     return Measure.objects.create(station_code=code, date=date, hour=hour)
+
+
+def create_player_item(user, item, quantity):
+    return PlayerItem.objects.create(user=user, item_name=item, quantity=quantity)
 
 
 def create_pollutant(name, measure_unit):
