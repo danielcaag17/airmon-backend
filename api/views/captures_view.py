@@ -1,3 +1,4 @@
+from django.http import HttpResponseBadRequest
 from rest_framework import viewsets
 from ..models import Capture, CaptureSpawnedAirmon, SpawnedAirmon, Player
 from ..serializers import CaptureSerializer
@@ -17,7 +18,10 @@ class CaptureViewSet(viewsets.ModelViewSet):
     serializer_class = CaptureSerializer
 
     def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
+        try:
+            return super().create(request, *args, **kwargs)
+        except Exception as e:
+            return HttpResponseBadRequest(e)
 
     def perform_create(self, serializer):
         serializer.validated_data['user'] = self.request.user
