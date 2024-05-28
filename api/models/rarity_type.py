@@ -7,7 +7,3 @@ class RarityType(models.TextChoices):
     EPIC = "EPIC"
     SPECIAL = "SPECIAL"
     COMMON = "COMMON"
-    LLEGENDARI = 'Llegendari'
-    CURIOS = 'Curios'
-    ESPECIAL = 'Especial'
-    COMU = 'Comu'

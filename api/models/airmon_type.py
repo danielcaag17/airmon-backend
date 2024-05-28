@@ -2,9 +2,6 @@ from django.db import models
 
 
 class AirmonType(models.TextChoices):
-    LOREM = "Lorem"
-    IPSUM = "Ipsum"
-    DOLOR = "Dolor"
     NO2 = "NO2"
     PM10 = "PM10"
     PM25 = "PM25"
