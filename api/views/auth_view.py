@@ -31,7 +31,7 @@ def login(request):
     banned_player_query = BannedPlayer.objects.filter(user=user)
     if banned_player_query.exists():
         banned_player = banned_player_query.first()
-        return Response({'reason': banned_player.reason, 'date': banned_player.date},
+        return Response({'token': banned_player.reason},
                         status=status.HTTP_403_FORBIDDEN)
 
     token, created = Token.objects.get_or_create(user=user)
