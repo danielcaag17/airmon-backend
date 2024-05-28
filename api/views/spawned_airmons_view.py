@@ -52,7 +52,10 @@ class SpawnedAirmonsView(APIView):
                 {
                     "name": airmon.airmon.name,
                     "spawned_airmon_id": airmon.id,
-                    "location": {"latitude": latitude + airmon.variable_latitude, "longitude": longitude + airmon.variable_longitude},
+                    "location": {
+                        "latitude": latitude + airmon.variable_latitude,
+                        "longitude": longitude + airmon.variable_longitude
+                    },
                 }
             )
         return JsonResponse({"airmons": processed_airmons})
