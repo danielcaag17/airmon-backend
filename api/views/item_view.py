@@ -29,6 +29,7 @@ class PlayerItemViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         item_name = request.data.get('item_name')
         quantity = int(request.data.get('quantity'))
+        free = request.query_params.get('free', False)
 
         item = get_object_or_404(Item, pk=item_name)
         player = get_object_or_404(Player, user=request.user)
@@ -36,8 +37,9 @@ class PlayerItemViewSet(viewsets.ModelViewSet):
         if player.coins < item.price * quantity:
             return Response({"error": "You don't have enough coins"}, status=status.HTTP_400_BAD_REQUEST)
 
-        player.coins -= item.price * quantity
-        player.save()
+        if not free:
+            player.coins -= item.price * quantity
+            player.save()
 
         # Get the serializer
         serializer = self.get_serializer(data=request.data)
