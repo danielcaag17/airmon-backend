@@ -40,23 +40,22 @@ class SpawnedAirmonsView(APIView):
         daily_captures_ids = [capture.spawned_airmon.id for capture in daily_captures]
         processed_airmons = []
         for airmon in spawned_airmons:
-            if airmon.id in daily_captures_ids or (
-                airmon.spawn_point.minute > minute
-                and airmon.hour == prev_hour
-                or airmon.spawn_point.minute <= minute
+            if airmon.id not in daily_captures_ids and (
+                airmon.spawn_point.minute < minute
                 and airmon.hour == current_hour
+                or airmon.spawn_point.minute >= minute
+                and airmon.hour == prev_hour
             ):
-                continue
-            latitude, longitude = geohash.decode(airmon.spawn_point.location.geohash)
-            processed_airmons.append(
-                {
-                    "name": airmon.airmon.name,
-                    "spawned_airmon_id": airmon.id,
-                    "rarity": airmon.airmon.rarity,
-                    "location": {
-                        "latitude": latitude + airmon.variable_latitude,
-                        "longitude": longitude + airmon.variable_longitude
-                    },
-                }
-            )
+                latitude, longitude = geohash.decode(airmon.spawn_point.location.geohash)
+                processed_airmons.append(
+                    {
+                        "name": airmon.airmon.name,
+                        "spawned_airmon_id": airmon.id,
+                        "rarity": airmon.airmon.rarity,
+                        "location": {
+                            "latitude": latitude + airmon.variable_latitude,
+                            "longitude": longitude + airmon.variable_longitude
+                        },
+                    }
+                )
         return JsonResponse({"airmons": processed_airmons})

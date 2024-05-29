@@ -52,7 +52,7 @@ def spawn_new_airmons():
         # Airmon x hour in the day
         for hour in range(24):
             prob = random.randint(0, 100)
-            if prob < 34:
+            if prob < 41:
                 apparition_by_icqa = random.randint(-1, 6)
 
                 # More airmons if event close
