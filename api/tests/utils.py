@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 import pytz
 
 
-from ..models import Airmon, Capture, Chat, Event, Item, Location, LocationGeohash, Measure, Pollutant, Station, Trophy, \
-    PlayerItem
+from ..models import (Airmon, Capture, Chat, Event, Item, Location, LocationGeohash, Measure, Pollutant,
+                      Station, Trophy, PlayerItem)
 
 
 def create_user(username):
