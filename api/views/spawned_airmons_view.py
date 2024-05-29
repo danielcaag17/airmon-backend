@@ -46,8 +46,6 @@ class SpawnedAirmonsView(APIView):
                 or airmon.spawn_point.minute >= minute
                 and airmon.hour == prev_hour
             ):
-                
-                print(f'Airmon time: {airmon.hour}:{airmon.spawn_point.minute}')
                 latitude, longitude = geohash.decode(airmon.spawn_point.location.geohash)
                 processed_airmons.append(
                     {
