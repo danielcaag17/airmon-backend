@@ -6,6 +6,7 @@ def mock_db_init():
     from api.scripts.local_data.load_event_data import load_event_data
     from api.scripts.local_data.populate_items import populate_items
     from api.scripts.local_data.create_trophies import create_trophies
+    from api.scripts.local_data.demo import create_demo_user
 
     load_air_data()
     load_event_data()
@@ -14,6 +15,7 @@ def mock_db_init():
     spawn_airmons()
     populate_items()
     create_trophies()
+    create_demo_user()
 
 
 if __name__ == "__main__":
