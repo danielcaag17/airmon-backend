@@ -9,7 +9,6 @@ def create_demo_user():
     username = "demoDestroyer96"
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username="demoDestroyer96")
-        print(user)
         user.delete()
 
     password = make_password('demo')
