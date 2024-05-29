@@ -75,7 +75,11 @@ class PlayerActiveItemViewSet(viewsets.ModelViewSet):
             return Response({"error": "You don't have any more items left"}, status=status.HTTP_400_BAD_REQUEST)
 
         player_item.quantity -= 1
-        player_item.save()
+
+        if player_item.quantity == 0:
+            player_item.delete()
+        else:
+            player_item.save()
 
         # Get the serializer
         serializer = self.get_serializer(data=request.data)

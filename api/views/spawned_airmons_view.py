@@ -52,6 +52,7 @@ class SpawnedAirmonsView(APIView):
                 {
                     "name": airmon.airmon.name,
                     "spawned_airmon_id": airmon.id,
+                    "rarity": airmon.airmon.rarity,
                     "location": {
                         "latitude": latitude + airmon.variable_latitude,
                         "longitude": longitude + airmon.variable_longitude

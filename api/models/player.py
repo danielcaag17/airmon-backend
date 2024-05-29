@@ -42,3 +42,9 @@ class PlayerImages(models.Model):
 
     class Meta:
         unique_together = ['user', 'date']
+
+
+class BannedPlayer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    reason = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)

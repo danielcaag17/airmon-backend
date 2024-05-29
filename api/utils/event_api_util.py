@@ -27,10 +27,14 @@ def update_event_data():
             # Esdeveniments que estan actius el dia d'avui
             if valid and not exists:
                 geohash = get_geohash(element)
+                if element.get("denominacio") is None:
+                    denominacio = "Fall api externa"
+                else:
+                    denominacio = element["denominacio"]
                 new_events.append(
                     Event(
                         codi=element["codi"],
-                        denominacio=element["denominaci"],
+                        denominacio=denominacio,
                         data_ini=data_inici,
                         data_fi=data_fi,
                         geohash=geohash,

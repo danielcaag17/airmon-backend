@@ -9,7 +9,7 @@ from .item import Item
 from .language import Language
 from .location import Location, LocationGeohash
 from .measure import Measure
-from .player import Player, PlayerImages
+from .player import Player, PlayerImages, BannedPlayer
 from .player_item import PlayerItem, PlayerActiveItem
 from .player_item import PlayerItem
 from .player_trophy import PlayerTrophy

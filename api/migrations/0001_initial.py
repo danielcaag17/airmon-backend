@@ -22,8 +22,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('name', models.CharField(max_length=32, primary_key=True, serialize=False)),
                 ('description', models.TextField()),
-                ('rarity', models.CharField(choices=[(api.models.rarity_type.RarityType['LLEGENDARI'], 'Llegendari'), (api.models.rarity_type.RarityType['EPIC'], 'Epic'), (api.models.rarity_type.RarityType['CURIOS'], 'Curios'), (api.models.rarity_type.RarityType['ESPECIAL'], 'Especial'), (api.models.rarity_type.RarityType['COMU'], 'Comu')], max_length=32)),
-                ('type', models.CharField(choices=[(api.models.airmon_type.AirmonType['LOREM'], 'Lorem'), (api.models.airmon_type.AirmonType['IPSUM'], 'Ipsum'), (api.models.airmon_type.AirmonType['DOLOR'], 'Dolor')], max_length=32)),
+                ('rarity', models.CharField(choices=[(api.models.rarity_type.RarityType['LEGENDARY'], 'LEGENDARY'), (api.models.rarity_type.RarityType['EPIC'], 'EPIC'), (api.models.rarity_type.RarityType['MYTHICAL'], 'MYTHICAL'), (api.models.rarity_type.RarityType['SPECIAL'], 'SPECIAL'), (api.models.rarity_type.RarityType['COMMON'], 'COMMON')], max_length=32)),
+                ('type', models.CharField(choices=[(api.models.airmon_type.AirmonType['NO2'], 'NO2'), (api.models.airmon_type.AirmonType['PM10'], 'PM10'), (api.models.airmon_type.AirmonType['PM25'], 'PM25'), (api.models.airmon_type.AirmonType['O3'], 'O3'), (api.models.airmon_type.AirmonType['SO2'], 'SO2'), (api.models.airmon_type.AirmonType['CO'], 'CO'), (api.models.airmon_type.AirmonType['C6H6'], 'C6H6'), (api.models.airmon_type.AirmonType['H2S'], 'H2S')], max_length=32)),
                 ('image', models.ImageField(upload_to='')),
             ],
         ),
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             name='Item',
             fields=[
                 ('name', models.CharField(max_length=32, primary_key=True, serialize=False)),
-                ('rarity', models.CharField(choices=[(api.models.rarity_type.RarityType['LLEGENDARI'], 'Llegendari'), (api.models.rarity_type.RarityType['EPIC'], 'Epic'), (api.models.rarity_type.RarityType['CURIOS'], 'Curios'), (api.models.rarity_type.RarityType['ESPECIAL'], 'Especial'), (api.models.rarity_type.RarityType['COMU'], 'Comu')], max_length=32)),
+                ('rarity', models.CharField(choices=[(api.models.rarity_type.RarityType['LEGENDARY'], 'LEGENDARY'), (api.models.rarity_type.RarityType['EPIC'], 'EPIC'), (api.models.rarity_type.RarityType['MYTHICAL'], 'MYTHICAL'), (api.models.rarity_type.RarityType['SPECIAL'], 'SPECIAL'), (api.models.rarity_type.RarityType['COMMON'], 'COMMON')], max_length=32)),
                 ('price', models.DecimalField(decimal_places=2, max_digits=7)),
                 ('description', models.TextField()),
             ],
