@@ -3,6 +3,7 @@ from .airmons_view import AirmonsViewSet
 from .auth_view import login, register, test_token
 from .captures_view import CaptureViewSet, PlayerCaptureViewSet
 from .chat_view import ChatView
+from .documentation_view import veure_diagrama
 from .event_view import EventViewSet, run_script_view
 from .friendship_view import FriendshipViewSet
 from .icqa_view import ICQAView
