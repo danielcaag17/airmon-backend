@@ -3,8 +3,8 @@ def mock_db_init():
     from api.scripts.local_data.create_airmons import create_airmons
     from api.scripts.local_data.fill_spawn_points import populate_barcelona_spawn_points
     from api.utils.airmons_spawn import reset_spawns, spawn_new_airmons
-    from api.scripts.local_data.create_trophies import create_trophies
     from api.scripts.local_data.populate_items import populate_items
+    from api.scripts.local_data.create_trophies import create_trophies
 
     load_air_data()
     create_airmons()
