@@ -1,7 +1,7 @@
 from django.utils import timezone
 
 from ..models import PlayerActiveItem, Capture, Airmon
-from ..serializers import AirmonSerializer
+from ..serializers import CaptureSerializer
 
 
 def get_active_items(user):
@@ -29,5 +29,5 @@ def handle_specific_action(user, item_name):
 
 def _handle_airbox(user):
     airmon = Airmon.objects.order_by('?').first()
-    Capture.objects.create(user=user, airmon=airmon, date=timezone.now(), attempts=0)
-    return AirmonSerializer(airmon).data
+    capture = Capture.objects.create(user=user, airmon=airmon, date=timezone.now())
+    return CaptureSerializer(capture).data

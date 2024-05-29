@@ -27,8 +27,8 @@ class EventModelTest(TestCase):
 
     def test_event_update(self):
         self.event.codi = 2
-        self.event.denominacio = "denominacio updated"
         self.event.espai = "espai updated"
+        self.event.denominacio = "denominacio updated"
         self.event.save()
         self.assertEqual(self.event.codi, 2)
         self.assertEqual(self.event.denominacio, "denominacio updated")
