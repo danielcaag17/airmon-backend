@@ -1,3 +1,4 @@
+import random
 from typing import List
 from shapely import geometry
 from django.db.models import Q
@@ -5,6 +6,7 @@ from functools import reduce
 from operator import or_
 from polygon_geohasher.polygon_geohasher import polygon_to_geohashes
 
+from api.models.location import LocationGeohash
 from api.models.station import Station
 
 ICQA_VALORATION = {
@@ -45,6 +47,15 @@ def get_stations_in_area(locations: List[str], coords_list):
     return Station.objects.filter(query)
 
 
-def get_nearest_station(location: str):
-    station = Station.objects.get(location__geohash="sp3e902j1c3z")  # Mocked station
-    return station
+def get_nearest_station(location: str, stations: List[Station]):
+    return stations[0]
+
+
+def get_nearest_station_v2(location: LocationGeohash):
+    search_length = 6
+    stations = []
+    while not stations:
+        search_geohash = location.geohash[:search_length]
+        stations = Station.objects.filter(location__geohash__startswith=search_geohash)
+        search_length -= 1
+    return stations[random.randint(0, len(stations)-1)]

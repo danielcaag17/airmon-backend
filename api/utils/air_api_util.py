@@ -1,9 +1,8 @@
 from datetime import datetime, timedelta
-from django.apps import apps
-from decimal import Decimal, ROUND_DOWN
 
 from .requester import Requester
-from ..models import Station, Pollutant, PollutantMeasure, LocationGeohash, Measure, UnitType
+from .utils import get_geohash
+from ..models import Station, Pollutant, PollutantMeasure, Measure, UnitType
 
 url = "https://analisi.transparenciacatalunya.cat/resource/tasf-thgu.json"
 client = Requester(url)
@@ -28,14 +27,7 @@ def update_air_data():
         if measure_amount == -1:
             continue
 
-        longitude = round_decimal(Decimal(info["longitud"]), 6)
-        latitude = round_decimal(Decimal(info["latitud"]), 6)
-
-        # Transformar coordenades a geohash
-        geohash = LocationGeohash.objects.coords_to_geohash(latitude=latitude, longitude=longitude)
-
-        if (loc := _check_model_exists("LocationGeohash", geohash=geohash)) is None:
-            loc = LocationGeohash.objects.create(geohash=geohash)
+        loc = get_geohash(info)
 
         station, created = Station.objects.update_or_create(
             code=info["codi_eoi"],
@@ -49,14 +41,14 @@ def update_air_data():
 
         pollutant, created = Pollutant.objects.update_or_create(
             name=info["contaminant"],
-            defaults={'measure_unit': unit, 'recommended_limit': 1.0}
+            defaults={'measure_unit': unit}
         )
 
         time = datetime.strptime(info["data"], "%Y-%m-%dT%H:%M:%S.%f")
 
-        measure, created = Measure.objects.update_or_create(
+        measure, created = Measure.objects.get_or_create(
             station_code=station, date=time.date(), hour=time.time(),
-            defaults={'station_code': station, 'date': time.date(), 'hour': time.time(), 'icqa': 1,
+            defaults={'station_code': station, 'date': time.date(), 'hour': time.time(), 'icqa': 0,
                       'nom_pollutant': "No pollutant"}
         )
 
@@ -66,13 +58,10 @@ def update_air_data():
         )
 
         val, nom = calcular_icqa(pollutant_measure)
-        measure.icqa = val
-        measure.nom_pollutant = nom
-        measure.save()
-
-
-def round_decimal(value, decimal_places):
-    return value.quantize(Decimal(10) ** -decimal_places, rounding=ROUND_DOWN)
+        if val > measure.icqa:
+            measure.icqa = val
+            measure.nom_pollutant = nom
+            measure.save()
 
 
 def _parse_pollutant_measure(measure):
@@ -97,15 +86,6 @@ def _request_air_data():
     return client.get(limit=500, where=f"data='{date}'")
 
 
-def _check_model_exists(model_name, **kwargs):
-    """
-    Checks if a model exists in the database
-    """
-    model = apps.get_model('api', model_name)
-    res = model.objects.filter(**kwargs).first()
-    return res
-
-
 def _get_air_measurement(data):
     """
     Checks if the data has the keys for the air quality measurements
@@ -120,8 +100,8 @@ def _get_air_measurement(data):
 
 
 def calcular_icqa(pollutant):  # noqa C901
-    val_max = 0
-    val_color = 0
+    val_max = 1
+    val_color = 1
     nom_pollutant = ""
     name = pollutant.pollutant_name.name
     quantity = pollutant.quantity

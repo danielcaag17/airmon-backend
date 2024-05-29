@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import sys
 from pathlib import Path
 from celery.schedules import crontab
 from dotenv import load_dotenv
@@ -46,9 +45,12 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "django_celery_beat",
     "storages",
+    'corsheaders',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -57,6 +59,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = "airmon.urls"
 
@@ -100,7 +104,11 @@ else:
         }
     }
 
-if 'test' in sys.argv:
+SERVEI_URL = os.environ.get("SERVEI_URL")
+SERVEI_TOKEN = os.environ.get("SERVEI_TOKEN")
+
+if os.environ.get("NOT_S3") == "true":
+    MEDIA_URL = '/media/'
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
@@ -146,6 +154,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/airmon/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -159,6 +170,7 @@ CELERY_IMPORTS = (
     'api.tasks.mock_task',
     'api.tasks.daily_air_request',
     'api.tasks.daily_airmons_spawn',
+    'api.tasks.daily_event_request',
     # Add other task modules here
 )
 

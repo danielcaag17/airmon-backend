@@ -6,11 +6,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..serializers.user_serializer import UserSerializer
-from ..models import Player
 
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+
+from ..models import BannedPlayer
 
 
 @api_view(['POST'])
@@ -27,6 +28,12 @@ def login(request):
         return Response({'detail': 'Not found.'},
                         status=status.HTTP_400_BAD_REQUEST)
 
+    banned_player_query = BannedPlayer.objects.filter(user=user)
+    if banned_player_query.exists():
+        banned_player = banned_player_query.first()
+        return Response({'token': "Reason: " + banned_player.reason},
+                        status=status.HTTP_200_OK)
+
     token, created = Token.objects.get_or_create(user=user)
     return Response({'token': token.key}, status=status.HTTP_200_OK)
 
@@ -37,9 +44,6 @@ def register(request):
     if serializer.is_valid():
         user = serializer.save()
         token = Token.objects.create(user=user)
-
-        player = Player.objects.create(user=user, avatar=None)
-        player.save()
 
         return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

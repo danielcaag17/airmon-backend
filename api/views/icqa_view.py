@@ -19,7 +19,7 @@ class ICQAView(APIView):
     }
     """
 
-    def post(self, request, format=None):
+    def post(self, request):
         data = request.data
         coords_list = [
             [point["latitude"], point["longitude"]] for point in data["points"]

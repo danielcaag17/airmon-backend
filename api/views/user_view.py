@@ -51,19 +51,19 @@ class EditUserViewSet(viewsets.ViewSet):
         avatar = request.FILES.get('avatar')
         try:
             user = User.objects.get(username=username)
-            player = Player.objects.get(user=user)
-
-            if data['password'] != "":
-                user.password = make_password(data['password'])
-            user.save()
-
-            if data['language'] != "":
-                player.language = data['language']
-            if avatar is not None:
-                avatar_name = default_storage.save('avatars/' + avatar.name, avatar)
-                player.avatar = avatar_name
-            player.save()
-
-            return Response(status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({'message': 'user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+        player = Player.objects.get(user=user)
+
+        if 'password' in data:
+            if data['password'] != "":
+                user.password = make_password(data['password'])
+        user.save()
+
+        if avatar is not None:
+            avatar_name = default_storage.save('avatars/' + avatar.name, avatar)
+            player.avatar = avatar_name
+        player.save()
+
+        return Response(status=status.HTTP_200_OK)

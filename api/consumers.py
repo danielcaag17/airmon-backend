@@ -1,10 +1,10 @@
 import json
-from collections import defaultdict
 
 from channels.db import database_sync_to_async
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 from api.models import Chat, ChatMessage
 from django.contrib.auth.models import User
+import api.chat_manager as chat_manager
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -26,7 +26,7 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
     Please note that this consumer is ASYNC, so we need to take into account that
     we can't use blocking calls like calling to ORM methods, etc.
     """
-    chats = defaultdict(lambda: 0)
+    # chats = defaultdict(lambda: 0)
 
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
@@ -63,12 +63,14 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-        self.chats[self.chat_name] += 1
+        # self.chats[self.chat_name] += 1
+        chat_manager.add_user(self.chat_name)
 
     async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(self.chat_name, self.channel_name)
-        self.chats[self.chat_name] -= 1
+        # self.chats[self.chat_name] -= 1
+        chat_manager.remove_user(self.chat_name)
 
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -83,7 +85,8 @@ class AsyncChatConsumer(AsyncWebsocketConsumer):
         receiver = user1_id if user.id == user2_id else user2_id
 
         reading = False
-        if self.chats[self.chat_name] >= 2:
+        # if self.chats[self.chat_name] >= 2:
+        if chat_manager.get_users_in_chat(self.chat_name) >= 2:
             reading = True
 
         chat_message = await create_chat_message(chat, message, user, receiver, reading)

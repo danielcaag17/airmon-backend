@@ -1,8 +1,13 @@
-from .capture_serializer import CaptureSerializer
-from .station_serializer import StationSerializer
 from .airmon_serializer import AirmonSerializer
-from .user_serializer import UserSerializer
+from .capture_serializer import CaptureSerializer
+from .event_serializer import EventSerializer
 from .friendship_serializer import FriendshipSerializer
+from .item_serializer import ItemSerializer, PlayerItemSerializer, PlayerActiveItemSerializer
 from .measure_serializer import MeasureSerializer
 from .message_serializer import MessageSerializer
-from .player_serializer import PlayerSerializer, PlayerPublicSerializer, PlayerImagesSerializer
+from .player_serializer import PlayerSerializer, PlayerPublicSerializer, PlayerImagesSerializer, PlayerStatisticsSerializer
+from .player_trophy_serializer import PlayerTrophySerializer
+from .pollutant_measure_serializer import PollutantMeasureSerializer
+from .station_serializer import StationSerializer
+from .trophy_serializer import TrophySerializer
+from .user_serializer import UserSerializer
