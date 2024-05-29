@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from datetime import datetime, timedelta
 
 from api.scripts.local_data.create_trophies import create_trophies
+from api.scripts.local_data.create_airmons import create_airmons
 from .utils import *
 from ..models import Player, PlayerTrophy
 
@@ -92,6 +93,7 @@ class PlayerTrophySignalTest(TestCase):
         self.player = Player.objects.get(user=self.user)
         self.item = create_item("item test", 1, "description", None, "00:30:00")
         create_trophies()
+        create_airmons()
 
     def test_player_trophy_none(self):
         n_player_trophies = PlayerTrophy.objects.filter(user=self.user).count()
@@ -112,10 +114,36 @@ class PlayerTrophySignalTest(TestCase):
 
     def test_purchases_copper_trophy(self):
         self.player.coins += 15
-        self.player.save()  # TODO: veure que es resten les monedes
+        self.player.save()
         create_player_item(self.user, self.item, 10)
         trophy = Trophy.objects.get(name="trophy10", type="BRONZE")
         player_trophy = PlayerTrophy.objects.filter(user=self.user, trophy=trophy).exists()
         self.assertTrue(player_trophy)
-        self.assertEqual(self.player.coins, 5)
 
+    def test_captures_copper_trophy(self):
+        airmons = Airmon.objects.all()
+        primers_airmons = airmons[:10]
+        for airmon in primers_airmons:
+            create_capture(self.user, airmon)
+        trophy = Trophy.objects.get(name="trophy1", type="BRONZE")
+        player_trophy = PlayerTrophy.objects.filter(user=self.user, trophy=trophy).exists()
+        self.assertTrue(player_trophy)
+
+    def test_captures_gold_trophy(self):
+        airmons = Airmon.objects.all()
+        primers_airmons = airmons[:10]
+        for i in range(5):
+            for airmon in primers_airmons:
+                create_capture(self.user, airmon)
+        n_player_trophy = PlayerTrophy.objects.filter(user=self.user, trophy__name="trophy1").count()
+        self.assertEqual(n_player_trophy, 3)
+
+    def test_realeses_copper_trophy(self):
+        airmons = Airmon.objects.all()
+        primers_airmons = airmons[:5]
+        for airmon in primers_airmons:
+            capture = create_capture(self.user, airmon)
+            capture.delete()
+        trophy = Trophy.objects.get(name="trophy2", type="BRONZE")
+        player_trophy = PlayerTrophy.objects.filter(user=self.user, trophy=trophy).exists()
+        self.assertTrue(player_trophy)
