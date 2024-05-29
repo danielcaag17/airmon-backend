@@ -22,7 +22,7 @@ def create_demo_user():
     for i in range(298):
         random_index = random.choices(range(len(rarities)), weights=weights, k=1)[0]
         random_rarity = rarities[random_index]
-        airmon = Airmon.objects.filter(rarity=random_rarity).first()
+        airmon = Airmon.objects.filter(rarity=random_rarity).order_by("?").first()
         capture = Capture.objects.create(user=user, airmon=airmon)
         if i % 10 == 0:
             capture.delete()
