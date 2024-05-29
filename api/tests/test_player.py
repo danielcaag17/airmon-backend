@@ -166,3 +166,18 @@ class PlayerModelTest(TestCase):
         except ValueError as e:
             self.assertIsInstance(e, ValueError)
             self.assertIn("Invalid language value.", str(e))
+
+
+class PlayerSignalTest(TestCase):
+    def setUp(self):
+        user = create_user("user1")
+        self.player = Player.objects.get(user=user)
+
+    def test_initial(self):
+        self.assertEqual(self.player.total_coins, 0)
+        self.assertEqual(self.player.coins, 0)
+
+    def test_total_coins(self):
+        self.player.coins = 10
+        self.player.save()
+        self.assertEqual(self.player.total_coins, 10)
