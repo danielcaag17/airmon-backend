@@ -58,9 +58,10 @@ def update_air_data():
         )
 
         val, nom = calcular_icqa(pollutant_measure)
-        measure.icqa = val
-        measure.nom_pollutant = nom
-        measure.save()
+        if val > measure.icqa:
+            measure.icqa = val
+            measure.nom_pollutant = nom
+            measure.save()
 
 
 def _parse_pollutant_measure(measure):
@@ -99,8 +100,8 @@ def _get_air_measurement(data):
 
 
 def calcular_icqa(pollutant):  # noqa C901
-    val_max = 0
-    val_color = 0
+    val_max = 1
+    val_color = 1
     nom_pollutant = ""
     name = pollutant.pollutant_name.name
     quantity = pollutant.quantity
