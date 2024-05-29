@@ -46,9 +46,9 @@ def update_air_data():
 
         time = datetime.strptime(info["data"], "%Y-%m-%dT%H:%M:%S.%f")
 
-        measure, created = Measure.objects.update_or_create(
+        measure, created = Measure.objects.get_or_create(
             station_code=station, date=time.date(), hour=time.time(),
-            defaults={'station_code': station, 'date': time.date(), 'hour': time.time(), 'icqa': 1,
+            defaults={'station_code': station, 'date': time.date(), 'hour': time.time(), 'icqa': 0,
                       'nom_pollutant': "No pollutant"}
         )
 
