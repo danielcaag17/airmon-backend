@@ -29,7 +29,7 @@ class PlayerItemViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         item_name = request.data.get('item_name')
         quantity = int(request.data.get('quantity'))
-        free = request.query_params.get('free', False)
+        free = request.data.get('free', False)
 
         item = get_object_or_404(Item, pk=item_name)
         player = get_object_or_404(Player, user=request.user)
