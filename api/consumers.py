@@ -5,7 +5,7 @@ from channels.db import database_sync_to_async
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 from api.models import Chat, ChatMessage
 from django.contrib.auth.models import User
-import chat_manager
+import api.chat_manager as chat_manager
 
 
 class ChatConsumer(WebsocketConsumer):
