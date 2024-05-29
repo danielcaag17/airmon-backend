@@ -18,8 +18,9 @@ def create_demo_user():
     player.xp_points = 9000
     player.save()
     rarities = ["COMMON", "SPECIAL", "EPIC", "MYTHICAL", "LEGENDARY"]
-    for i in range(100):
-        random_index = random.choice(range(len(rarities)))
+    weights = [0.4, 0.3, 0.22, 0.07, 0.01]
+    for i in range(298):
+        random_index = random.choices(range(len(rarities)), weights=weights, k=1)[0]
         random_rarity = rarities[random_index]
         airmon = Airmon.objects.filter(rarity=random_rarity).first()
         Capture.objects.create(user=user, airmon=airmon)
