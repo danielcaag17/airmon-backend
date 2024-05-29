@@ -29,12 +29,12 @@ class PlayerItemViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         item_name = request.data.get('item_name')
         quantity = int(request.data.get('quantity'))
-        free = bool(request.data.get('free', False))
+        free = bool(request.data.get('free', False) is True)
 
         item = get_object_or_404(Item, pk=item_name)
         player = get_object_or_404(Player, user=request.user)
 
-        if not free:
+        if free is False:
             if player.coins < item.price * quantity:
                 return Response({"error": "You don't have enough coins"}, status=status.HTTP_400_BAD_REQUEST)
 
